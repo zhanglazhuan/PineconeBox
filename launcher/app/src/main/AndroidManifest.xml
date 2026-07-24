@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false" />
+    <uses-feature
+        android:name="android.software.leanback"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="松果智学 PineCone OS"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Leanback">
+
+        <!-- ===== Main Launcher ===== -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="松果智学">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- ===== Guard: Parent Settings UI ===== -->
+        <activity
+            android:name="com.pinecone.launcher.ui.guard.SetupWizardActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.pinecone.launcher.ui.guard.ParentSettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name="com.pinecone.launcher.ui.guard.PinSetupActivity"
+            android:exported="false" />
+
+        <!-- ===== Guard: Child-Facing Screens ===== -->
+        <activity
+            android:name="com.pinecone.launcher.ui.guard.LockScreenActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name="com.pinecone.launcher.ui.guard.FullScreenWarningActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name="com.pinecone.launcher.ui.guard.BreakReminderActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance" />
+
+        <!-- ===== Guard: Editor Activities ===== -->
+        <activity android:name="com.pinecone.launcher.ui.guard.editors.DailyLimitFragment" android:exported="false" />
+        <activity android:name="com.pinecone.launcher.ui.guard.editors.BreakRuleFragment" android:exported="false" />
+        <activity android:name="com.pinecone.launcher.ui.guard.editors.TimeWindowFragment" android:exported="false" />
+        <activity android:name="com.pinecone.launcher.ui.guard.editors.CategoryLimitFragment" android:exported="false" />
+        <activity android:name="com.pinecone.launcher.ui.guard.editors.AppLimitFragment" android:exported="false" />
+        <activity android:name="com.pinecone.launcher.ui.guard.editors.CreditConfigFragment" android:exported="false" />
+        <activity android:name="com.pinecone.launcher.ui.guard.editors.UsageHistoryFragment" android:exported="false" />
+        <activity android:name="com.pinecone.launcher.ui.guard.UpdateActivity" android:exported="false" />
+
+        <!-- ===== GuardService: independent process, foreground ===== -->
+        <service
+            android:name="com.pinecone.guard.service.GuardService"
+            android:process=":guard"
+            android:foregroundServiceType="specialUse"
+            android:exported="false">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="parental_control_usage_monitoring" />
+        </service>
+
+        <!-- ===== BootReceiver ===== -->
+        <receiver
+            android:name="com.pinecone.guard.service.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- ===== DeviceAdmin: system-level lock ===== -->
+        <receiver
+            android:name="com.pinecone.guard.service.GuardDeviceAdminReceiver"
+            android:permission="android.permission.BIND_DEVICE_ADMIN"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin_policies" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>
