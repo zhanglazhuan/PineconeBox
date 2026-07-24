@@ -26,6 +26,7 @@ class MainActivity : FragmentActivity() {
     private lateinit var contentScroll: ScrollView
     private val tabButtons = mutableListOf<Button>()
     private val sidebarButtons = mutableListOf<Button>()
+    private val cardViews = mutableListOf<View>()
     private val tabIds = mutableListOf<Int>()
     private var firstSidebarBtnId = 0
     private var currentTab = 0
@@ -174,11 +175,23 @@ class MainActivity : FragmentActivity() {
         buildSidebar(tab)
         buildContent(tab)
 
-        // Update focus wiring: tab down -> first sidebar btn
+        // ── Wire ALL focus paths ──
+        val activeTabId = tabIds[currentTab]
+
+        // Tabs DOWN → first sidebar btn
         tabButtons.forEach { it.nextFocusDownId = firstSidebarBtnId }
-        sidebarButtons.firstOrNull()?.let {
-            it.nextFocusUpId = tabIds[currentTab]
+
+        // ALL sidebar btns UP → active tab
+        sidebarButtons.forEach { it.nextFocusUpId = activeTabId }
+
+        // ALL sidebar btns RIGHT → first card (if any)
+        if (cardViews.isNotEmpty()) {
+            val firstCardId = cardViews.first().id
+            sidebarButtons.forEach { it.nextFocusRightId = firstCardId }
         }
+
+        // ALL cards LEFT → first sidebar btn
+        cardViews.forEach { it.nextFocusLeftId = firstSidebarBtnId }
     }
 
     // ═══════════════════════════════════════════
@@ -245,6 +258,7 @@ class MainActivity : FragmentActivity() {
 
     private fun buildContent(tab: TabData) {
         content.removeAllViews()
+        cardViews.clear()
 
         tab.categories.forEach { cat ->
             // Section title
@@ -272,7 +286,9 @@ class MainActivity : FragmentActivity() {
             }
 
             cat.items.forEach { item ->
-                cardContainer.addView(buildCard(item))
+                val card = buildCard(item)
+                cardContainer.addView(card)
+                cardViews.add(card)
             }
 
             cardRow.addView(cardContainer)
@@ -282,6 +298,7 @@ class MainActivity : FragmentActivity() {
 
     private fun buildCard(item: CourseItem): View {
         val card = LinearLayout(this).apply {
+            id = View.generateViewId()
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.CENTER
             setPadding(16, 16, 16, 16)
