@@ -147,10 +147,16 @@ class MainActivity : FragmentActivity() {
                 setBackgroundColor(Color.TRANSPARENT)
                 setPadding(32, 0, 32, 0)
                 isFocusable = true
-                isFocusableInTouchMode = true
                 layoutParams = LinearLayout.LayoutParams(
                     0, LinearLayout.LayoutParams.MATCH_PARENT, 1f
                 )
+                setOnFocusChangeListener { _, hasFocus ->
+                    if (hasFocus) {
+                        setBackgroundColor(Color.parseColor("#3A3A5A"))
+                    } else {
+                        setBackgroundColor(Color.TRANSPARENT)
+                    }
+                }
                 setOnClickListener { switchTab(index) }
             }
             tabBar.addView(btn)
@@ -212,11 +218,17 @@ class MainActivity : FragmentActivity() {
                 setPadding(20, 16, 20, 16)
                 minHeight = 56
                 isFocusable = true
-                isFocusableInTouchMode = true
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT
                 )
+                setOnFocusChangeListener { _, hasFocus ->
+                    if (hasFocus) {
+                        setBackgroundColor(Color.parseColor("#3A3A5A"))
+                    } else {
+                        setBackgroundColor(Color.TRANSPARENT)
+                    }
+                }
                 setOnClickListener { scrollToCategory(index) }
             }
             sidebar.addView(btn)
@@ -306,7 +318,6 @@ class MainActivity : FragmentActivity() {
                 rightMargin = 16
             }
             isFocusable = true
-            isFocusableInTouchMode = true
             isClickable = true
 
             // Card background
