@@ -120,8 +120,70 @@ class MainActivity : FragmentActivity() {
         }
         rowsAdapter.add(ListRow(wikiHeader, wikiAdapter))
 
-        // 10. ⚙️ 系统设置
-        val settingsHeader = HeaderItem(10, "⚙️ 系统设置")
+        // ── App 导航 ──
+
+        // 10. 📺 视频影音
+        val videoAppHeader = HeaderItem(10, "📺 视频影音")
+        val videoAppAdapter = ArrayObjectAdapter(cardPresenter).apply {
+            add(CourseItem(40, "B站 TV", "弹幕视频平台", "pkg:tv.danmaku.bili"))
+            add(CourseItem(41, "央视频", "CCTV 官方视频", "pkg:com.cctv.yangshipin"))
+            add(CourseItem(42, "芒果TV", "湖南卫视综艺", "pkg:com.hunantv.imgo.activity"))
+            add(CourseItem(43, "西瓜视频", "短视频 & 影视", "pkg:com.ss.android.article.video"))
+        }
+        rowsAdapter.add(ListRow(videoAppHeader, videoAppAdapter))
+
+        // 11. 📖 阅读听书
+        val readAppHeader = HeaderItem(11, "📖 阅读听书")
+        val readAppAdapter = ArrayObjectAdapter(cardPresenter).apply {
+            add(CourseItem(44, "微信读书", "海量电子书", "pkg:com.tencent.weread"))
+            add(CourseItem(45, "喜马拉雅", "有声书 & 播客", "pkg:com.ximalaya.ting.android.tv"))
+            add(CourseItem(46, "得到", "知识音频课程", "pkg:com.luojilab.dedao"))
+            add(CourseItem(47, "凯叔讲故事", "儿童有声内容", "pkg:com.kaishu.story"))
+        }
+        rowsAdapter.add(ListRow(readAppHeader, readAppAdapter))
+
+        // 12. 🧠 知识学习
+        val knowledgeAppHeader = HeaderItem(12, "🧠 知识学习")
+        val knowledgeAppAdapter = ArrayObjectAdapter(cardPresenter).apply {
+            add(CourseItem(48, "有道词典", "英语翻译学习", "pkg:com.youdao.dict"))
+            add(CourseItem(49, "百度翻译", "多语种翻译", "pkg:com.baidu.translate"))
+            add(CourseItem(50, "全历史", "历史知识图谱", "pkg:com.allhistory.app"))
+            add(CourseItem(51, "每日故宫", "故宫藏品欣赏", "pkg:cn.edu.dailypalace"))
+        }
+        rowsAdapter.add(ListRow(knowledgeAppHeader, knowledgeAppAdapter))
+
+        // 13. 🎨 创意启蒙
+        val creativeAppHeader = HeaderItem(13, "🎨 创意启蒙")
+        val creativeAppAdapter = ArrayObjectAdapter(cardPresenter).apply {
+            add(CourseItem(52, "画吧", "手机绘画社区", "pkg:com.huaba.app"))
+            add(CourseItem(53, "Simply Piano", "钢琴自学入门", "pkg:com.joytunes.simplypiano"))
+            add(CourseItem(54, "贝乐虎儿歌", "儿童动画儿歌", "pkg:com.beilehu.erge"))
+            add(CourseItem(55, "小火箭编程", "幼儿编程启蒙", "pkg:com.xiaohuojian.code"))
+        }
+        rowsAdapter.add(ListRow(creativeAppHeader, creativeAppAdapter))
+
+        // 14. ♟️ 益智休闲
+        val puzzleAppHeader = HeaderItem(14, "♟️ 益智休闲")
+        val puzzleAppAdapter = ArrayObjectAdapter(cardPresenter).apply {
+            add(CourseItem(56, "中国象棋", "经典棋类对战", "pkg:com.cnvcs.xq"))
+            add(CourseItem(57, "围棋", "人机 & 在线对弈", "pkg:com.tencent.wgo"))
+            add(CourseItem(58, "数独", "逻辑推理训练", "pkg:com.sudoku.game"))
+            add(CourseItem(59, "纪念碑谷", "视觉解谜艺术", "pkg:com.ustwo.monumentvalley"))
+        }
+        rowsAdapter.add(ListRow(puzzleAppHeader, puzzleAppAdapter))
+
+        // 15. 🛠 实用工具
+        val toolsAppHeader = HeaderItem(15, "🛠 实用工具")
+        val toolsAppAdapter = ArrayObjectAdapter(cardPresenter).apply {
+            add(CourseItem(60, "文件管理器", "系统文件浏览", "pkg:com.android.documentsui"))
+            add(CourseItem(61, "浏览器", "网页浏览", "pkg:com.android.chrome"))
+            add(CourseItem(62, "计算器", "科学计算器", "pkg:com.android.calculator2"))
+            add(CourseItem(63, "应用商店", "安装 & 更新应用", "pkg:com.android.vending"))
+        }
+        rowsAdapter.add(ListRow(toolsAppHeader, toolsAppAdapter))
+
+        // 16. ⚙️ 系统设置
+        val settingsHeader = HeaderItem(16, "⚙️ 系统设置")
         val settingsAdapter = ArrayObjectAdapter(cardPresenter).apply {
             add(CourseItem(11, "系统设置", "设置", "action:system_settings"))
             add(CourseItem(12, "🔒 家长设置", "设置", "action:parent_settings"))
