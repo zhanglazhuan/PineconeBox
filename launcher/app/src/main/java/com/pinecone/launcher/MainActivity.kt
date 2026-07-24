@@ -26,6 +26,8 @@ class MainActivity : FragmentActivity() {
     private lateinit var contentScroll: ScrollView
     private val tabButtons = mutableListOf<Button>()
     private val sidebarButtons = mutableListOf<Button>()
+    private val tabIds = mutableListOf<Int>()
+    private var firstSidebarBtnId = 0
     private var currentTab = 0
 
     private val tabs = listOf(
@@ -131,9 +133,13 @@ class MainActivity : FragmentActivity() {
     private fun buildTabBar() {
         tabBar.removeAllViews()
         tabButtons.clear()
+        tabIds.clear()
 
         tabs.forEachIndexed { index, tab ->
+            val id = View.generateViewId()
+            tabIds.add(id)
             val btn = Button(this).apply {
+                this.id = id
                 text = tab.name
                 textSize = 20f
                 setTextColor(Color.parseColor("#B0B0C0"))
@@ -167,6 +173,12 @@ class MainActivity : FragmentActivity() {
 
         buildSidebar(tab)
         buildContent(tab)
+
+        // Update focus wiring: tab down -> first sidebar btn
+        tabButtons.forEach { it.nextFocusDownId = firstSidebarBtnId }
+        sidebarButtons.firstOrNull()?.let {
+            it.nextFocusUpId = tabIds[currentTab]
+        }
     }
 
     // ═══════════════════════════════════════════
@@ -197,6 +209,16 @@ class MainActivity : FragmentActivity() {
             sidebar.addView(btn)
             sidebarButtons.add(btn)
         }
+
+        // Wire focus: first sidebar btn UP -> active tab
+        if (sidebarButtons.isNotEmpty()) {
+            firstSidebarBtnId = View.generateViewId()
+            sidebarButtons.first().id = firstSidebarBtnId
+            sidebarButtons.first().nextFocusUpId = tabIds[currentTab]
+        }
+
+        // Wire focus: each tab DOWN -> first sidebar btn
+        tabButtons.forEach { it.nextFocusDownId = firstSidebarBtnId }
     }
 
     private fun scrollToCategory(catIndex: Int) {
