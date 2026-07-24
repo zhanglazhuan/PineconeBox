@@ -187,8 +187,8 @@ class MainActivity : FragmentActivity() {
         // Tabs DOWN → first sidebar btn
         tabButtons.forEach { it.nextFocusDownId = firstSidebarBtnId }
 
-        // ALL sidebar btns UP → active tab
-        sidebarButtons.forEach { it.nextFocusUpId = activeTabId }
+        // Only the FIRST sidebar btn UP → active tab; others use default (previous sibling)
+        sidebarButtons.firstOrNull()?.nextFocusUpId = activeTabId
 
         // Per-category focus binding: sidebar btn ↔ its first card
         sidebarButtons.forEachIndexed { i, sidebarBtn ->
