@@ -190,14 +190,17 @@ class MainActivity : FragmentActivity() {
         // ALL sidebar btns UP → active tab
         sidebarButtons.forEach { it.nextFocusUpId = activeTabId }
 
-        // ALL sidebar btns RIGHT → first card (if any)
-        if (cardViews.isNotEmpty()) {
-            val firstCardId = cardViews.first().id
-            sidebarButtons.forEach { it.nextFocusRightId = firstCardId }
+        // Per-category focus binding: sidebar btn ↔ its first card
+        sidebarButtons.forEachIndexed { i, sidebarBtn ->
+            val cardRow = content.getChildAt(i * 2 + 1) as? HorizontalScrollView
+            val cardContainer = cardRow?.getChildAt(0) as? LinearLayout
+            if (cardContainer != null && cardContainer.childCount > 0) {
+                sidebarBtn.nextFocusRightId = cardContainer.getChildAt(0).id
+                for (j in 0 until cardContainer.childCount) {
+                    cardContainer.getChildAt(j).nextFocusLeftId = sidebarBtn.id
+                }
+            }
         }
-
-        // ALL cards LEFT → first sidebar btn
-        cardViews.forEach { it.nextFocusLeftId = firstSidebarBtnId }
     }
 
     // ═══════════════════════════════════════════
@@ -225,6 +228,7 @@ class MainActivity : FragmentActivity() {
                 setOnFocusChangeListener { _, hasFocus ->
                     if (hasFocus) {
                         setBackgroundColor(Color.parseColor("#3A3A5A"))
+                        scrollToCategory(index)
                     } else {
                         setBackgroundColor(Color.TRANSPARENT)
                     }
@@ -247,8 +251,8 @@ class MainActivity : FragmentActivity() {
     }
 
     private fun scrollToCategory(catIndex: Int) {
-        // Scroll right content to this category section
-        val section = content.getChildAt(catIndex) ?: return
+        // Each category has 2 children in content: title (0) + card row (1)
+        val section = content.getChildAt(catIndex * 2) ?: return
         val scrollY = section.top - content.paddingTop
         contentScroll.smoothScrollTo(0, scrollY)
 
