@@ -16,16 +16,23 @@ class ParentSettingsActivity : BaseSettingsActivity() {
 
         val items = buildSettingsItems()
         val listView = ListView(this).apply {
+            divider = null
+            dividerHeight = 0
+            isFocusable = true
+            isFocusableInTouchMode = true
+            selector = android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT)
+            setPadding(0, 8, 0, 8)
+            clipToPadding = false
             adapter = object : ArrayAdapter<SettingsItem>(
                 this@ParentSettingsActivity, R.layout.item_parent_setting, R.id.setting_label, items
             ) {
                 override fun getView(pos: Int, convertView: View?, parent: android.view.ViewGroup): View {
                     val view = super.getView(pos, convertView, parent)
                     view.findViewById<TextView>(R.id.setting_label).apply {
-                        text = items[pos].title; textSize = 20f
+                        text = items[pos].title
                     }
                     view.findViewById<TextView>(R.id.setting_value).apply {
-                        text = items[pos].subtitle; textSize = 16f
+                        text = items[pos].subtitle
                         visibility = if (items[pos].subtitle.isEmpty()) View.GONE else View.VISIBLE
                     }
                     return view
