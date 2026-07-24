@@ -135,16 +135,19 @@ class MainActivity : FragmentActivity() {
                 text = tab.name
                 textSize = 18f
                 setTextColor(Color.WHITE)
-                setBackgroundColor(Color.TRANSPARENT)
-                minHeight = 52
+                setBackgroundColor(Color.parseColor("#2A2A4A"))
+                minHeight = 0
                 minWidth = 0
-                setPadding(28, 0, 28, 0)
+                setPadding(28, 12, 28, 12)
                 isFocusable = true
                 isFocusableInTouchMode = true
+                isClickable = true
                 layoutParams = LinearLayout.LayoutParams(
-                    0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f
+                    0, LinearLayout.LayoutParams.MATCH_PARENT, 1f
                 ).apply { gravity = Gravity.CENTER }
-                setOnClickListener { switchTab(index) }
+                setOnClickListener {
+                    switchTab(index)
+                }
             }
             tabBar.addView(btn)
             tabButtons.add(btn)

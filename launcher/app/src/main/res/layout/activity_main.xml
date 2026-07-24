@@ -11,12 +11,15 @@
     <LinearLayout
         android:id="@+id/tab_bar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="64dp"
         android:orientation="horizontal"
         android:gravity="center"
         android:background="#FF1A1A3E"
-        android:paddingStart="32dp"
-        android:paddingEnd="32dp" />
+        android:paddingStart="24dp"
+        android:paddingEnd="24dp"
+        android:clipChildren="false"
+        android:clickable="false"
+        android:elevation="8dp" />
 
     <!-- BrowseSupportFragment -->
     <androidx.fragment.app.FragmentContainerView
