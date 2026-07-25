@@ -1,0 +1,400 @@
+{
+  "国字头官方": [
+    {
+      "name": "智慧中小学",
+      "path": "smart_edu.apk",
+      "site": "https://basic.smartedu.cn",
+      "pkgname": "com.eduyun.app.factory.ykt",
+      "version": "",
+      "description": "教育部｜小初高同步名师课、电子课本、课后习题、心理健康、劳动教育；全部免费"
+    },
+    {
+      "name": "学习强国",
+      "path": "xuexi_android_10002068.apk",
+      "site": "https://www.xuexi.cn",
+      "pkgname": "cn.xuexi.android",
+      "version": "",
+      "description": "中宣部｜名校公开课、纪录片、人文历史、美育、科普讲座；零广告"
+    },
+    {
+      "name": "央视频",
+      "path": "yangshipin.apk",
+      "site": "https://www.yangshipin.cn",
+      "pkgname": "com.cctv.yangshipin.app.androidp",
+      "version": "",
+      "description": "中央广播电视总台｜《航拍中国》《跟着书本去旅行》《百家讲坛》等正版纪录片；支持投屏"
+    },
+    {
+      "name": "人教点读",
+      "path": "renjiao_diandu.apk",
+      "site": "https://www.pep.com.cn",
+      "pkgname": "com.pep.diandu",
+      "version": "",
+      "description": "人民教育出版社｜语文、英语课本官方音频、课文点读、生字学习；同步人教版教材"
+    },
+    {
+      "name": "央视少儿",
+      "path": "cctv_kids.apk",
+      "site": "https://shaoer.cctv.com",
+      "pkgname": "com.ctvit.cctvchildren",
+      "version": "",
+      "description": "中央广播电视总台｜低小学生科普动画、国学、科学实验、人文启蒙；内容分级友好"
+    },
+    {
+      "name": "少年志",
+      "path": "shaonianzhi.apk",
+      "site": "https://qspfw.moe.gov.cn",
+      "pkgname": "com.keyschool.app",
+      "version": "",
+      "description": "司法部+教育部｜宪法学习、法治教育、安全专题课程；中小学德育刚需"
+    },
+    {
+      "name": "一师一优课",
+      "path": "yishiyiyouke.apk",
+      "site": "https://1s1k.eduyun.cn",
+      "pkgname": "",
+      "version": "",
+      "description": "教育部｜全国教师晒课平台，海量部级优课实录；小初高全科名师课堂"
+    },
+    {
+      "name": "科普中国",
+      "path": "kepu_china.apk",
+      "site": "https://www.kepuchina.cn",
+      "pkgname": "com.sevenplus.chinascience",
+      "version": "",
+      "description": "中国科协官方科普平台｜前沿科技、应急避险、健康医疗、生态环境；权威科普第一站"
+    },
+    {
+      "name": "掌上科技馆",
+      "path": "palm_stm.apk",
+      "site": "https://www.cdstm.cn",
+      "pkgname": "com.qtugnxqh.movhuqr",
+      "version": "",
+      "description": "中国科技馆官方｜虚拟展厅、科学实验视频、互动科普游戏；足不出户逛科技馆"
+    },
+    {
+      "name": "国家博物馆",
+      "path": "national_museum.apk",
+      "site": "https://www.chnmuseum.cn",
+      "pkgname": "com.hengda.smart.gjbwg",
+      "version": "",
+      "description": "中国国家博物馆官方APP｜国宝文物高清鉴赏、展览导览、历史知识；文博必修"
+    },
+    {
+      "name": "国家数字图书馆",
+      "path": "nlc.apk",
+      "site": "https://www.nlc.cn",
+      "pkgname": "com.cnki.android.nlc",
+      "version": "",
+      "description": "国家图书馆官方｜电子书、古籍善本、报刊、音视频；海量正版免费数字资源"
+    }
+  ],
+  "综合学习平台": [
+    {
+      "name": "B站(哔哩哔哩)",
+      "path": "bilibili.apk",
+      "site": "https://www.bilibili.com",
+      "pkgname": "tv.danmaku.bili",
+      "version": "",
+      "description": "海量免费名师网课、理科动画、纪录片、编程、外语、文史课程｜务必开启青少年模式"
+    },
+    {
+      "name": "华为教育中心",
+      "path": "huawei_edu.apk",
+      "site": "https://appgallery.huawei.com",
+      "pkgname": "",
+      "version": "",
+      "description": "华为官方｜小初高同步课、素质拓展、家长管控；平板预装级体验"
+    },
+    {
+      "name": "译学馆",
+      "path": "yixueguan.apk",
+      "site": "https://www.yixueguan.com",
+      "pkgname": "com.yuyan.suexiguan",
+      "version": "",
+      "description": "正版翻译海外公开课、TED演讲、国际科普短片；适合英语拓展、通识学习"
+    },
+    {
+      "name": "纳米盒",
+      "path": "namihe.apk",
+      "site": "https://www.namibox.com",
+      "pkgname": "com.jinxin.namibox",
+      "version": "",
+      "description": "小学语数英同步学+AI辅导；课本点读、口算练习、汉字听写；千万用户"
+    },
+    {
+      "name": "洋葱学园",
+      "path": "yangcong.apk",
+      "site": "https://yangcong345.com",
+      "pkgname": "com.yangcong345.android.phone",
+      "version": "",
+      "description": "小初高数理化微课，动画讲解重难点；基础薄弱学生提分利器"
+    },
+    {
+      "name": "天天练",
+      "path": "tiantianlian.apk",
+      "site": "https://www.leshen.com",
+      "pkgname": "com.leleketang.SchoolFantasy",
+      "version": "",
+      "description": "每天10分钟高效刷题+动画讲解；数学思维+语文基础+英语语法全覆盖"
+    },
+    {
+      "name": "疯王刷题王",
+      "path": "fengwang_shuati.apk",
+      "site": "",
+      "pkgname": "com.weishitech.stwfengkuang",
+      "version": "",
+      "description": "小初高全科题库+错题本+智能组卷；刷题党必备，支持拍照搜题"
+    },
+    {
+      "name": "知到",
+      "path": "zhidao.apk",
+      "site": "",
+      "pkgname": "com.able.wisdomtree",
+      "version": "",
+      "description": "智慧树旗下｜数理化难题求助、作文思路讨论；同龄人互助答疑"
+    },
+    {
+      "name": "全知识",
+      "path": "quanzhishi.apk",
+      "site": "https://www.allhistory.com",
+      "pkgname": "com.allhistory.dls.marble",
+      "version": "",
+      "description": "百科知识图谱+时间轴+关系图；历史、科学、艺术通识教育利器"
+    },
+    {
+      "name": "小花生",
+      "path": "xiaohuasheng.apk",
+      "site": "https://www.xiaohuasheng.com",
+      "pkgname": "com.huili.readingclub",
+      "version": "",
+      "description": "亲子阅读社区+书单推荐+阅读打卡；分龄选书、原版绘本评测，家长选书必备"
+    },
+    {
+      "name": "妙懂地理",
+      "path": "miaodong_dili.apk",
+      "site": "",
+      "pkgname": "com.cnhsqk.dili",
+      "version": "",
+      "description": "AR+3D地理｜立体地形、洋流季风、板块构造动态演示；地理不再靠想象"
+    },
+    {
+      "name": "妙懂物理",
+      "path": "miaodong_wuli.apk",
+      "site": "",
+      "pkgname": "com.cnhsqk.physics.student",
+      "version": "",
+      "description": "AR+3D物理｜力学电学光学实验模拟，电路搭建、力的合成可视化"
+    },
+    {
+      "name": "妙懂历史",
+      "path": "miaodong_lishi.apk",
+      "site": "",
+      "pkgname": "com.cnhsqk.history.student",
+      "version": "",
+      "description": "AR+3D历史｜文物360°旋转、历史场景复原、时间轴梳理中外大事"
+    },
+    {
+      "name": "妙懂生物",
+      "path": "miaodong_shengwu.apk",
+      "site": "",
+      "pkgname": "com.cnhsqk.md.game",
+      "version": "",
+      "description": "AR+3D生物｜细胞结构、人体系统、生态系统动态演示；生物课可视化学习"
+    }
+  ],
+  "文史古文": [
+    {
+      "name": "古文岛",
+      "path": "古文岛.apk",
+      "site": "https://www.gushiwen.cn",
+      "pkgname": "com.guwendao.gwd",
+      "version": "",
+      "description": "诗词、文言文、古文观止、二十四史节选；原文+注释+译文，中小学古诗文神器"
+    },
+    {
+      "name": "典读",
+      "path": "diandu.apk",
+      "site": "",
+      "pkgname": "top.cloudfun.read",
+      "version": "",
+      "description": "海量古籍、唐诗宋词、诸子典籍；排版干净，支持朗读、检索；广告较少"
+    },
+    {
+      "name": "汉典查字",
+      "path": "handian.apk",
+      "site": "https://www.zdic.net",
+      "pkgname": "com.clx.xtb",
+      "version": "",
+      "description": "汉字字形、古音、字义、说文解字；查文言生字必备"
+    },
+    {
+      "name": "识典古籍",
+      "path": "shidian_guji.apk",
+      "site": "https://www.shidianguji.com",
+      "pkgname": "com.shidianguji.android",
+      "version": "",
+      "description": "权威古籍校本；适合初高中历史、古文深度阅读"
+    },
+    {
+      "name": "新汉字宫",
+      "path": "baidu_hanyu.apk",
+      "site": "https://hanyu.baidu.com",
+      "pkgname": "com.yifan.newhanzigong",
+      "version": "",
+      "description": "百度官方汉语词典｜拼音、部首、笔顺、释义、成语、古诗文全覆盖"
+    },
+    {
+      "name": "西窗烛",
+      "path": "xicuangzhu.apk",
+      "site": "https://www.xichuangzhu.com",
+      "pkgname": "com.hustzp.com.xichuangzhu",
+      "version": "",
+      "description": "诗词日历+飞花令+诗词接龙；精选唐诗宋词，古风界面极美"
+    },
+    {
+      "name": "纸条作文",
+      "path": "zhitiao.apk",
+      "site": "https://www.zhitiao.com",
+      "pkgname": "zwzt.fangqiu.edu.com.zwzt",
+      "version": "",
+      "description": "作文素材+写作技巧+范文点评；初高中议论文、记叙文提分神器"
+    },
+    {
+      "name": "熊猫博士识字",
+      "path": "drpanda_literacy.apk",
+      "site": "https://www.drpanda.com",
+      "pkgname": "com.drpanda.chineseacademy.b2b",
+      "version": "",
+      "description": "好未来出品｜学前+低年级汉字启蒙；动画互动+分级阅读，零基础轻松认字"
+    }
+  ],
+  "理科工具": [
+    {
+      "name": "数感星球",
+      "path": "shugan_xingqiu.apk",
+      "site": "",
+      "pkgname": "com.flickering.mathufo",
+      "version": "",
+      "description": "数学思维启蒙+口算闯关；游戏化练习，覆盖小初算术、几何、逻辑"
+    },
+    {
+      "name": "GeoGebra",
+      "path": "geogebra.apk",
+      "site": "https://www.geogebra.org",
+      "pkgname": "com.tencent.pcgame.intgeogebra5",
+      "version": "",
+      "description": "动态几何、函数绘图；初高中数学必备"
+    },
+    {
+      "name": "初中数学",
+      "path": "chuzhong_math.apk",
+      "site": "",
+      "pkgname": "com.gaoha.mathsplus",
+      "version": "",
+      "description": "初中数学习题精讲+知识点微课；代数、几何、函数分模块训练，中考提分"
+    }
+  ],
+  "英语学习": [
+    {
+      "name": "ABC Reading",
+      "path": "abc_reading.apk",
+      "site": "https://www.abcreading.com",
+      "pkgname": "com.tal.abctimelibrary",
+      "version": "",
+      "description": "学而思引进RAZ正版｜2000+本分级绘本+发音评测+阅读理解；原版阅读进阶标配"
+    },
+    {
+      "name": "千读",
+      "path": "qiandu.apk",
+      "site": "",
+      "pkgname": "com.read1000",
+      "version": "",
+      "description": "英文分级阅读+跟读评测；海量原版绘本、桥梁书、章节书音频"
+    },
+    {
+      "name": "每日英语听力",
+      "path": "meiri_english.apk",
+      "site": "https://www.eudic.net/ting",
+      "pkgname": "com.eusoft.ting.en",
+      "version": "",
+      "description": "海量分级读物、课本音频、英文纪录片原声、新闻听力；大量免费资源"
+    },
+    {
+      "name": "China Daily",
+      "path": "chinadaily.apk",
+      "site": "https://www.chinadaily.com.cn",
+      "pkgname": "com.theotino.chinadaily",
+      "version": "",
+      "description": "中国日报官方英文版｜双语新闻+热点词汇+听力朗读；初高中英语阅读提分"
+    },
+    {
+      "name": "Wow English",
+      "path": "wow_english.apk",
+      "site": "https://www.wowenglish.com",
+      "pkgname": "com.kouyuxingqiu.wow_english",
+      "version": "",
+      "description": "全球知名儿童英语启蒙动画｜TPR全身反应教学法，沉浸式学英语，低龄首选"
+    },
+    {
+      "name": "外研U学",
+      "path": "waiyan_uxue.apk",
+      "site": "https://www.fltrp.com",
+      "pkgname": "com.fltrp.organ.student",
+      "version": "",
+      "description": "外研社官方｜新标准英语教材配套点读+听说练习+单词闯关；课内英语同步学"
+    },
+    {
+      "name": "Echo-Loop",
+      "path": "Echo-Loop-1.0.26-arm64.apk",
+      "site": "https://github.com/echo-loop/Echo-Loop",
+      "pkgname": "com.echoloop.app",
+      "version": "1.0.26",
+      "description": "音频循环复读工具｜英语听力逐句精听、跟读模仿；支持AB循环+变速播放"
+    }
+  ],
+  "自然科学": [
+    {
+      "name": "熊猫客",
+      "path": "pandake.apk",
+      "site": "",
+      "pkgname": "com.ecosage.pandatrek",
+      "version": "",
+      "description": "自然探索+户外研学｜动物、植物、生态系统科普，鼓励孩子走向户外"
+    }
+  ],
+  "有声阅读": [
+    {
+      "name": "凯叔讲故事",
+      "path": "kaishu_story.apk",
+      "site": "https://www.kaishustory.com",
+      "pkgname": "com.ks.kaishustory",
+      "version": "",
+      "description": "儿童有声内容：国学启蒙、名著故事、科普百科；专业配音"
+    },
+    {
+      "name": "喜马拉雅儿童",
+      "path": "ximalaya_kids.apk",
+      "site": "https://www.ximalaya.com/children",
+      "pkgname": "com.ximalaya.ting.kid",
+      "version": "",
+      "description": "喜马拉雅少儿版｜绘本故事、英语磨耳朵、古诗词、科普音频"
+    },
+    {
+      "name": "少年得到",
+      "path": "shaonian_dedao.apk",
+      "site": "https://www.igetcool.com",
+      "pkgname": "com.dedao.juvenile",
+      "version": "",
+      "description": "得到App少儿版｜名著精讲、历史故事、科学通识、写作课；知识服务标杆"
+    },
+    {
+      "name": "博雅小学堂",
+      "path": "boya_primary.apk",
+      "site": "https://www.boyakids.net",
+      "pkgname": "cn.boyakids.m",
+      "version": "",
+      "description": "北大背景团队｜新闻课+名著共读+世界历史+科学通识；培养批判性思维"
+    }
+  ]
+}

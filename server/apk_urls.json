@@ -1,0 +1,130 @@
+{
+  "_note": "每个 APK 的下载地址。URL 优先使用官方渠道；第三方市场作为备用。version 字段用于增量更新判断。",
+  "_updated": "2026-07-25",
+
+  "smart_edu.apk": {
+    "url": "https://basic.smartedu.cn/app/download",
+    "alt_url": "",
+    "version": ""
+  },
+  "xuexi_android_10002068.apk": {
+    "url": "https://www.xuexi.cn/app/download",
+    "alt_url": "",
+    "version": ""
+  },
+  "yangshipin.apk": {
+    "url": "https://www.yangshipin.cn/app/download",
+    "alt_url": "",
+    "version": ""
+  },
+  "renjiao_diandu.apk": {
+    "url": "https://www.pep.com.cn/app/download",
+    "alt_url": "",
+    "version": ""
+  },
+  "cctv_kids.apk": {
+    "url": "https://shaoer.cctv.com/app/download",
+    "alt_url": "",
+    "version": ""
+  },
+  "qspfw.apk": {
+    "url": "https://qspfw.moe.gov.cn/app/download",
+    "alt_url": "",
+    "version": ""
+  },
+  "cdstm.apk": {
+    "url": "https://www.cdstm.cn/app/download",
+    "alt_url": "",
+    "version": ""
+  },
+  "bilibili.apk": {
+    "url": "https://app.bilibili.com/download",
+    "alt_url": "",
+    "version": ""
+  },
+  "yixueguan.apk": {
+    "url": "",
+    "alt_url": "",
+    "version": ""
+  },
+  "yangcong.apk": {
+    "url": "https://yangcong345.com/app/download",
+    "alt_url": "",
+    "version": ""
+  },
+  "古文岛.apk": {
+    "url": "",
+    "alt_url": "",
+    "version": ""
+  },
+  "diandu.apk": {
+    "url": "",
+    "alt_url": "",
+    "version": ""
+  },
+  "handian.apk": {
+    "url": "https://www.zdic.net/app/download",
+    "alt_url": "",
+    "version": ""
+  },
+  "shidian_guji.apk": {
+    "url": "https://www.shidianguji.com/app/download",
+    "alt_url": "",
+    "version": ""
+  },
+  "shugan_xingqiu.apk": {
+    "url": "",
+    "alt_url": "",
+    "version": ""
+  },
+  "geogebra.apk": {
+    "url": "https://www.geogebra.org/download",
+    "alt_url": "",
+    "version": ""
+  },
+  "desmos.apk": {
+    "url": "https://www.desmos.com/download",
+    "alt_url": "",
+    "version": ""
+  },
+  "khan_academy.apk": {
+    "url": "https://play.google.com/store/apps/details?id=org.khanacademy.android",
+    "alt_url": "",
+    "version": ""
+  },
+  "qiandu.apk": {
+    "url": "",
+    "alt_url": "",
+    "version": ""
+  },
+  "meiri_english.apk": {
+    "url": "",
+    "alt_url": "",
+    "version": ""
+  },
+  "quizlet.apk": {
+    "url": "https://quizlet.com/app/download",
+    "alt_url": "",
+    "version": ""
+  },
+  "kaishu_story.apk": {
+    "url": "",
+    "alt_url": "",
+    "version": ""
+  },
+  "ximalaya_kids.apk": {
+    "url": "",
+    "alt_url": "",
+    "version": ""
+  },
+  "canva.apk": {
+    "url": "https://www.canva.cn/download",
+    "alt_url": "",
+    "version": ""
+  },
+  "processon.apk": {
+    "url": "https://www.processon.com/download",
+    "alt_url": "",
+    "version": ""
+  }
+}

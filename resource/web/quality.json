@@ -1,0 +1,274 @@
+{
+  "chinese": {
+    "name": "语文 / 古诗文 / 文字工具（大语文刚需）",
+    "items": [
+      {
+        "name": "古诗文网",
+        "url": "https://www.gushiwen.cn",
+        "region": "domestic",
+        "pros": "诗词、文言文、古文，原文 + 注释 + 译文 + 赏析；中小学课内古诗文全覆盖",
+        "cons": "侧边广告较多，建议搭配广告拦截",
+        "scenario": "课内古诗文查阅、背诵辅助"
+      },
+      {
+        "name": "搜韵",
+        "url": "https://sou-yun.cn",
+        "region": "domestic",
+        "pros": "诗词检索、平仄检测、词谱、韵书，专业度高",
+        "cons": "界面偏学术，低年级学生需引导",
+        "scenario": "初高中文言文拓展、诗词创作参考"
+      },
+      {
+        "name": "汉典",
+        "url": "https://www.zdic.net",
+        "region": "domestic",
+        "pros": "汉字字典、字形演变、古音、说文解字，字源考证详尽",
+        "cons": "界面较旧，广告需拦截",
+        "scenario": "文言字词查证、汉字溯源学习"
+      },
+      {
+        "name": "识典古籍",
+        "url": "https://www.shidianguji.com",
+        "region": "domestic",
+        "pros": "数万部古籍，原文 + 校注 + 书影，免费无广告",
+        "cons": "阅读门槛较高，适合有一定古文基础的学生",
+        "scenario": "历史、古文深度阅读与研习"
+      },
+      {
+        "name": "全历史",
+        "url": "https://www.allhistory.com",
+        "region": "domestic",
+        "pros": "时间地图、历史关系图谱、古迹、人物史，图文视频齐全，可视化极佳",
+        "cons": "部分高级功能需注册",
+        "scenario": "历史学科全景学习、跨时空关联记忆"
+      }
+    ]
+  },
+  "stem": {
+    "name": "理科 / 实验 / 数理可视化",
+    "items": [
+      {
+        "name": "PhET 模拟实验（中文版）",
+        "url": "https://phet.colorado.edu/zh_CN",
+        "region": "overseas",
+        "pros": "诺贝尔奖项目，物理/化学/生物/数学互动仿真实验，完全免费，无需注册",
+        "cons": "部分模拟需一定英文基础（中文翻译覆盖不全）",
+        "scenario": "弥补学校实验不足，理解抽象理科概念"
+      },
+      {
+        "name": "洋葱学园（网页版）",
+        "url": "https://yangcong345.com",
+        "region": "domestic",
+        "pros": "小初高数理化微课，动画讲解重难点，基础微课大量免费",
+        "cons": "难题拓展课程需付费",
+        "scenario": "课前预习、知识点查漏补缺"
+      },
+      {
+        "name": "乐乐课堂",
+        "url": "https://www.leleketang.com",
+        "region": "domestic",
+        "pros": "短视频数理化知识点，节奏轻快，小学初中友好",
+        "cons": "高中内容覆盖较少",
+        "scenario": "小学初中数理化快速入门"
+      },
+      {
+        "name": "Learn Everything 学习助手",
+        "url": "",
+        "region": "overseas",
+        "pros": "AI 驱动的全科学习助手｜数学解题步骤拆解、语法纠错、作文润色、科学概念可视化",
+        "cons": "部分高级功能需订阅",
+        "scenario": "作业辅导、自主学习、疑难知识点即问即答"
+      },
+      {
+        "name": "Cool Math Games",
+        "url": "https://www.coolmathgames.com",
+        "region": "overseas",
+        "pros": "全球最受欢迎数学游戏站｜逻辑、策略、数字类益智小游戏，免费无需注册",
+        "cons": "全英文界面；部分游戏偏娱乐，需筛选",
+        "scenario": "数学思维训练、课间益智放松"
+      },
+      {
+        "name": "爱学堂",
+        "url": "https://qhfx.aixuetang.com/home/index",
+        "region": "domestic",
+        "pros": "清华附小官方在线学习平台｜语数英同步微课+课后练习+学情报告",
+        "cons": "部分功能需学校账号",
+        "scenario": "课内同步预习复习"
+      }
+    ]
+  },
+  "english": {
+    "name": "英语学习",
+    "items": [
+      {
+        "name": "Vocabulary.com",
+        "url": "https://www.vocabulary.com",
+        "region": "overseas",
+        "pros": "自适应背单词，例句地道，释义生动有趣",
+        "cons": "全英文界面，需一定词汇量基础",
+        "scenario": "初中高中词汇积累、语感培养"
+      },
+      {
+        "name": "Quizlet",
+        "url": "https://quizlet.com",
+        "region": "overseas",
+        "pros": "在线自制单词闪卡，支持多种复习模式，社区资源丰富",
+        "cons": "部分高级功能付费，需注册",
+        "scenario": "英语单词、史地生知识点自主复习"
+      },
+      {
+        "name": "英语兔（B站配套工具）",
+        "url": "https://www.yingyutu.com",
+        "region": "domestic",
+        "pros": "免费音标、语法系统教程，内容体系完整",
+        "cons": "深度内容主要在B站视频，网页为辅助",
+        "scenario": "英语基础自学、音标语法补课"
+      },
+      {
+        "name": "中华文化英语知识库",
+        "url": "https://chinese-culture.net",
+        "region": "domestic",
+        "pros": "用英语讲中国传统节日、二十四节气、成语故事、名胜古迹；中英双语对照",
+        "cons": "部分内容较浅，适合入门",
+        "scenario": "用英语表达中国文化、写作素材积累、跨文化交流"
+      }
+    ]
+  },
+  "exam": {
+    "name": "题库 / 试卷 / 课后练习（课内巩固）",
+    "items": [
+      {
+        "name": "菁优网",
+        "url": "https://www.jyeoo.com",
+        "region": "domestic",
+        "pros": "全国真题、同步练习题、详细解析，免费资源足够日常刷题",
+        "cons": "组卷高级功能付费；切勿直接抄答案",
+        "scenario": "做完订正、理解解题思路、章节巩固"
+      },
+      {
+        "name": "第一试卷网",
+        "url": "https://www.shijuan1.com",
+        "region": "domestic",
+        "pros": "大量中小学单元卷、期中期末试卷，免费下载 PDF",
+        "cons": "试卷质量参差不齐，需筛选",
+        "scenario": "考前模拟、自测摸底"
+      },
+      {
+        "name": "教研云",
+        "url": "https://www.jiaoyanyun.com",
+        "region": "domestic",
+        "pros": "菁优网旗下教师备课平台｜海量题库+组卷+学情分析；家长可查看知识点掌握情况",
+        "cons": "完整功能需学校/机构账号",
+        "scenario": "精准定位薄弱知识点、针对性练习"
+      },
+      {
+        "name": "中学历史数学园地",
+        "url": "https://www.zxls.com/",
+        "region": "domestic",
+        "pros": "中学历史和数学教学资源站｜课件、教案、试题、素材下载",
+        "cons": "部分资源需积分或付费",
+        "scenario": "教师备课参考、学生自主拓展"
+      },
+      {
+        "name": "学科网",
+        "url": "https://www.zxxk.com/",
+        "region": "domestic",
+        "pros": "全国最大K12教学资源平台｜课件、教案、试卷、视频全覆盖，与主流教材同步",
+        "cons": "大部分资源需付费或学校账号",
+        "scenario": "教师备课、组卷出题、学生精准练习"
+      }
+    ]
+  },
+  "coding": {
+    "name": "编程 / 信息科技 / 科创",
+    "items": [
+      {
+        "name": "Scratch 官方",
+        "url": "https://scratch.mit.edu",
+        "region": "overseas",
+        "pros": "麻省理工图形化编程，全球最大少儿编程社区，全免费",
+        "cons": "社区内容需家长引导筛选",
+        "scenario": "小学生编程入门首选"
+      },
+      {
+        "name": "编程猫社区",
+        "url": "https://coding.codemao.cn",
+        "region": "domestic",
+        "pros": "图形化编程、Python 入门，大量学生项目案例，中文友好",
+        "cons": "深度课程需付费",
+        "scenario": "国内学生编程入门、项目参考"
+      }
+    ]
+  },
+  "general": {
+    "name": "通识科普 / 纪录片 / 课外阅读",
+    "items": [
+      {
+        "name": "纪录片天地",
+        "url": "https://www.jlpcn.net",
+        "region": "domestic",
+        "pros": "海量纪录片索引，历史、地理、自然科学拓展素材丰富",
+        "cons": "部分链接为外部源，稳定性一般",
+        "scenario": "课外知识拓展、学科兴趣培养"
+      },
+      {
+        "name": "National Geographic Kids",
+        "url": "https://kids.nationalgeographic.com",
+        "region": "overseas",
+        "pros": "英文科普图文、动物、自然知识，内容权威精美",
+        "cons": "全英文，需一定英语基础",
+        "scenario": "英语 + 科学同步拓展阅读"
+      }
+    ]
+  },
+  "tools": {
+    "name": "思维导图 / 学习工具（通用效率）",
+    "items": [
+      {
+        "name": "ProcessOn",
+        "url": "https://www.processon.com",
+        "region": "domestic",
+        "pros": "在线思维导图、流程图，协作方便，免费额度满足日常使用",
+        "cons": "免费版文件数量有限制",
+        "scenario": "知识梳理、作文提纲、复习总结"
+      },
+      {
+        "name": "Canva 可画（教育版）",
+        "url": "https://www.canva.cn/education",
+        "region": "overseas",
+        "pros": "手抄报、课件海报设计，模板丰富，教育版免费",
+        "cons": "部分高级素材付费",
+        "scenario": "学生创作作业、项目展示、手抄报制作"
+      },
+      {
+        "name": "学习导航",
+        "url": "https://www.studynav.com/",
+        "region": "overseas",
+        "pros": "海外学习资源导航｜分类整理K12学科网站、在线课程、学习工具",
+        "cons": "全英文，部分链接需科学上网",
+        "scenario": "发现优质海外学习资源"
+      }
+    ]
+  },
+  "brain": {
+    "name": "轻量无广告学生益智站点（思维训练）",
+    "items": [
+      {
+        "name": "Kiddie Worksheets",
+        "url": "https://www.kiddoworksheets.com",
+        "region": "overseas",
+        "pros": "免费可打印练习题｜数学、英语、书写、拼图等海量PDF，覆盖学前到小学",
+        "cons": "全英文；部分高级功能需注册",
+        "scenario": "课后练习补充、假期作业素材"
+      },
+      {
+        "name": "WithoutAD",
+        "url": "https://withoutad.com",
+        "region": "domestic",
+        "pros": "数独、逻辑游戏、成语接龙、函数可视化，零广告，家长搭建的纯净益智站",
+        "cons": "内容量有限，非大型平台",
+        "scenario": "课余思维训练、无干扰益智休闲"
+      }
+    ]
+  }
+}

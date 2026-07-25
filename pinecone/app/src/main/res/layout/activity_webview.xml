@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#FF1A1A2E">
+
+    <!-- Header bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#FF252545"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp">
+
+        <Button
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:minWidth="80dp"
+            android:text="← 返回"
+            android:textSize="16sp"
+            android:textColor="#FF4FC3F7"
+            android:background="@android:color/transparent" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:text="网页浏览" />
+    </LinearLayout>
+
+    <!-- Loading progress -->
+    <ProgressBar
+        android:id="@+id/progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:max="100"
+        android:progress="0"
+        android:visibility="gone" />
+
+    <!-- WebView -->
+    <WebView
+        android:id="@+id/webview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Error view -->
+    <LinearLayout
+        android:id="@+id/error_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        android:padding="48dp">
+
+        <TextView
+            android:id="@+id/error_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="😞"
+            android:textSize="64sp"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/error_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="#B0B0C0"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="无法加载页面" />
+
+        <Button
+            android:id="@+id/btn_retry"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:minWidth="160dp"
+            android:layout_marginTop="24dp"
+            android:text="重试"
+            android:textSize="16sp"
+            android:textColor="#FF4FC3F7"
+            android:background="@android:color/transparent" />
+    </LinearLayout>
+
+</LinearLayout>

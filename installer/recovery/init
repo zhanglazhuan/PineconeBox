@@ -1,0 +1,130 @@
+#!/bin/busybox sh
+# PineCone OS Recovery init — runs entirely in RAM.
+#
+# When /boot/firmware/pinecone-recovery exists, this script:
+#   1. Mounts the Pi OS rootfs read-only to read baseos.img.gz + APK
+#   2. Stream-decompresses to SD card: gunzip -c .gz | dd of=/dev/mmcblk0
+#   3. Offset-mounts the freshly written system partition, injects APK
+#   4. Clears the flag file, reboots
+#
+# When the flag file is absent, pivots to the normal rootfs.
+
+# No set -e — we handle errors explicitly to avoid kernel panic
+die() { echo "FATAL: $*"; sleep 5; reboot -f; }
+
+# ── Busybox setup ──────────────────────────────────
+/bin/busybox --install -s /bin 2>/dev/null || true
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+
+# ── Mount virtual filesystems ──────────────────────
+mount -t proc proc /proc
+mount -t sysfs sysfs /sys
+mount -t devtmpfs devtmpfs /dev
+mkdir -p /boot /rootfs /mnt
+
+# ── Mount /boot (FAT32) ────────────────────────────
+# On Pi 5, the boot partition is usually /dev/mmcblk0p1
+mount -t vfat /dev/mmcblk0p1 /boot 2>/dev/null || mount -t vfat /dev/mmcblk1p1 /boot 2>/dev/null || true
+sleep 0.5
+
+# ── Check recovery flag ────────────────────────────
+if [ ! -f /boot/pinecone-recovery ]; then
+    # Normal boot — pivot to rootfs
+    umount /boot 2>/dev/null || true
+    umount /proc /sys /dev 2>/dev/null || true
+    # Pass control to the real init on the rootfs
+    exec switch_root /rootfs /sbin/init 2>/dev/null || exec /bin/busybox init
+fi
+
+# ══════════════════════════════════════════════════════
+# RECOVERY MODE
+# ══════════════════════════════════════════════════════
+
+mount -t ext4 -o ro /dev/mmcblk0p2 /rootfs 2>/dev/null || \
+    mount -t ext4 -o ro /dev/mmcblk1p2 /rootfs
+
+# Try multiple locations for the installer files
+for BASE in /rootfs/opt/pinecone-installer /rootfs/home/zhang/installer; do
+    [ -f "$BASE/baseos.img.gz" ] && INSTALLER_BASE="$BASE" && break
+done
+if [ -z "$INSTALLER_BASE" ]; then
+    echo "ERROR: installer files not found"
+    sleep 5
+    reboot -f
+fi
+
+IMG="$INSTALLER_BASE/baseos.img.gz"
+APK_SRC="$INSTALLER_BASE/app-debug.apk"
+APK_RAM="/opt/app-debug.apk"
+APK_TARGET="/mnt/system/app/PineConeLauncher"
+FLAG="/boot/pinecone-recovery"
+
+echo "=== PineCone Recovery ==="
+echo "IMG: $IMG"
+echo "APK: $APK_SRC"
+
+if [ ! -f "$IMG" ]; then
+    echo "ERROR: baseos.img.gz not found at $IMG"
+    sleep 5
+    reboot -f
+fi
+
+# Copy APK to RAM *before* dd overwrites the rootfs
+echo "[0/4] Copying APK to RAM..."
+mkdir -p /opt
+cp "$APK_SRC" "$APK_RAM" 2>/dev/null || { echo "ERROR: APK not found"; sleep 5; reboot -f; }
+
+# ── Step 1: Stream-flash to SD card ────────────────
+echo "[1/4] Writing system image to SD card..."
+gunzip -c "$IMG" | dd of=/dev/mmcblk0 bs=4M 2>&1 || die "dd failed"
+echo "done."
+
+sync
+sleep 1
+
+# ── Step 2: Let kernel see new partition table ─────
+echo "[2/4] Re-reading partition table..."
+partprobe /dev/mmcblk0 2>/dev/null || true
+blockdev --rereadpt /dev/mmcblk0 2>/dev/null || true
+sleep 2
+
+# ── Step 3: Mount system partition via offset ──────
+echo "[3/4] Mounting system partition for APK injection..."
+losetup -o 136314880 /dev/loop0 /dev/mmcblk0
+mount -t ext4 /dev/loop0 /mnt
+
+mkdir -p "$APK_TARGET"
+cp "$APK_RAM" "$APK_TARGET/PineConeLauncher.apk"
+chmod 755 "$APK_TARGET"
+chmod 644 "$APK_TARGET/PineConeLauncher.apk"
+
+# Remove competing launchers
+for base in system/app system/priv-app; do
+    [ -d "/mnt/$base" ] || continue
+    for name in Trebuchet Launcher3 Launcher3QuickStep LeanbackLauncher \
+                TvLauncher CustomTvLauncher LegacyLauncher Catapult; do
+        rm -rf "/mnt/$base/$name" 2>/dev/null || true
+        # Also try lowercase variants
+        for d in /mnt/$base/*; do
+            b=$(basename "$d")
+            if echo "$b" | grep -qi "^${name}$"; then
+                rm -rf "$d" 2>/dev/null || true
+            fi
+        done
+    done
+done
+
+sync
+umount /mnt
+losetup -d /dev/loop0
+echo "done."
+
+# ── Step 4: Clean up and reboot ────────────────────
+echo "[4/4] Cleaning up..."
+rm -f "$FLAG"
+umount /rootfs 2>/dev/null || true
+umount /boot 2>/dev/null || true
+sync
+echo "Rebooting in 3s..."
+sleep 3
+reboot -f

@@ -1,0 +1,10 @@
+{
+  "ai_learn": {
+    "name": "AI 通识学习",
+    "items": [
+      { "name": "Hour of AI", "url": "https://hourofcode.com/ai" },
+      { "name": "AI Quest", "url": "https://www.aiquest.org" },
+      { "name": "Open AI Mac", "url": "" }
+    ]
+  }
+}

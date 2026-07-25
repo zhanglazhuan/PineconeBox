@@ -1,0 +1,21 @@
+*.iml
+.gradle
+.idea/
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# Python cache
+__pycache__/
+
+# Large binary assets
+server/static/rom/
+server/static/apks/*.apk
+/rom/
+pinecone/app/build
+pinecone/guard/build
+pinecone/build
+.claude/

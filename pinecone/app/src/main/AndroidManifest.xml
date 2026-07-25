@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="松果智学 PineCone OS"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Pinecone">
+
+        <!-- ===== Main Launcher ===== -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="松果智学"
+            android:theme="@style/Theme.Pinecone"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- ===== WebView Browser ===== -->
+        <activity
+            android:name=".ui.WebViewActivity"
+            android:exported="false" />
+
+        <!-- ===== Guard: Parent Settings UI ===== -->
+        <activity
+            android:name=".ui.guard.SetupWizardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.guard.ParentSettingsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.guard.PinSetupActivity"
+            android:exported="false" />
+
+        <!-- ===== Guard: Account System ===== -->
+        <activity
+            android:name=".ui.guard.account.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.guard.account.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.guard.account.PasswordRecoveryActivity"
+            android:exported="false" />
+
+        <!-- ===== Guard: Child-Facing Screens ===== -->
+        <activity
+            android:name=".ui.guard.LockScreenActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".ui.guard.GracePeriodActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance" />
+        <activity
+            android:name=".ui.guard.BreakReminderActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance" />
+
+        <!-- ===== Guard: Update Activity ===== -->
+        <activity
+            android:name=".ui.guard.UpdateActivity"
+            android:exported="false" />
+
+        <!-- ===== Guard: Editor Activities ===== -->
+        <activity android:name=".ui.guard.editors.DailyLimitActivity" android:exported="false" />
+        <activity android:name=".ui.guard.editors.BreakRuleActivity" android:exported="false" />
+        <activity android:name=".ui.guard.editors.TimeWindowActivity" android:exported="false" />
+        <activity android:name=".ui.guard.editors.CategoryLimitActivity" android:exported="false" />
+        <activity android:name=".ui.guard.editors.AppLimitActivity" android:exported="false" />
+        <activity android:name=".ui.guard.editors.BrowserRestrictActivity" android:exported="false" />
+        <activity android:name=".ui.guard.editors.CreditConfigActivity" android:exported="false" />
+        <activity android:name=".ui.guard.editors.UsageHistoryActivity" android:exported="false" />
+
+        <!-- ===== GuardService: independent process, foreground ===== -->
+        <service
+            android:name="com.pinecone.guard.service.GuardService"
+            android:process=":guard"
+            android:foregroundServiceType="specialUse"
+            android:exported="false">
+            <property
+                android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="parental_control_usage_monitoring" />
+        </service>
+
+        <!-- ===== BootReceiver ===== -->
+        <receiver
+            android:name="com.pinecone.guard.service.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- ===== FileProvider: APK install ===== -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <!-- ===== DeviceAdmin: system-level lock ===== -->
+        <receiver
+            android:name="com.pinecone.guard.service.GuardDeviceAdminReceiver"
+            android:permission="android.permission.BIND_DEVICE_ADMIN"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin_policies" />
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

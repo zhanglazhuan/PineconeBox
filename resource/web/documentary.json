@@ -1,0 +1,118 @@
+{
+  "official": {
+    "name": "国内国家级官方站点",
+    "desc": "无广告、正版、最适合中小学生｜首选",
+    "items": [
+      {
+        "name": "央视网纪实频道（CCTV 官方）",
+        "url": "https://jishi.cctv.com",
+        "region": "domestic",
+        "tags": ["文史", "自然", "科技", "国产"],
+        "highlights": ["航拍中国", "河西走廊", "如果国宝会说话", "跟着书本去旅行"],
+        "desc": "全部正版免费，文史、自然、科技纪录片海量，高清、广告极少"
+      },
+      {
+        "name": "中国纪录片网",
+        "url": "https://www.docuchina.cn",
+        "region": "domestic",
+        "tags": ["人文", "历史", "科教", "国产"],
+        "desc": "国家广电总局指导、中央新影主办，国家级纪录片官方平台，展播优秀国产纪录片，年度评优片单"
+      },
+      {
+        "name": "央视频（网页版）",
+        "url": "https://www.yangshipin.cn",
+        "region": "domestic",
+        "tags": ["综合", "CCTV", "投屏"],
+        "desc": "总台全部纪录片资源同步，支持投屏，大量央视经典纪录片免费观看"
+      },
+      {
+        "name": "学习强国（网页端）",
+        "url": "https://www.xuexi.cn",
+        "region": "domestic",
+        "tags": ["历史", "人文", "自然", "工程", "零广告"],
+        "desc": "搜索「纪录片」即可获取海量正版资源，零广告，历史、人文、自然、大国工程全覆盖，适合拓展作文素材"
+      }
+    ]
+  },
+  "platform": {
+    "name": "国内正规视频平台纪录片专区",
+    "desc": "网页直达链接，正版合规",
+    "items": [
+      {
+        "name": "B站纪录片专区",
+        "url": "https://www.bilibili.com/documentary",
+        "region": "domestic",
+        "tags": ["综合", "BBC", "国家地理", "TED-Ed", "科普"],
+        "desc": "国产、BBC、国家地理、TED-Ed、科普短片极其丰富，大量独立纪录片、高分短片免费",
+        "note": "部分海外大片需大会员，筛选「免费」标签即可；建议开启青少年模式过滤内容"
+      },
+      {
+        "name": "1905电影网纪实板块",
+        "url": "https://www.1905.com/documentary",
+        "region": "domestic",
+        "tags": ["历史文献", "科教", "老片"],
+        "desc": "电影频道官方，历史文献纪录片、老科教片、人文纪实，很多老片子独家资源免费"
+      }
+    ]
+  },
+  "overseas": {
+    "name": "海外免费教育向纪录片站点",
+    "desc": "适合英语拓展、理科通识，欧美课堂常用",
+    "items": [
+      {
+        "name": "Internet Archive（互联网档案馆）",
+        "url": "https://archive.org",
+        "region": "overseas",
+        "tags": ["公有领域", "历史影像", "科教", "经典"],
+        "desc": "非营利数字图书馆，海量公有领域经典纪录片、老式科教影片、历史影像，完全免费可在线播放，无广告",
+        "scenario": "查找几十年前经典科学、历史教育纪录片",
+        "access": "国内可访问，加载速度一般"
+      },
+      {
+        "name": "PBS Video（美国公共广播）",
+        "url": "https://video.pbs.org",
+        "region": "overseas",
+        "tags": ["自然", "历史", "科学", "人文", "K12"],
+        "desc": "美国公立教育配套纪录片，自然、历史、科学、人文，很多面向青少年的科普系列",
+        "scenario": "美式K12科教纪录片、英语听力拓展",
+        "access": "部分内容国内可直接打开"
+      },
+      {
+        "name": "ARTE（法德公共电视台）",
+        "url": "https://www.arte.tv/en",
+        "region": "overseas",
+        "tags": ["人文", "艺术", "自然", "欧洲"],
+        "desc": "欧洲高质量人文、艺术、自然纪录片，大量免费无广告，双语字幕",
+        "scenario": "初高中人文拓展、欧洲文化视野",
+        "access": "国内可访问"
+      },
+      {
+        "name": "NFB（加拿大国家电影局）",
+        "url": "https://www.nfb.ca",
+        "region": "overseas",
+        "tags": ["动画", "科教", "短片", "CC版权"],
+        "desc": "大量获奖动画纪录片、科教短片，很多CC开放版权，全球学校广泛使用",
+        "scenario": "动画纪录片、科教短片素材",
+        "access": "国内可访问"
+      },
+      {
+        "name": "BBC Earth / Nat Geo / NASA（YouTube 官方频道）",
+        "url": "https://www.youtube.com/@BBCEarth",
+        "region": "overseas",
+        "tags": ["BBC", "国家地理", "NASA", "科普", "英文"],
+        "desc": "BBC Earth、National Geographic、NASA 官方频道，大量完整版科普纪录片",
+        "scenario": "英文原版纪录片、科学听力拓展",
+        "access": "需科学上网"
+      },
+      {
+        "name": "TED-Ed",
+        "url": "https://ed.ted.com",
+        "region": "overseas",
+        "tags": ["动画", "通识", "科教", "短片"],
+        "desc": "动画科教短片，自带配套思考题，可视化极强",
+        "scenario": "通识拓展、课堂讨论素材",
+        "access": "国内可访问"
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "launcher": {
+    "versionCode": 1,
+    "versionName": "1.0.0",
+    "url": "/apk/app-debug.apk",
+    "size": 15728640,
+    "sha256": "PLACEHOLDER",
+    "changelog": "- 初始版本"
+  },
+  "baseos": {
+    "version": "23.2-20260520",
+    "variant": "atv-pinecone",
+    "url": "/rom/baseos.img.gz",
+    "size": 1058000000,
+    "sha256": "PLACEHOLDER",
+    "format": "gzip",
+    "description": "PineCone OS 完整系统镜像 (RPi5)"
+  },
+  "minApiLevel": 36,
+  "minAppVersion": 1
+}
