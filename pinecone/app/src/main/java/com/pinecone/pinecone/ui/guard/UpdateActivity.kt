@@ -17,8 +17,7 @@ import androidx.compose.ui.unit.sp
 import com.pinecone.guard.api.UpdateResult
 import com.pinecone.guard.engine.UpdateChecker
 import com.pinecone.guard.engine.UpdateInstaller
-import com.pinecone.pinecone.ui.theme.PineAccent
-import com.pinecone.pinecone.ui.theme.PineconeTheme
+import com.pinecone.pinecone.ui.theme.*
 
 class UpdateActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,7 +74,7 @@ private fun UpdateScreen() {
         Text(titleText, fontSize = 30.sp, fontWeight = FontWeight.Bold,
             color = Color.White, textAlign = TextAlign.Center,
             modifier = Modifier.padding(bottom = 32.dp))
-        Text(detailText, fontSize = 22.sp, color = Color(0xFF8B949E),
+        Text(detailText, fontSize = 22.sp, color = PineTextSecondary,
             textAlign = TextAlign.Center, modifier = Modifier.padding(bottom = 32.dp))
 
         if (showProgress) {

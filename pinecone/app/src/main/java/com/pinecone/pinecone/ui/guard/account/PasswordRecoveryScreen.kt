@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.sp
 import com.pinecone.pinecone.data.AccountStorage
 import com.pinecone.pinecone.network.DevSmsService
 import com.pinecone.pinecone.ui.guard.GuardSettingsScaffold
+import com.pinecone.pinecone.ui.theme.*
 import kotlinx.coroutines.launch
 
 @Composable
@@ -24,7 +25,6 @@ fun PasswordRecoveryScreen(onComplete: (success: Boolean) -> Unit) {
     val smsService = remember { DevSmsService() }
     val storage = remember { AccountStorage.getInstance(context) }
 
-    // Mode: sms or recovery_code
     var recoveryMode by remember { mutableIntStateOf(0) } // 0=sms, 1=recovery code
 
     // SMS mode
@@ -43,7 +43,6 @@ fun PasswordRecoveryScreen(onComplete: (success: Boolean) -> Unit) {
     var passwordConfirm by remember { mutableStateOf("") }
     var codeVerified by remember { mutableStateOf(false) }
 
-    // Countdown timer
     LaunchedEffect(countdown) {
         if (countdown > 0) {
             kotlinx.coroutines.delay(1000)
@@ -62,15 +61,12 @@ fun PasswordRecoveryScreen(onComplete: (success: Boolean) -> Unit) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (!showPasswordStep) {
-                // ── Verification step ──
                 Text("找回密码", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                Text("账号: ${storage.maskedPhone}", fontSize = 14.sp, color = Color(0xFF8888AA),
+                Text("账号: ${storage.maskedPhone}", fontSize = 14.sp, color = PineTextSecondary,
                     modifier = Modifier.padding(top = 8.dp, bottom = 24.dp))
 
-                // Mode toggle
                 if (recoveryMode == 0) {
                     // SMS mode
-                    // Auto-send
                     LaunchedEffect(Unit) {
                         isLoading = true
                         val result = smsService.sendVerificationCode(storage.phoneNumber ?: "")
@@ -84,7 +80,7 @@ fun PasswordRecoveryScreen(onComplete: (success: Boolean) -> Unit) {
                         isLoading = false
                     }
 
-                    Text("短信验证码已发送至注册手机号", fontSize = 14.sp, color = Color(0xFFB0B0C0),
+                    Text("短信验证码已发送至注册手机号", fontSize = 14.sp, color = PineTextSecondary,
                         modifier = Modifier.padding(bottom = 16.dp))
 
                     NumericKeyboard(value = smsCode, onValueChange = { smsCode = it }, maxLength = 6)
@@ -92,7 +88,7 @@ fun PasswordRecoveryScreen(onComplete: (success: Boolean) -> Unit) {
                     Spacer(modifier = Modifier.height(20.dp))
 
                     if (errorMsg.isNotEmpty()) {
-                        Text(errorMsg, fontSize = 14.sp, color = Color(0xFFFF6B6B), modifier = Modifier.padding(bottom = 8.dp))
+                        Text(errorMsg, fontSize = 14.sp, color = PineError, modifier = Modifier.padding(bottom = 8.dp))
                     }
 
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -128,19 +124,19 @@ fun PasswordRecoveryScreen(onComplete: (success: Boolean) -> Unit) {
                                 }
                             },
                             enabled = smsCode.length == 6,
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4FC3F7))
+                            colors = ButtonDefaults.buttonColors(containerColor = PinePrimary)
                         ) {
-                            Text("验证", color = Color(0xFF1A1A2E))
+                            Text("验证", color = PineTextOnAccent)
                         }
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
                     TextButton(onClick = { recoveryMode = 1 }) {
-                        Text("使用恢复码找回", fontSize = 14.sp, color = Color(0xFF8888AA))
+                        Text("使用恢复码找回", fontSize = 14.sp, color = PineTextSecondary)
                     }
                 } else {
                     // Recovery code mode
-                    Text("输入 12 位恢复码", fontSize = 14.sp, color = Color(0xFFB0B0C0),
+                    Text("输入 12 位恢复码", fontSize = 14.sp, color = PineTextSecondary,
                         modifier = Modifier.padding(bottom = 16.dp))
 
                     Text(
@@ -155,7 +151,7 @@ fun PasswordRecoveryScreen(onComplete: (success: Boolean) -> Unit) {
                         },
                         fontSize = 24.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF4FC3F7),
+                        color = PinePrimary,
                         fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
                         letterSpacing = 2.sp,
                         modifier = Modifier.padding(bottom = 32.dp)
@@ -170,7 +166,7 @@ fun PasswordRecoveryScreen(onComplete: (success: Boolean) -> Unit) {
                     Spacer(modifier = Modifier.height(20.dp))
 
                     if (errorMsg.isNotEmpty()) {
-                        Text(errorMsg, fontSize = 14.sp, color = Color(0xFFFF6B6B), modifier = Modifier.padding(bottom = 8.dp))
+                        Text(errorMsg, fontSize = 14.sp, color = PineError, modifier = Modifier.padding(bottom = 8.dp))
                     }
 
                     Button(
@@ -189,27 +185,27 @@ fun PasswordRecoveryScreen(onComplete: (success: Boolean) -> Unit) {
                             }
                         },
                         enabled = recoveryCodeInput.length >= 12,
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4FC3F7))
+                        colors = ButtonDefaults.buttonColors(containerColor = PinePrimary)
                     ) {
-                        Text("验证", color = Color(0xFF1A1A2E))
+                        Text("验证", color = PineTextOnAccent)
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
                     TextButton(onClick = { recoveryMode = 0 }) {
-                        Text("使用短信验证码找回", fontSize = 14.sp, color = Color(0xFF8888AA))
+                        Text("使用短信验证码找回", fontSize = 14.sp, color = PineTextSecondary)
                     }
                 }
             } else {
                 // ── Set new password ──
                 Text("设置新密码", fontSize = 20.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                Text("6 位数字密码", fontSize = 14.sp, color = Color(0xFF8888AA),
+                Text("6 位数字密码", fontSize = 14.sp, color = PineTextSecondary,
                     modifier = Modifier.padding(top = 8.dp, bottom = 24.dp))
 
                 val isConfirming = newPassword.length == 6 && newPassword.isNotEmpty()
                 val label = if (isConfirming) "再次输入确认" else "输入 6 位新密码"
                 val currentValue = if (isConfirming) passwordConfirm else newPassword
 
-                Text(label, fontSize = 14.sp, color = Color(0xFFB0B0C0), modifier = Modifier.padding(bottom = 16.dp))
+                Text(label, fontSize = 14.sp, color = PineTextSecondary, modifier = Modifier.padding(bottom = 16.dp))
 
                 NumericKeyboard(
                     value = currentValue,
@@ -245,7 +241,7 @@ fun PasswordRecoveryScreen(onComplete: (success: Boolean) -> Unit) {
                 }
 
                 if (errorMsg.isNotEmpty()) {
-                    Text(errorMsg, fontSize = 14.sp, color = Color(0xFFFF6B6B), modifier = Modifier.padding(top = 16.dp))
+                    Text(errorMsg, fontSize = 14.sp, color = PineError, modifier = Modifier.padding(top = 16.dp))
                 }
             }
         }

@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.sp
 import com.pinecone.pinecone.data.AccountStorage
 import com.pinecone.pinecone.ui.guard.GuardSettingsScaffold
 import com.pinecone.pinecone.network.DevSmsService
+import com.pinecone.pinecone.ui.theme.*
 import kotlinx.coroutines.launch
 
 private data class StepInfo(val index: Int, val title: String, val desc: String)
@@ -72,16 +73,16 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
                 modifier = Modifier
                     .width(200.dp)
                     .fillMaxHeight()
-                    .background(Color(0xFF15152E))
+                    .background(PineSidebar)
                     .padding(vertical = 12.dp)
             ) {
                 REG_STEPS.forEach { s ->
                     val isCurrent = s.index == step
                     val isDone = s.index < step
                     val accentColor = when {
-                        isCurrent -> Color(0xFF4FC3F7)
-                        isDone -> Color(0xFF66BB6A)
-                        else -> Color(0xFF666688)
+                        isCurrent -> PinePrimary
+                        isDone    -> PineSuccess
+                        else      -> PineTextMuted
                     }
 
                     Row(
@@ -89,7 +90,7 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(4.dp))
                             .then(
-                                if (isCurrent) Modifier.background(Color(0xFF3A3A5A))
+                                if (isCurrent) Modifier.background(PineHighlightSolid)
                                 else Modifier
                             )
                             .clickable(enabled = s.index < step) {
@@ -111,12 +112,12 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
                                 text = s.title,
                                 fontSize = 15.sp,
                                 fontWeight = if (isCurrent) FontWeight.Bold else FontWeight.Normal,
-                                color = if (isCurrent || isDone) Color.White else Color(0xFF8888AA)
+                                color = if (isCurrent || isDone) Color.White else PineTextSecondary
                             )
                             Text(
                                 text = s.desc,
                                 fontSize = 12.sp,
-                                color = Color(0xFF8888AA)
+                                color = PineTextSecondary
                             )
                         }
                     }
@@ -124,7 +125,7 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
             }
 
             // Divider
-            VerticalDivider(color = Color(0xFF2A2A4A), thickness = 1.dp)
+            VerticalDivider(color = PineCardBorder, thickness = 1.dp)
 
             // ── Right content area ──
             Column(
@@ -138,7 +139,7 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
                     // ── Step 0: Phone ──
                     0 -> {
                         Text("输入手机号", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                        Text("用于找回密码，保证账号唯一性", fontSize = 13.sp, color = Color(0xFF8888AA),
+                        Text("用于找回密码，保证账号唯一性", fontSize = 13.sp, color = PineTextSecondary,
                             modifier = Modifier.padding(bottom = 16.dp))
 
                         NumericKeyboard(value = phoneNumber, onValueChange = { phoneNumber = it }, maxLength = 11, showDots = false)
@@ -146,7 +147,7 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
                         Spacer(modifier = Modifier.height(12.dp))
 
                         if (errorMsg.isNotEmpty()) {
-                            Text(errorMsg, fontSize = 14.sp, color = Color(0xFFFF6B6B), modifier = Modifier.padding(bottom = 4.dp))
+                            Text(errorMsg, fontSize = 14.sp, color = PineError, modifier = Modifier.padding(bottom = 4.dp))
                         }
 
                         Button(
@@ -159,10 +160,10 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
                                 step = 1
                             },
                             enabled = phoneNumber.length == 11,
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4FC3F7)),
+                            colors = ButtonDefaults.buttonColors(containerColor = PinePrimary),
                             modifier = Modifier.height(48.dp).width(220.dp)
                         ) {
-                            Text("下一步", fontSize = 16.sp, color = Color(0xFF1A1A2E))
+                            Text("下一步", fontSize = 16.sp, color = PineTextOnAccent)
                         }
                     }
 
@@ -172,7 +173,7 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
                         Text("验证码已发送至 ${
                             if (phoneNumber.length == 11) "${phoneNumber.take(3)}****${phoneNumber.takeLast(4)}"
                             else phoneNumber
-                        }", fontSize = 13.sp, color = Color(0xFF8888AA),
+                        }", fontSize = 13.sp, color = PineTextSecondary,
                             modifier = Modifier.padding(top = 4.dp, bottom = 16.dp))
 
                         LaunchedEffect(Unit) {
@@ -188,7 +189,7 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
                             isLoading = false
                         }
 
-                        Text("输入 6 位验证码", fontSize = 13.sp, color = Color(0xFFB0B0C0),
+                        Text("输入 6 位验证码", fontSize = 13.sp, color = PineTextSecondary,
                             modifier = Modifier.padding(bottom = 4.dp))
 
                         NumericKeyboard(value = smsCode, onValueChange = { smsCode = it }, maxLength = 6)
@@ -196,7 +197,7 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
                         Spacer(modifier = Modifier.height(8.dp))
 
                         if (errorMsg.isNotEmpty()) {
-                            Text(errorMsg, fontSize = 14.sp, color = Color(0xFFFF6B6B), modifier = Modifier.padding(bottom = 4.dp))
+                            Text(errorMsg, fontSize = 14.sp, color = PineError, modifier = Modifier.padding(bottom = 4.dp))
                         }
 
                         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -223,15 +224,14 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
                             }
                             Button(
                                 onClick = {
-                                    // Dev mode: auto-pass
                                     errorMsg = ""
                                     step = 2
                                 },
                                 enabled = smsCode.length == 6,
-                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4FC3F7)),
+                                colors = ButtonDefaults.buttonColors(containerColor = PinePrimary),
                                 modifier = Modifier.height(48.dp)
                             ) {
-                                Text("验证", fontSize = 15.sp, color = Color(0xFF1A1A2E))
+                                Text("验证", fontSize = 15.sp, color = PineTextOnAccent)
                             }
                         }
                     }
@@ -239,14 +239,14 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
                     // ── Step 2: Password ──
                     2 -> {
                         Text("设置家长密码", fontSize = 18.sp, fontWeight = FontWeight.Bold, color = Color.White)
-                        Text("6 位数字密码，用于管理防沉迷规则", fontSize = 13.sp, color = Color(0xFF8888AA),
+                        Text("6 位数字密码，用于管理防沉迷规则", fontSize = 13.sp, color = PineTextSecondary,
                             modifier = Modifier.padding(top = 4.dp, bottom = 16.dp))
 
                         val isConfirming = password.length == 6 && password.isNotEmpty()
                         val label = if (isConfirming) "再次输入确认" else "输入 6 位新密码"
                         val currentValue = if (isConfirming) passwordConfirm else password
 
-                        Text(label, fontSize = 13.sp, color = Color(0xFFB0B0C0), modifier = Modifier.padding(bottom = 8.dp))
+                        Text(label, fontSize = 13.sp, color = PineTextSecondary, modifier = Modifier.padding(bottom = 8.dp))
 
                         NumericKeyboard(
                             value = currentValue,
@@ -259,7 +259,7 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
                         Spacer(modifier = Modifier.height(12.dp))
 
                         if (errorMsg.isNotEmpty()) {
-                            Text(errorMsg, fontSize = 14.sp, color = Color(0xFFFF6B6B), modifier = Modifier.padding(bottom = 4.dp))
+                            Text(errorMsg, fontSize = 14.sp, color = PineError, modifier = Modifier.padding(bottom = 4.dp))
                         }
 
                         if (password.length == 6 && passwordConfirm.length == 6) {
@@ -280,12 +280,12 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
 
                     // ── Step 3: Done ──
                     3 -> {
-                        Text("🎉 注册成功", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = Color(0xFF4FC3F7))
-                        Text("请妥善保管以下恢复码", fontSize = 13.sp, color = Color(0xFF8888AA),
+                        Text("注册成功", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = PinePrimary)
+                        Text("请妥善保管以下恢复码", fontSize = 13.sp, color = PineTextSecondary,
                             modifier = Modifier.padding(top = 4.dp, bottom = 16.dp))
 
                         Surface(
-                            color = Color(0xFF1E1E3A),
+                            color = PineElevated,
                             shape = RoundedCornerShape(12.dp),
                             modifier = Modifier.padding(bottom = 12.dp)
                         ) {
@@ -293,7 +293,7 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
                                 text = recoveryCode,
                                 fontSize = 28.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF4FC3F7),
+                                color = PinePrimary,
                                 fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
                                 letterSpacing = 3.sp,
                                 textAlign = TextAlign.Center,
@@ -304,7 +304,7 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
                         Text(
                             text = "忘记密码时，可使用此恢复码重置密码\n请截图保存或抄写记录",
                             fontSize = 12.sp,
-                            color = Color(0xFFFF8A80),
+                            color = PineError.copy(alpha = 0.8f),
                             textAlign = TextAlign.Center,
                             modifier = Modifier.padding(bottom = 24.dp)
                         )
@@ -314,10 +314,10 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
                                 Toast.makeText(context, "账号注册成功", Toast.LENGTH_SHORT).show()
                                 onComplete(true)
                             },
-                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4FC3F7)),
+                            colors = ButtonDefaults.buttonColors(containerColor = PinePrimary),
                             modifier = Modifier.height(48.dp).width(220.dp)
                         ) {
-                            Text("完成", fontSize = 16.sp, color = Color(0xFF1A1A2E))
+                            Text("完成", fontSize = 16.sp, color = PineTextOnAccent)
                         }
                     }
                 }

@@ -45,7 +45,10 @@ class GuardService : Service() {
 
         tickHandler = Handler(Looper.getMainLooper())
         tickRunnable = object : Runnable {
+            private var tickCount = 0
             override fun run() {
+                tickCount++
+                if (tickCount % 4 == 1) android.util.Log.d("GuardService", "tick #$tickCount")
                 engine.tick()
                 tickHandler?.postDelayed(this, 15_000L)
             }
@@ -120,10 +123,17 @@ class GuardService : Service() {
                 putInt("graceSeconds", secondsLeft); putInt("drainRate", creditDraining)
             }))
         }
-        override fun onLockRequired(reason: LockReason) {
-            sendToClient(createMsg(MSG_GET_STATE, Bundle().apply {
+        override fun onLockRequired(reason: LockReason, breakUsageMinutes: Int, breakDurationMinutes: Int) {
+            val bundle = Bundle().apply {
                 putString("lockReason", reason.name)
-            }))
+                if (reason == LockReason.BREAK_REQUIRED) {
+                    val rules = engine.getRules()
+                    val br = rules.breakRule
+                    putInt("breakUsageMinutes", br?.usageMinutes ?: 40)
+                    putInt("breakDurationMinutes", br?.breakMinutes ?: 10)
+                }
+            }
+            sendToClient(createMsg(MSG_GET_STATE, bundle))
         }
         override fun onBreakRequired(durationSeconds: Int) {
             sendToClient(createMsg(MSG_GET_STATE, Bundle().apply {
@@ -184,6 +194,7 @@ class GuardService : Service() {
                 MSG_UPDATE_RULES -> {
                     val json = msg.data.getString("rules") ?: return
                     val rules = parseRulesJson(json) ?: return
+                    android.util.Log.d("GuardService", "IPC UPDATE_RULES received | dailyTotalLimit=${rules.dailyTotalLimit}")
                     engine.updateRules(rules)
                     data.putBoolean("updated", true)
                 }

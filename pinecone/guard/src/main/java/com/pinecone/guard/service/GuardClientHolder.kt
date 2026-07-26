@@ -1,6 +1,9 @@
 package com.pinecone.guard.service
 
 import android.content.Context
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.setValue
 import com.pinecone.guard.data.model.*
 
 /**
@@ -31,6 +34,17 @@ object GuardClientHolder {
     @Volatile
     var isInitialized: Boolean = false
 
+    // Compose-observable version counter — reading this triggers recomposition when rules change
+    var rulesVersion by mutableIntStateOf(0)
+        private set
+
+    // Count of open settings/editor pages — tick pauses accumulation when > 0
+    @Volatile
+    var settingsPageCount: Int = 0
+
+    fun enterSettings() { settingsPageCount++ }
+    fun leaveSettings() { settingsPageCount-- }
+
     fun initialize(context: Context) {
         if (isInitialized) return
         client = GuardClient(context)
@@ -40,6 +54,7 @@ object GuardClientHolder {
 
     fun updateRules(rules: RuleSet) {
         cachedRules = rules
+        rulesVersion++
         client?.sendRules(rules)
     }
 

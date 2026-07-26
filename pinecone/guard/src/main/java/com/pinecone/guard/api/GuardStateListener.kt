@@ -7,7 +7,7 @@ interface GuardStateListener {
     fun onWarningLevel(level: Int, message: String, remainingSeconds: Long)
     fun onGracePeriodStarted(creditRemaining: Int)
     fun onGraceTick(secondsLeft: Int, creditDraining: Int)
-    fun onLockRequired(reason: LockReason)
+    fun onLockRequired(reason: LockReason, breakUsageMinutes: Int = 0, breakDurationMinutes: Int = 0)
     fun onBreakRequired(durationSeconds: Int)
     fun onBreakFinished()
     fun onStateChanged(newState: GuardState)

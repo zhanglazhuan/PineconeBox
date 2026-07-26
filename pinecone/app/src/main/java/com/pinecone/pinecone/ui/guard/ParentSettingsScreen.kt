@@ -25,8 +25,7 @@ import com.pinecone.pinecone.ui.guard.editors.CategoryLimitActivity
 import com.pinecone.pinecone.ui.guard.editors.AppLimitActivity
 import com.pinecone.pinecone.ui.guard.editors.CreditConfigActivity
 import com.pinecone.pinecone.ui.guard.editors.UsageHistoryActivity
-import com.pinecone.pinecone.ui.theme.PineAccent
-import com.pinecone.pinecone.ui.theme.PineSurface
+import com.pinecone.pinecone.ui.theme.*
 
 @Composable
 fun ParentSettingsScreen(onBack: () -> Unit) {
@@ -35,34 +34,34 @@ fun ParentSettingsScreen(onBack: () -> Unit) {
 
     val items = remember {
         listOf(
-            SettingsItem("⏱️ 每日总时长", "2 小时 30 分") {
+            SettingsItem("每日总时长", "2 小时 30 分") {
                 context.startActivity(Intent(context, DailyLimitActivity::class.java))
             },
-            SettingsItem("🔄 强制休息间隔", "每 40 分 休 10 分") {
+            SettingsItem("强制休息间隔", "每 40 分 休 10 分") {
                 context.startActivity(Intent(context, BreakRuleActivity::class.java))
             },
-            SettingsItem("📅 可用时段", "周一至周五 16:00-21:00") {
+            SettingsItem("可用时段", "周一至周五 16:00-21:00") {
                 context.startActivity(Intent(context, TimeWindowActivity::class.java))
             },
-            SettingsItem("📂 内容分类限制", "") {
+            SettingsItem("内容分类限制", "") {
                 context.startActivity(Intent(context, CategoryLimitActivity::class.java))
             },
-            SettingsItem("📱 App 单独限制", "") {
+            SettingsItem("App 单独限制", "") {
                 context.startActivity(Intent(context, AppLimitActivity::class.java))
             },
-            SettingsItem("⭐ 信用积分", "100分 / 每周一重置") {
+            SettingsItem("信用积分", "100分 / 每周一重置") {
                 context.startActivity(Intent(context, CreditConfigActivity::class.java))
             },
-            SettingsItem("📊 使用统计", "") {
+            SettingsItem("使用统计", "") {
                 context.startActivity(Intent(context, UsageHistoryActivity::class.java))
             },
-            SettingsItem("🔑 修改 PIN", "") {
+            SettingsItem("修改 PIN", "") {
                 context.startActivity(Intent(context, PinSetupActivity::class.java))
             },
-            SettingsItem("🆕 检查更新", "检查并安装新版本桌面") {
+            SettingsItem("检查更新", "检查并安装新版本桌面") {
                 context.startActivity(Intent(context, UpdateActivity::class.java))
             },
-            SettingsItem("⏸️ 暂停防沉迷（今天不限制）", "") {
+            SettingsItem("暂停防沉迷（今天不限制）", "") {
                 showPauseDialog = true
             }
         )
@@ -90,11 +89,11 @@ fun ParentSettingsScreen(onBack: () -> Unit) {
                             Text(
                                 text = item.subtitle,
                                 fontSize = 14.sp,
-                                color = Color(0xFFB0B0C0)
+                                color = PineTextSecondary
                             )
                         }
                     }
-                    Text("›", fontSize = 24.sp, color = Color(0xFF888888))
+                    Text("›", fontSize = 24.sp, color = PineTextMuted)
                 }
             }
         }

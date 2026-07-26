@@ -15,7 +15,10 @@ data class RuleResult(
     val blockedAppMessage: String? = null,
     val categoryBlocked: Set<String> = emptySet(),
     val isBreakDue: Boolean = false,
-    val graceSecondsAvailable: Long = 0
+    val breakUsageMinutes: Int = 0,
+    val breakDurationMinutes: Int = 0,
+    val graceSecondsAvailable: Long = 0,
+    val isPreLockWarning: Boolean = false  // 3-min/1-min pre-lock warnings
 ) {
     companion object {
         val ALLOWED = RuleResult()
@@ -48,7 +51,13 @@ class RuleEngine {
         if (breakRule != null) {
             val continuousMin = snapshot.continuousSeconds / 60
             if (continuousMin >= breakRule.usageMinutes) {
-                return RuleResult(isBreakDue = true)
+                return RuleResult(
+                    isBreakDue = true,
+                    shouldLock = true,
+                    lockReason = LockReason.BREAK_REQUIRED,
+                    breakUsageMinutes = breakRule.usageMinutes,
+                    breakDurationMinutes = breakRule.breakMinutes
+                )
             }
         }
 
@@ -89,12 +98,9 @@ class RuleEngine {
             return when {
                 remaining <= 0 -> {
                     if (creditBalance > 0) {
-                        val graceSecs = (creditBalance / rules.creditConfig.overtimeCostPerMin) * 60L
                         RuleResult(
-                            shouldWarn = true,
-                            warnMessage = "今天的屏幕时间已用完",
-                            remainingSeconds = 0,
-                            graceSecondsAvailable = graceSecs
+                            shouldLock = true,
+                            lockReason = LockReason.DAILY_LIMIT_REACHED
                         )
                     } else {
                         RuleResult(
@@ -105,15 +111,11 @@ class RuleEngine {
                 }
                 remaining <= 60 -> RuleResult(
                     shouldWarn = true, warnMessage = "今天还剩 60 秒",
-                    remainingSeconds = remaining
+                    remainingSeconds = remaining, isPreLockWarning = true
                 )
                 remaining <= 300 -> RuleResult(
                     shouldWarn = true, warnMessage = "今天还剩 5 分钟",
-                    remainingSeconds = remaining
-                )
-                remaining <= 900 -> RuleResult(
-                    shouldWarn = true, warnMessage = "今天学习时间还剩 15 分钟",
-                    remainingSeconds = remaining
+                    remainingSeconds = remaining, isPreLockWarning = true
                 )
                 else -> RuleResult.ALLOWED
             }

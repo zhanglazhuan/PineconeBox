@@ -19,6 +19,8 @@ android {
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.security.crypto)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation("androidx.compose.runtime:runtime")
     testImplementation(libs.kotlin.test)
     testImplementation(libs.junit)
 }

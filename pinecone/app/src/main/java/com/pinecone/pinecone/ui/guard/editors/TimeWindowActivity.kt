@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,8 +19,7 @@ import androidx.compose.ui.unit.sp
 import com.pinecone.guard.data.model.TimeWindow
 import com.pinecone.guard.service.GuardClientHolder
 import com.pinecone.pinecone.ui.guard.GuardSettingsScaffold
-import com.pinecone.pinecone.ui.theme.PineSurface
-import com.pinecone.pinecone.ui.theme.PineconeTheme
+import com.pinecone.pinecone.ui.theme.*
 
 class TimeWindowActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +35,19 @@ class TimeWindowActivity : ComponentActivity() {
 }
 
 private fun fmt(h: Int, m: Int) = "%02d:%02d".format(h, m)
+
+// Mode presets for quick selection
+private data class TimePreset(
+    val label: String,
+    val wdStartH: Int, val wdStartM: Int, val wdEndH: Int, val wdEndM: Int,
+    val weStartH: Int, val weStartM: Int, val weEndH: Int, val weEndM: Int
+)
+
+private val timePresets = listOf(
+    TimePreset("上学", 16, 0, 21, 0, 8, 0, 21, 0),
+    TimePreset("假期",  8, 0, 21, 0, 8, 0, 21, 0),
+    TimePreset("严格", 18, 0, 20, 0, 10, 0, 17, 0)
+)
 
 @Composable
 private fun TimeWindowEditor() {
@@ -61,22 +73,31 @@ private fun TimeWindowEditor() {
         GuardClientHolder.updateTimeWindows(windows)
     }
 
+    fun matches(p: TimePreset): Boolean =
+        wdStartH == p.wdStartH && wdStartM == p.wdStartM &&
+        wdEndH == p.wdEndH && wdEndM == p.wdEndM &&
+        weStartH == p.weStartH && weStartM == p.weStartM &&
+        weEndH == p.weEndH && weEndM == p.weEndM
+
     Column(modifier = Modifier.fillMaxWidth()) {
         // Quick modes
-        Text("快速模式:", fontSize = 18.sp, color = Color.Gray)
+        Text("快速模式:", fontSize = 18.sp, color = Color.Gray,
+            modifier = Modifier.padding(bottom = 8.dp))
+
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = {
-                wdStartH = 16; wdStartM = 0; wdEndH = 21; wdEndM = 0
-                weStartH = 8; weStartM = 0; weEndH = 21; weEndM = 0; save()
-            }) { Text("上学") }
-            Button(onClick = {
-                wdStartH = 8; wdStartM = 0; wdEndH = 21; wdEndM = 0
-                weStartH = 8; weStartM = 0; weEndH = 21; weEndM = 0; save()
-            }) { Text("假期") }
-            Button(onClick = {
-                wdStartH = 18; wdStartM = 0; wdEndH = 20; wdEndM = 0
-                weStartH = 10; weStartM = 0; weEndH = 17; weEndM = 0; save()
-            }) { Text("严格") }
+            timePresets.forEach { preset ->
+                PineChipButton(
+                    label = preset.label,
+                    selected = matches(preset),
+                    onClick = {
+                        wdStartH = preset.wdStartH; wdStartM = preset.wdStartM
+                        wdEndH = preset.wdEndH; wdEndM = preset.wdEndM
+                        weStartH = preset.weStartH; weStartM = preset.weStartM
+                        weEndH = preset.weEndH; weEndM = preset.weEndM
+                        save()
+                    }
+                )
+            }
         }
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -148,26 +169,22 @@ private fun TimeStepper(
     valueH: Int, valueM: Int,
     onChange: (Int, Int) -> Unit
 ) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Button(
-            onClick = {
-                val total = (valueH * 60 + valueM + 30) % 1440
-                onChange(total / 60, total % 60)
-            },
-            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
-            modifier = Modifier.height(32.dp)
-        ) { Text("▲", fontSize = 14.sp) }
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        PineStepperButton("▲") {
+            val total = (valueH * 60 + valueM + 30) % 1440
+            onChange(total / 60, total % 60)
+        }
 
         Text(fmt(valueH, valueM), fontSize = 22.sp,
-            color = Color(0xFFFFFF00), fontWeight = FontWeight.Medium)
+            color = PineWarning, fontWeight = FontWeight.Medium,
+            modifier = Modifier.padding(vertical = 4.dp))
 
-        Button(
-            onClick = {
-                val total = (valueH * 60 + valueM - 30 + 1440) % 1440
-                onChange(total / 60, total % 60)
-            },
-            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp),
-            modifier = Modifier.height(32.dp)
-        ) { Text("▼", fontSize = 14.sp) }
+        PineStepperButton("▼") {
+            val total = (valueH * 60 + valueM - 30 + 1440) % 1440
+            onChange(total / 60, total % 60)
+        }
     }
 }

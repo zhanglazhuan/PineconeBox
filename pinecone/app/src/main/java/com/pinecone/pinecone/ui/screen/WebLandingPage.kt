@@ -8,20 +8,28 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pinecone.pinecone.data.CourseItem
 import com.pinecone.pinecone.data.ResourceData
-import com.pinecone.pinecone.ui.theme.PineAccent
-import com.pinecone.pinecone.ui.theme.PineSurface
+import com.pinecone.pinecone.log.*
+import com.pinecone.pinecone.ui.theme.*
 
 private const val CARDS_PER_ROW_LP = 4
 private const val CARD_SPACING_LP = 16
 private const val CONTENT_PADDING_LP = 32
 
+/**
+ * Apple-style landing page for the Web tab.
+ * - Search bar with focus animation
+ * - Staggered fade-in sections
+ * - Clean typography, no emoji labels
+ */
 @Composable
 fun WebLandingPage(
     recentlyBrowsed: List<CourseItem>,
@@ -30,15 +38,18 @@ fun WebLandingPage(
 ) {
     val scrollState = rememberScrollState()
     val screenWidthDp = LocalConfiguration.current.screenWidthDp
-    // Content area width = screen - sidebar(220) - divider(1) - padding(32*2)
     val contentWidthDp = screenWidthDp - 220 - 1 - CONTENT_PADDING_LP * 2
     val cardWidthDp = (contentWidthDp - CARD_SPACING_LP * (CARDS_PER_ROW_LP - 1)) / CARDS_PER_ROW_LP
 
     val recommended = remember {
         ResourceData.allWebCategories
             .flatMap { it.items }
+            .shuffled()
             .take(10)
     }
+
+    var isVisible by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { isVisible = true }
 
     Column(
         modifier = modifier
@@ -51,23 +62,36 @@ fun WebLandingPage(
         // ═══════════════════════════════════
         var searchText by remember { mutableStateOf("") }
 
+        // Log search events (debounced: only log when ≥2 chars)
+        LaunchedEffect(searchText) {
+            if (searchText.length >= 2) {
+                try {
+                    PineconeLogger.log(SearchEvent(
+                        System.currentTimeMillis(),
+                        PineconeLogger.getSession()?.sessionId ?: "",
+                        0, "网站"
+                    ))
+                } catch (_: Exception) {}
+            }
+        }
+
         OutlinedTextField(
             value = searchText,
             onValueChange = { searchText = it },
             placeholder = {
-                Text("搜索学习资源…", color = Color(0xFF888888))
+                Text("搜索学习资源…", color = PineTextMuted)
             },
             singleLine = true,
             colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = Color.White,
-                unfocusedTextColor = Color.White,
-                cursorColor = PineAccent,
-                focusedBorderColor = PineAccent,
-                unfocusedBorderColor = Color(0xFF3A3A5A),
+                focusedTextColor = PineTextPrimary,
+                unfocusedTextColor = PineTextPrimary,
+                cursorColor = PinePrimary,
+                focusedBorderColor = PinePrimary,
+                unfocusedBorderColor = PineGlassBorder,
                 focusedContainerColor = PineSurface,
                 unfocusedContainerColor = PineSurface
             ),
-            shape = RoundedCornerShape(12.dp),
+            shape = RoundedCornerShape(14.dp),
             modifier = Modifier
                 .fillMaxWidth(0.6f)
                 .padding(bottom = 48.dp)
@@ -77,19 +101,18 @@ fun WebLandingPage(
         //  Recently Browsed
         // ═══════════════════════════════════
         if (recentlyBrowsed.isNotEmpty()) {
-            Text(
-                text = "🕐 最近浏览",
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 16.dp)
+            SectionHeader(
+                title = "最近浏览",
+                alpha = rememberStaggerAlpha(0, isVisible)
             )
+
+            Spacer(modifier = Modifier.height(16.dp))
 
             CardRow(
                 items = recentlyBrowsed.take(10),
                 cardWidthDp = cardWidthDp,
+                startIndex = 1,
+                isVisible = isVisible,
                 onItemClick = onItemClick
             )
 
@@ -99,19 +122,18 @@ fun WebLandingPage(
         // ═══════════════════════════════════
         //  Recommended
         // ═══════════════════════════════════
-        Text(
-            text = "✨ 为你推荐",
-            fontSize = 22.sp,
-            fontWeight = FontWeight.Bold,
-            color = Color.White,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
+        SectionHeader(
+            title = "为你推荐",
+            alpha = rememberStaggerAlpha(if (recentlyBrowsed.isNotEmpty()) 1 else 0, isVisible)
         )
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         CardRow(
             items = recommended.take(10),
             cardWidthDp = cardWidthDp,
+            startIndex = if (recentlyBrowsed.isNotEmpty()) 2 else 1,
+            isVisible = isVisible,
             onItemClick = onItemClick
         )
 
@@ -120,9 +142,23 @@ fun WebLandingPage(
 }
 
 @Composable
+private fun SectionHeader(title: String, alpha: Float) {
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = title,
+            fontSize = 28.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = PineTextPrimary.copy(alpha = alpha)
+        )
+    }
+}
+
+@Composable
 private fun CardRow(
     items: List<CourseItem>,
     cardWidthDp: Int,
+    startIndex: Int,
+    isVisible: Boolean,
     onItemClick: (CourseItem) -> Unit
 ) {
     FlowRow(
@@ -130,13 +166,16 @@ private fun CardRow(
         horizontalArrangement = Arrangement.spacedBy(CARD_SPACING_LP.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        items.forEach { item ->
-            ResourceCard(
-                item = item,
-                isHighlighted = false,
-                cardWidth = cardWidthDp.dp,
-                onClick = { onItemClick(item) }
-            )
+        items.forEachIndexed { idx, item ->
+            val staggerAlpha = rememberStaggerAlpha(startIndex + idx, isVisible)
+            Box(modifier = Modifier.graphicsLayer { alpha = staggerAlpha }) {
+                ResourceCard(
+                    item = item,
+                    isHighlighted = false,
+                    cardWidth = cardWidthDp.dp,
+                    onClick = { onItemClick(item) }
+                )
+            }
         }
     }
 }

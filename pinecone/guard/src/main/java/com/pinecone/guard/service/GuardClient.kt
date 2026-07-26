@@ -63,6 +63,7 @@ class GuardClient(private val context: Context) {
 
     fun sendRules(rules: com.pinecone.guard.data.model.RuleSet) {
         val json = rulesToJson(rules)
+        android.util.Log.d("GuardClient", "sendRules | dailyTotalLimit=${rules.dailyTotalLimit} | bound=$bound | messenger=${serviceMessenger != null}")
         sendAsync(MSG_UPDATE_RULES, Bundle().apply { putString("rules", json) })
     }
 
@@ -116,7 +117,9 @@ class GuardClient(private val context: Context) {
                 MSG_GET_STATE -> {
                     data.getString("lockReason")?.let {
                         val reason = com.pinecone.guard.data.model.LockReason.valueOf(it)
-                        listener?.onLockRequired(reason)
+                        val bu = data.getInt("breakUsageMinutes", 0)
+                        val bd = data.getInt("breakDurationMinutes", 0)
+                        listener?.onLockRequired(reason, bu, bd)
                     }
                     data.getString("warning")?.let {
                         listener?.onWarningLevel(data.getInt("level", 1), it,

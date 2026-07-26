@@ -16,10 +16,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pinecone.pinecone.data.CourseItem
 import com.pinecone.pinecone.data.TabData
+import com.pinecone.pinecone.ui.theme.PineTextPrimary
+import com.pinecone.pinecone.ui.theme.rememberStaggerAlpha
 
 private const val CARDS_PER_ROW = 4
-private const val CARD_SPACING = 16   // dp
-private const val CONTENT_PADDING = 16 // dp (LazyColumn padding)
+private const val CARD_SPACING = 16
+private const val CONTENT_PADDING = 16
 
 @Composable
 fun ContentGrid(
@@ -31,9 +33,12 @@ fun ContentGrid(
 ) {
     val listState = rememberLazyListState()
     val screenWidthDp = LocalConfiguration.current.screenWidthDp
-    // Available content area: screen - sidebar(220) - divider(1) - padding(32)
     val contentWidthDp = screenWidthDp - 220 - 1 - 32
     val cardWidthDp = (contentWidthDp - CARD_SPACING * (CARDS_PER_ROW - 1)) / CARDS_PER_ROW
+
+    // Stagger animation trigger
+    var isVisible by remember { mutableStateOf(false) }
+    LaunchedEffect(Unit) { isVisible = true }
 
     LaunchedEffect(scrollToCategory) {
         if (scrollToCategory >= 0) {
@@ -49,12 +54,16 @@ fun ContentGrid(
     ) {
         tab.categories.forEachIndexed { catIndex, cat ->
             item(key = "title_$catIndex") {
+                val alpha = rememberStaggerAlpha(catIndex, isVisible)
                 Text(
                     text = cat.name,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = Color.White,
-                    modifier = Modifier.padding(top = if (catIndex > 0) 8.dp else 0.dp, bottom = 12.dp)
+                    fontSize = 26.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = PineTextPrimary.copy(alpha = alpha),
+                    modifier = Modifier.padding(
+                        top = if (catIndex > 0) 8.dp else 0.dp,
+                        bottom = 12.dp
+                    )
                 )
             }
 
@@ -68,7 +77,7 @@ fun ContentGrid(
                         .heightIn(max = 400.dp),
                     userScrollEnabled = false
                 ) {
-                    itemsIndexed(cat.items) { _, item ->
+                    itemsIndexed(cat.items) { idx, item ->
                         ResourceCard(
                             item = item,
                             isHighlighted = false,

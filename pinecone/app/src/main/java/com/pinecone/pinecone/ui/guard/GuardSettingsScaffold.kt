@@ -3,7 +3,7 @@ package com.pinecone.pinecone.ui.guard
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -11,8 +11,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pinecone.pinecone.ui.theme.PineAccent
-import com.pinecone.pinecone.ui.theme.PineBackground
+import com.pinecone.guard.service.GuardClientHolder
+import com.pinecone.pinecone.ui.theme.*
 
 @Composable
 fun GuardSettingsScaffold(
@@ -20,6 +20,12 @@ fun GuardSettingsScaffold(
     onBack: () -> Unit,
     content: @Composable () -> Unit
 ) {
+    // Pause guard tick accumulation while on settings/editor pages
+    DisposableEffect(Unit) {
+        GuardClientHolder.enterSettings()
+        onDispose { GuardClientHolder.leaveSettings() }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -33,9 +39,10 @@ fun GuardSettingsScaffold(
                 .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            TextButton(onClick = onBack) {
-                Text("← 返回", fontSize = 18.sp, color = Color.White)
-            }
+            PineGhostButton(
+                label = "← 返回",
+                onClick = onBack
+            )
             Text(
                 text = title,
                 fontSize = 24.sp,
@@ -44,11 +51,10 @@ fun GuardSettingsScaffold(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.weight(1f)
             )
-            // Spacer to balance the back button
             Spacer(modifier = Modifier.width(80.dp))
         }
 
-        HorizontalDivider(color = Color(0xFF2A2A4A), thickness = 1.dp)
+        HorizontalDivider(color = PineCardBorder, thickness = 1.dp)
 
         // Content area
         Box(

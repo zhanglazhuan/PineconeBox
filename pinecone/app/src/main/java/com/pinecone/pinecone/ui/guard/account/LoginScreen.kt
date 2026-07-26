@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pinecone.pinecone.data.AccountStorage
 import com.pinecone.pinecone.data.AuthResult
+import com.pinecone.pinecone.ui.theme.*
 import kotlinx.coroutines.delay
 
 @Composable
@@ -21,7 +22,6 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
     val context = LocalContext.current
     val storage = remember { AccountStorage.getInstance(context) }
 
-    // If not registered, go to register
     if (!storage.isRegistered) {
         context.startActivity(Intent(context, RegisterActivity::class.java))
         onLoginSuccess()
@@ -34,7 +34,6 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
     var lockoutRemaining by remember { mutableLongStateOf(0L) }
     var remainingAttempts by remember { mutableIntStateOf(MAX_ATTEMPTS) }
 
-    // Check initial lockout state
     LaunchedEffect(Unit) {
         val remaining = storage.getLockoutRemaining()
         if (remaining > 0) {
@@ -43,7 +42,6 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
         }
     }
 
-    // Countdown timer for lockout
     LaunchedEffect(isLockedOut) {
         if (isLockedOut && lockoutRemaining > 0) {
             while (lockoutRemaining > 0) {
@@ -74,12 +72,11 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
         Text(
             "账号: ${storage.maskedPhone}",
             fontSize = 13.sp,
-            color = Color(0xFF8888AA),
+            color = PineTextSecondary,
             modifier = Modifier.padding(bottom = 12.dp)
         )
 
         if (isLockedOut) {
-            // Lockout state
             Text(
                 "🔒",
                 fontSize = 56.sp,
@@ -89,30 +86,29 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                 "已锁定",
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFFFF6B6B),
+                color = PineError,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
             Text(
                 "连续 3 次密码错误",
                 fontSize = 14.sp,
-                color = Color(0xFF8888AA),
+                color = PineTextSecondary,
                 modifier = Modifier.padding(bottom = 4.dp)
             )
             Text(
                 formatLockoutTime(lockoutRemaining),
                 fontSize = 36.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color(0xFF4FC3F7),
+                color = PinePrimary,
                 fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
                 modifier = Modifier.padding(bottom = 32.dp)
             )
         } else {
-            // Password input
             Text(
                 if (remainingAttempts < MAX_ATTEMPTS) "密码错误，还剩 ${remainingAttempts} 次机会"
                 else "6 位数字密码",
                 fontSize = 14.sp,
-                color = if (remainingAttempts < MAX_ATTEMPTS) Color(0xFFFF6B6B) else Color(0xFFB0B0C0),
+                color = if (remainingAttempts < MAX_ATTEMPTS) PineError else PineTextSecondary,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
 
@@ -122,7 +118,6 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
                 maxLength = 6
             )
 
-            // Auto-verify when 6 digits entered
             LaunchedEffect(password) {
                 if (password.length == 6) {
                     val result = storage.verifyPassword(password)
@@ -153,18 +148,17 @@ fun LoginScreen(onLoginSuccess: () -> Unit) {
         Spacer(modifier = Modifier.height(8.dp))
 
         if (errorMsg.isNotEmpty()) {
-            Text(errorMsg, fontSize = 14.sp, color = Color(0xFFFF6B6B))
+            Text(errorMsg, fontSize = 14.sp, color = PineError)
         }
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // Forgot password button — always visible
         TextButton(
             onClick = {
                 context.startActivity(Intent(context, PasswordRecoveryActivity::class.java))
             }
         ) {
-            Text("忘记密码？", fontSize = 15.sp, color = Color(0xFF4FC3F7))
+            Text("忘记密码？", fontSize = 15.sp, color = PinePrimary)
         }
     }
 }

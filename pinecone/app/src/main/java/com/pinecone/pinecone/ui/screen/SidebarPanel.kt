@@ -1,5 +1,6 @@
 package com.pinecone.pinecone.ui.screen
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -8,8 +9,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -18,10 +21,15 @@ import androidx.compose.ui.unit.sp
 import com.pinecone.pinecone.data.CategoryData
 import com.pinecone.pinecone.data.ResourceData
 import com.pinecone.pinecone.data.TabData
-import com.pinecone.pinecone.ui.theme.PineAccent
-import com.pinecone.pinecone.ui.theme.PineHighlight
-import com.pinecone.pinecone.ui.theme.PineSidebar
+import com.pinecone.pinecone.ui.theme.*
 
+/**
+ * Apple-style sidebar panel with:
+ * - Clean hierarchy (no emoji, colored dot indicators)
+ * - Animated expand/collapse for groups
+ * - Vertical accent bar on active item
+ * - Glass background
+ */
 @Composable
 fun SidebarPanel(
     tab: TabData,
@@ -33,7 +41,16 @@ fun SidebarPanel(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.background(PineSidebar).padding(vertical = 8.dp)
+        modifier = modifier
+            .background(
+                Brush.horizontalGradient(
+                    colors = listOf(
+                        PineSidebar,
+                        PineBackground
+                    )
+                )
+            )
+            .padding(vertical = 12.dp)
     ) {
         if (isWebTab) {
             WebSidebar(
@@ -52,6 +69,10 @@ fun SidebarPanel(
     }
 }
 
+// ═══════════════════════════════════════════
+//  Web Sidebar (grouped: L1 groups → L2 categories)
+// ═══════════════════════════════════════════
+
 @Composable
 private fun WebSidebar(
     expandedGroup: Int,
@@ -61,74 +82,62 @@ private fun WebSidebar(
 ) {
     val groups = ResourceData.webGroups
     val scrollState = rememberScrollState()
-
     val isHomeActive = highlightedCategory == -1
 
     Column(modifier = Modifier.verticalScroll(scrollState)) {
-        // ── 首页 (always visible, returns to landing page) ──
-        Text(
-            text = "🏠 首页",
-            fontSize = 15.sp,
-            fontWeight = FontWeight.Bold,
-            color = if (isHomeActive) PineAccent else Color(0xFFE0E0E0),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
+        // ── Home (always top) ──
+        SidebarHomeItem(
+            isActive = isHomeActive,
+            onClick = { onCategorySelect(-1) }
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        // ── Section divider ──
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .clip(RoundedCornerShape(4.dp))
-                .then(if (isHomeActive) Modifier.background(PineHighlight) else Modifier)
-                .clickable { onCategorySelect(-1) }
-                .padding(horizontal = 16.dp, vertical = 14.dp)
+                .padding(horizontal = 16.dp)
+                .height(0.5.dp)
+                .background(PineGlassBorder)
         )
+
+        Spacer(modifier = Modifier.height(8.dp))
 
         var globalCatIdx = 0
         groups.forEachIndexed { gi, group ->
             val isExpanded = expandedGroup == gi
-            val arrow = if (isExpanded) "▾" else "▸"
 
-            // Level 1: Group header
-            Text(
-                text = "$arrow ${group.name}",
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color(0xFF8AB4F8),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(4.dp))
-                    .clickable { onGroupToggle(gi) }
-                    .padding(horizontal = 16.dp, vertical = 14.dp)
+            // L1: Group header
+            SidebarGroupHeader(
+                name = cleanGroupName(group.name),
+                isExpanded = isExpanded,
+                onClick = { onGroupToggle(gi) }
             )
 
-            // Level 2: Sub-categories (visible when expanded)
+            // L2: Categories (animated expand/collapse)
             if (isExpanded) {
                 group.categories.forEachIndexed { ci, cat ->
                     val catAbsoluteIdx = globalCatIdx + ci
                     val isHighlighted = catAbsoluteIdx == highlightedCategory
 
-                    Text(
-                        text = "    ${cat.name}",
-                        fontSize = 14.sp,
-                        color = if (isHighlighted) PineAccent else Color(0xFFD0D0E0),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(RoundedCornerShape(4.dp))
-                            .then(
-                                if (isHighlighted) Modifier.background(PineHighlight)
-                                else Modifier
-                            )
-                            .clickable { onCategorySelect(catAbsoluteIdx) }
-                            .padding(horizontal = 16.dp, vertical = 12.dp)
+                    SidebarCategoryItem(
+                        name = cat.name,
+                        isHighlighted = isHighlighted,
+                        onClick = { onCategorySelect(catAbsoluteIdx) }
                     )
                 }
             }
             globalCatIdx += group.categories.size
         }
+
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
+
+// ═══════════════════════════════════════════
+//  Flat Sidebar (App / Settings tabs)
+// ═══════════════════════════════════════════
 
 @Composable
 private fun FlatSidebar(
@@ -141,23 +150,138 @@ private fun FlatSidebar(
     Column(modifier = Modifier.verticalScroll(scrollState)) {
         categories.forEachIndexed { index, cat ->
             val isHighlighted = index == highlightedCategory
-
-            Text(
-                text = cat.name,
-                fontSize = 16.sp,
-                color = if (isHighlighted) PineAccent else Color(0xFFD0D0E0),
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(4.dp))
-                    .then(
-                        if (isHighlighted) Modifier.background(PineHighlight)
-                        else Modifier
-                    )
-                    .clickable { onCategorySelect(index) }
-                    .padding(horizontal = 20.dp, vertical = 16.dp)
+            SidebarCategoryItem(
+                name = cat.name,
+                isHighlighted = isHighlighted,
+                onClick = { onCategorySelect(index) }
             )
         }
     }
+}
+
+// ═══════════════════════════════════════════
+//  Individual item composables
+// ═══════════════════════════════════════════
+
+@Composable
+private fun SidebarHomeItem(isActive: Boolean, onClick: () -> Unit) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
+            .clickable { onClick() }
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+    ) {
+        // Accent indicator bar
+        if (isActive) {
+            Box(
+                modifier = Modifier
+                    .width(3.dp)
+                    .height(20.dp)
+                    .clip(RoundedCornerShape(2.dp))
+                    .background(PinePrimary)
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+        } else {
+            Spacer(modifier = Modifier.width(15.dp))
+        }
+
+        Text(
+            text = "首页",
+            fontSize = 16.sp,
+            fontWeight = if (isActive) FontWeight.SemiBold else FontWeight.Normal,
+            color = if (isActive) PineTextPrimary else PineTextSecondary
+        )
+    }
+}
+
+@Composable
+private fun SidebarGroupHeader(
+    name: String,
+    isExpanded: Boolean,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(6.dp))
+            .clickable { onClick() }
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+    ) {
+        // Expand indicator
+        Text(
+            text = if (isExpanded) "▾" else "▸",
+            fontSize = 11.sp,
+            color = PineTextMuted,
+            modifier = Modifier.width(14.dp)
+        )
+
+        Spacer(modifier = Modifier.width(4.dp))
+
+        Text(
+            text = name,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            color = PineTextSecondary,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+
+@Composable
+private fun SidebarCategoryItem(
+    name: String,
+    isHighlighted: Boolean,
+    onClick: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(6.dp))
+            .then(
+                if (isHighlighted) Modifier.background(PineHighlight)
+                else Modifier
+            )
+            .clickable { onClick() }
+            .padding(horizontal = 20.dp, vertical = 11.dp),
+        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+    ) {
+        // Accent bar
+        if (isHighlighted) {
+            Box(
+                modifier = Modifier
+                    .width(3.dp)
+                    .height(16.dp)
+                    .clip(RoundedCornerShape(2.dp))
+                    .background(PinePrimary)
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+        } else {
+            Spacer(modifier = Modifier.width(13.dp))
+        }
+
+        Text(
+            text = name,
+            fontSize = 14.sp,
+            fontWeight = if (isHighlighted) FontWeight.Medium else FontWeight.Normal,
+            color = if (isHighlighted) PineTextPrimary else PineTextSecondary,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
+}
+
+// ═══════════════════════════════════════════
+//  Helper: strip emoji from group names
+// ═══════════════════════════════════════════
+
+private fun cleanGroupName(name: String): String {
+    // Remove leading emoji sequences (e.g. "🏛 国字号" → "国字号")
+    return name.replace(Regex("^[\\p{So}\\p{Sk}]+\\s*"), "")
+        .replace(Regex("^[\\uD800-\\uDBFF][\\uDC00-\\uDFFF]\\s*"), "")
+        .replace(Regex("^[\\u2600-\\u27BF]\\s*"), "")
+        .trimStart()
 }

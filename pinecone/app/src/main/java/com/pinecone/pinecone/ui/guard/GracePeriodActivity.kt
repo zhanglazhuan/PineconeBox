@@ -14,7 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pinecone.pinecone.ui.theme.PineconeTheme
+import com.pinecone.pinecone.ui.theme.*
 import kotlinx.coroutines.delay
 
 class GracePeriodActivity : ComponentActivity() {
@@ -51,7 +51,7 @@ private fun GracePeriodScreen(creditBalance: Int, onFinish: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xE61A1A2E)),
+            .background(PineBackground.copy(alpha = 0.9f)),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -60,7 +60,7 @@ private fun GracePeriodScreen(creditBalance: Int, onFinish: () -> Unit) {
                 color = Color.White, modifier = Modifier.padding(vertical = 16.dp))
             Text(
                 text = "信用积分: $creditBalance\n可继续使用 5 分钟\n（将扣除 ${5 * 5} 积分）",
-                fontSize = 24.sp, color = Color(0xFFAAAAAA),
+                fontSize = 24.sp, color = PineTextSecondary,
                 textAlign = TextAlign.Center, modifier = Modifier.padding(bottom = 32.dp)
             )
 

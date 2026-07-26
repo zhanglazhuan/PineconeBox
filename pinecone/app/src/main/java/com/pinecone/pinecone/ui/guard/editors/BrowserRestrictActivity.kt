@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pinecone.pinecone.ui.guard.GuardSettingsScaffold
-import com.pinecone.pinecone.ui.theme.PineconeTheme
+import com.pinecone.pinecone.ui.theme.*
 
 /** Stored in app-level SharedPreferences, not guard data. */
 object BrowserPrefs {
@@ -62,7 +62,7 @@ private fun BrowserRestrictEditor() {
         Text(
             text = if (allow) "开启：用户可以输入任意网址浏览" else "关闭：只能访问学习白名单中的网站",
             fontSize = 14.sp,
-            color = Color(0xFFB0B0C0),
+            color = PineTextSecondary,
             modifier = Modifier.padding(top = 8.dp, bottom = 24.dp)
         )
 
@@ -79,7 +79,7 @@ private fun BrowserRestrictEditor() {
         Text(
             text = "⚠️ 关闭时，浏览器内点击外部链接会被拦截，无法跳转到非学习网站。",
             fontSize = 14.sp,
-            color = Color(0xFF8888AA)
+            color = PineTextSecondary
         )
     }
 }

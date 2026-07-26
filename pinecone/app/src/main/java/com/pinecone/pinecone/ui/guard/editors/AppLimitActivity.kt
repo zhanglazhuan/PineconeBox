@@ -25,8 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.pinecone.guard.data.model.AppLimit
 import com.pinecone.guard.service.GuardClientHolder
 import com.pinecone.pinecone.ui.guard.GuardSettingsScaffold
-import com.pinecone.pinecone.ui.theme.PineAccent
-import com.pinecone.pinecone.ui.theme.PineconeTheme
+import com.pinecone.pinecone.ui.theme.*
 
 class AppLimitActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,7 +81,7 @@ private fun AppLimitEditor() {
         } else {
             LazyColumn(modifier = Modifier.heightIn(max = 200.dp)) {
                 items(allApps.filter { it.pkg in selected }) { app ->
-                    Text("• ${app.label}", fontSize = 16.sp, color = Color(0xFFB0B0C0),
+                    Text("• ${app.label}", fontSize = 16.sp, color = PineTextSecondary,
                         modifier = Modifier.padding(vertical = 4.dp))
                 }
             }

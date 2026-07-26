@@ -27,50 +27,78 @@ import com.pinecone.pinecone.ui.guard.editors.CreditConfigActivity
 import com.pinecone.pinecone.ui.guard.editors.UsageHistoryActivity
 import com.pinecone.pinecone.ui.guard.PinSetupActivity
 import com.pinecone.pinecone.ui.guard.UpdateActivity
+import com.pinecone.pinecone.ui.theme.*
 
 /**
  * Inline parent settings list shown in the content area
- * when "🔒 家长设置" is selected in the Settings tab sidebar.
+ * when "家长设置" is selected in the Settings tab sidebar.
  */
 @Composable
 fun SettingsContent(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     var showPauseDialog by remember { mutableStateOf(false) }
 
-    val items = remember {
-        listOf(
-            SettingsRow("⏱️ 每日总时长", "2 小时 30 分") {
-                context.startActivity(Intent(context, DailyLimitActivity::class.java))
-            },
-            SettingsRow("🔄 强制休息间隔", "每 40 分 休 10 分") {
-                context.startActivity(Intent(context, BreakRuleActivity::class.java))
-            },
-            SettingsRow("📅 可用时段", "周一至周五 16:00-21:00") {
-                context.startActivity(Intent(context, TimeWindowActivity::class.java))
-            },
-            SettingsRow("📂 内容分类限制", "") {
-                context.startActivity(Intent(context, CategoryLimitActivity::class.java))
-            },
-            SettingsRow("📱 App 单独限制", "") {
-                context.startActivity(Intent(context, AppLimitActivity::class.java))
-            },
-            SettingsRow("⭐ 信用积分", "100分 / 每周一重置") {
-                context.startActivity(Intent(context, CreditConfigActivity::class.java))
-            },
-            SettingsRow("📊 使用统计", "") {
-                context.startActivity(Intent(context, UsageHistoryActivity::class.java))
-            },
-            SettingsRow("🔑 修改 PIN", "") {
-                context.startActivity(Intent(context, PinSetupActivity::class.java))
-            },
-            SettingsRow("🆕 检查更新", "检查并安装新版本桌面") {
-                context.startActivity(Intent(context, UpdateActivity::class.java))
-            },
-            SettingsRow("⏸️ 暂停防沉迷（今天不限制）", "") {
-                showPauseDialog = true
-            }
-        )
+    // Read version to establish recomposition dependency on guard state changes
+    @Suppress("UNUSED_VARIABLE")
+    val guardVersion = GuardClientHolder.rulesVersion
+    // Read latest values from guard cache (no remember — must reflect edits)
+    val rules = GuardClientHolder.cachedRules
+
+    fun formatDailyLimit(minutes: Int?): String =
+        if (minutes == null) "不限" else "${minutes / 60} 小时 ${minutes % 60} 分"
+
+    fun formatBreakRule(): String {
+        val br = rules.breakRule
+        return if (br != null) "每 ${br.usageMinutes} 分 休 ${br.breakMinutes} 分" else "不限制"
     }
+
+    fun formatTimeWindow(): String {
+        val wd = rules.timeWindows.find { it.daysOfWeek.contains(1) }
+        val we = rules.timeWindows.find { it.daysOfWeek.contains(6) }
+        return when {
+            wd != null && we != null ->
+                "周一至周五 ${"%02d:%02d".format(wd.startHour, wd.startMinute)}-${"%02d:%02d".format(wd.endHour, wd.endMinute)}"
+            else -> "未设置"
+        }
+    }
+
+    fun formatCredit(): String {
+        val credits = GuardClientHolder.cachedCredits
+        return "${credits.balance}分 / 每周${credits.resetDay.name.take(3)}重置"
+    }
+
+    val items = listOf(
+        SettingsRow("每日总时长", formatDailyLimit(rules.dailyTotalLimit)) {
+            context.startActivity(Intent(context, DailyLimitActivity::class.java))
+        },
+        SettingsRow("强制休息间隔", formatBreakRule()) {
+            context.startActivity(Intent(context, BreakRuleActivity::class.java))
+        },
+        SettingsRow("可用时段", formatTimeWindow()) {
+            context.startActivity(Intent(context, TimeWindowActivity::class.java))
+        },
+        SettingsRow("内容分类限制", "") {
+            context.startActivity(Intent(context, CategoryLimitActivity::class.java))
+        },
+        SettingsRow("App 单独限制", "") {
+            context.startActivity(Intent(context, AppLimitActivity::class.java))
+        },
+        SettingsRow("信用积分", formatCredit()) {
+            context.startActivity(Intent(context, CreditConfigActivity::class.java))
+        },
+        SettingsRow("使用统计", "") {
+            context.startActivity(Intent(context, UsageHistoryActivity::class.java))
+        },
+        SettingsRow("修改 PIN", "") {
+            context.startActivity(Intent(context, PinSetupActivity::class.java))
+        },
+        SettingsRow("检查更新", "检查并安装新版本桌面") {
+            context.startActivity(Intent(context, UpdateActivity::class.java))
+        },
+        SettingsRow("暂停防沉迷（今天不限制）", "") {
+            showPauseDialog = true
+        }
+    )
 
     LazyColumn(
         modifier = modifier.padding(16.dp),
@@ -78,7 +106,7 @@ fun SettingsContent(modifier: Modifier = Modifier) {
     ) {
         item {
             Text(
-                text = "🔒 家长设置",
+                text = "家长设置",
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
@@ -106,11 +134,11 @@ fun SettingsContent(modifier: Modifier = Modifier) {
                         Text(
                             text = item.subtitle,
                             fontSize = 14.sp,
-                            color = Color(0xFFB0B0C0)
+                            color = PineTextSecondary
                         )
                     }
                 }
-                Text("›", fontSize = 24.sp, color = Color(0xFF888888))
+                Text("›", fontSize = 24.sp, color = PineTextMuted)
             }
         }
     }

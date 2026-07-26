@@ -24,6 +24,9 @@ class GuardEngineImpl(
     )
     private var isRunning = false
     private var listener: GuardStateListener? = null
+    private var breakStartedAt: Long = 0  // SystemClock.elapsedRealtime when break lock started
+    private var breakDurationSecs: Int = 0
+    private var isInBreakLock: Boolean = false
 
     // --- Lifecycle ---
     override fun start() {
@@ -36,7 +39,7 @@ class GuardEngineImpl(
         }
 
         rules = secureStorage.loadRules() ?: RuleSet()
-        snapshot = secureStorage.loadSnapshot() ?: UsageSnapshot(date = LocalDate.now())
+        snapshot = UsageSnapshot(date = LocalDate.now())  // fresh start every launch
         creditAccount = secureStorage.loadCredits() ?: creditManager.createInitial(rules.creditConfig)
 
         creditAccount = creditManager.checkAndReset(creditAccount)
@@ -64,6 +67,9 @@ class GuardEngineImpl(
     override fun getRules(): RuleSet = rules
     override fun updateRules(rules: RuleSet) {
         this.rules = rules
+        // Always reset — any manual rules update means user is reconfiguring
+        snapshot = snapshot.copy(totalSeconds = 0, continuousSeconds = 0)
+        android.util.Log.d("GuardEngine", "updateRules | dailyLimit=${rules.dailyTotalLimit}min | snapshot reset")
         persistAll()
     }
 
@@ -122,12 +128,55 @@ class GuardEngineImpl(
         val today = LocalDate.now()
         if (snapshot.date != today) snapshot = UsageSnapshot(date = today)
 
+        val nowRealtime = android.os.SystemClock.elapsedRealtime()
+
+        // Don't accumulate time while user is on settings/editor pages
+        val inSettings = com.pinecone.guard.service.GuardClientHolder.settingsPageCount > 0
+
         val newUsage = usageTracker.getTodayUsage()
+
+        if (inSettings) {
+            // Just update timestamp to prevent jump on return, skip accumulation
+            snapshot = snapshot.copy(lastActivityTime = nowRealtime,
+                categoryUsage = newUsage.categoryUsage,
+                appUsage = newUsage.appUsage)
+            return
+        }
+
+        // Accumulate elapsed realtime as fallback (UsageStatsManager has multi-minute latency)
+        val elapsedSinceLast = if (snapshot.lastActivityTime > 0)
+            (nowRealtime - snapshot.lastActivityTime) / 1000 else 0L
+        val continuousFromTick = snapshot.continuousSeconds + elapsedSinceLast
+
+        // Effective total = max of system-reported usage and tick-accumulated time
+        val effectiveTotal = maxOf(newUsage.totalSeconds, continuousFromTick)
+
         snapshot = snapshot.copy(
-            totalSeconds = newUsage.totalSeconds,
+            totalSeconds = effectiveTotal,
+            continuousSeconds = continuousFromTick.coerceAtLeast(0),
+            lastActivityTime = nowRealtime,
             categoryUsage = newUsage.categoryUsage,
             appUsage = newUsage.appUsage
         )
+
+        // If we're in a break lock, check if break time has elapsed
+        if (isInBreakLock) {
+            val elapsedBreak = (nowRealtime - breakStartedAt) / 1000
+            if (elapsedBreak >= breakDurationSecs) {
+                // Break finished — reset continuous usage and release lock
+                snapshot = snapshot.copy(continuousSeconds = 0, lastActivityTime = nowRealtime)
+                isInBreakLock = false
+                breakStartedAt = 0
+                breakDurationSecs = 0
+                listener?.onBreakFinished()
+                android.util.Log.d("GuardEngine", "TICK | break finished, lock released")
+                persistAll()
+                return
+            }
+            // Still in break lock — don't re-evaluate, skip
+            android.util.Log.d("GuardEngine", "TICK | in break lock | elapsed=${elapsedBreak}s / ${breakDurationSecs}s")
+            return
+        }
 
         val newTimeSnap = TimeGuard.takeSnapshot(snapshot.totalSeconds)
         snapshot = snapshot.copy(
@@ -135,8 +184,32 @@ class GuardEngineImpl(
         )
 
         val result = ruleEngine.evaluate(rules, snapshot, null, null, creditAccount.balance)
-        if (result.shouldLock) listener?.onLockRequired(result.lockReason!!)
-        else if (result.shouldWarn) listener?.onWarningLevel(1, result.warnMessage!!, result.remainingSeconds ?: 0)
+
+        // ── DEBUG: log every tick ──
+        android.util.Log.d("GuardEngine", "TICK | " +
+            "dailyLimit=${rules.dailyTotalLimit}min | " +
+            "usedSecs=${snapshot.totalSeconds} | " +
+            "remainingSecs=${(rules.dailyTotalLimit ?: -1) * 60 - snapshot.totalSeconds} | " +
+            "credit=$creditAccount.balance | " +
+            "shouldLock=${result.shouldLock} | " +
+            "shouldWarn=${result.shouldWarn} | " +
+            "warnMsg=${result.warnMessage} | " +
+            "lockReason=${result.lockReason}")
+
+        if (result.shouldLock) {
+            if (result.lockReason == LockReason.BREAK_REQUIRED) {
+                // Start break lock with countdown
+                isInBreakLock = true
+                breakStartedAt = nowRealtime
+                breakDurationSecs = result.breakDurationMinutes * 60
+                listener?.onLockRequired(result.lockReason!!)
+                android.util.Log.d("GuardEngine", "TICK | break lock started | ${result.breakUsageMinutes}min usage → ${result.breakDurationMinutes}min break")
+            } else {
+                listener?.onLockRequired(result.lockReason!!)
+            }
+        } else if (result.shouldWarn) {
+            listener?.onWarningLevel(1, result.warnMessage!!, result.remainingSeconds ?: 0)
+        }
 
         persistAll()
     }

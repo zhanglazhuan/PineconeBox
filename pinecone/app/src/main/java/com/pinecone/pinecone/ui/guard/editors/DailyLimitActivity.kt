@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pinecone.guard.service.GuardClientHolder
 import com.pinecone.pinecone.ui.guard.GuardSettingsScaffold
-import com.pinecone.pinecone.ui.theme.PineconeTheme
+import com.pinecone.pinecone.ui.theme.*
 
 class DailyLimitActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +41,7 @@ private fun DailyLimitEditor() {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(formatDuration(selectedMinutes), fontSize = 48.sp,
-            color = Color(0xFFFFFF00), textAlign = TextAlign.Center,
+            color = PineWarning, textAlign = TextAlign.Center,
             modifier = Modifier.padding(bottom = 48.dp))
 
         // Hour / Minute adjusters
@@ -51,16 +51,16 @@ private fun DailyLimitEditor() {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.padding(horizontal = 32.dp)
                 ) {
-                    Button(onClick = {
+                    PineStepperButton("▲") {
                         selectedMinutes = ((selectedMinutes ?: 0) + step).coerceAtMost(480)
                         GuardClientHolder.updateDailyLimit(selectedMinutes)
-                    }) { Text("▲", fontSize = 22.sp) }
+                    }
                     Text(label, fontSize = 20.sp, color = Color.White,
                         modifier = Modifier.padding(vertical = 8.dp))
-                    Button(onClick = {
+                    PineStepperButton("▼") {
                         selectedMinutes = ((selectedMinutes ?: step) - step).coerceAtLeast(0)
                         GuardClientHolder.updateDailyLimit(selectedMinutes)
-                    }) { Text("▼", fontSize = 22.sp) }
+                    }
                 }
             }
         }
@@ -68,15 +68,18 @@ private fun DailyLimitEditor() {
         Text("快速选择:", fontSize = 20.sp, color = Color.Gray,
             modifier = Modifier.padding(top = 48.dp, bottom = 16.dp))
 
-        Row(horizontalArrangement = Arrangement.Center) {
-            listOf(20 to "20 分钟", 45 to "45 分钟", 120 to "2 小时", 0 to "不限").forEach { (min, label) ->
-                Button(
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            listOf(6 to "6 分钟🔧", 20 to "20 分钟", 45 to "45 分钟", 120 to "2 小时", 0 to "不限").forEach { (min, label) ->
+                PineChipButton(
+                    label = label,
+                    selected = selectedMinutes == (min.takeIf { it > 0 }),
                     onClick = {
                         selectedMinutes = min.takeIf { it > 0 }
                         GuardClientHolder.updateDailyLimit(selectedMinutes)
-                    },
-                    modifier = Modifier.padding(4.dp)
-                ) { Text(label, fontSize = 18.sp) }
+                    }
+                )
             }
         }
     }

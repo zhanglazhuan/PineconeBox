@@ -15,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.pinecone.pinecone.ui.theme.*
 
 /**
  * A simple numeric on-screen keyboard for TV remote control.
@@ -82,7 +83,7 @@ fun NumericKeyboard(
             Text(
                 text = "清空",
                 fontSize = 14.sp,
-                color = Color(0xFFFF6666),
+                color = PineError,
                 modifier = Modifier
                     .clickable { onValueChange("") }
                     .padding(horizontal = 12.dp, vertical = 4.dp)
@@ -99,7 +100,7 @@ private fun KeyButton(key: String, onClick: () -> Unit) {
             .height(KEY_HEIGHT.dp)
             .padding(4.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(Color(0xFF2A2A4A))
+            .background(PineCardBorder)
             .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
@@ -107,7 +108,7 @@ private fun KeyButton(key: String, onClick: () -> Unit) {
             text = key,
             fontSize = if (key == "⌫") 16.sp else 24.sp,
             fontWeight = if (key == "⌫") FontWeight.Normal else FontWeight.Bold,
-            color = if (key == "⌫") Color(0xFFFF8A80) else Color.White
+            color = if (key == "⌫") PineError else Color.White
         )
     }
 }

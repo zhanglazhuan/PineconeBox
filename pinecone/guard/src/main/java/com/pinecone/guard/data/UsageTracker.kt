@@ -36,6 +36,7 @@ class UsageTracker(context: Context) {
         val byApp = mutableMapOf<String, Long>()
         val byCat = mutableMapOf<String, Long>()
 
+        var pkgCount = 0
         stats.forEach { stat ->
             val secs = stat.totalTimeInForeground / 1000
             if (secs > 0) {
@@ -43,8 +44,11 @@ class UsageTracker(context: Context) {
                 byApp[stat.packageName] = (byApp[stat.packageName] ?: 0) + secs
                 val cat = pkgCategoryMap[stat.packageName] ?: "other"
                 byCat[cat] = (byCat[cat] ?: 0) + secs
+                pkgCount++
             }
         }
+
+        android.util.Log.d("UsageTracker", "getTodayUsage | statsCount=${stats.size} | pkgWithUsage=$pkgCount | totalSecs=$total | topPkgs=${byApp.entries.sortedByDescending { it.value }.take(3)}")
 
         return TodayUsage(totalSeconds = total, categoryUsage = byCat, appUsage = byApp)
     }

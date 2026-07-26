@@ -27,6 +27,7 @@ import com.pinecone.pinecone.ui.guard.UpdateActivity
 import com.pinecone.pinecone.ui.guard.account.LoginActivity
 import com.pinecone.pinecone.ui.guard.account.RegisterActivity
 import com.pinecone.pinecone.ui.guard.editors.*
+import com.pinecone.pinecone.ui.theme.*
 
 /**
  * iPad-style flat settings list: left sidebar L1 → right content shows rows.
@@ -86,7 +87,7 @@ fun SettingsList(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(10.dp))
-                        .background(Color(0xFF1E1E3A))
+                        .background(PineElevated)
                 ) {
                     if (!storage.isRegistered) {
                         // Not registered yet
@@ -118,12 +119,12 @@ fun SettingsList(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(10.dp))
-                        .background(Color(0xFF1E1E3A))
+                        .background(PineElevated)
                 ) {
                     category.items.forEachIndexed { index, item ->
                         if (index > 0) {
                             HorizontalDivider(
-                                color = Color(0xFF2A2A4A),
+                                color = PineCardBorder,
                                 thickness = 0.5.dp,
                                 modifier = Modifier.padding(start = 16.dp)
                             )
@@ -152,6 +153,14 @@ fun SettingsList(
             confirmButton = {
                 TextButton(onClick = {
                     GuardClientHolder.pauseToday()
+                    try {
+                        com.pinecone.pinecone.log.PineconeLogger.log(
+                            com.pinecone.pinecone.log.GuardEvent(
+                                System.currentTimeMillis(),
+                                com.pinecone.pinecone.log.PineconeLogger.getSession()?.sessionId ?: "",
+                                "paused", -1, -1
+                            ))
+                    } catch (_: Exception) {}
                     Toast.makeText(context, "今天防沉迷已暂停", Toast.LENGTH_SHORT).show()
                     showPauseDialog = false
                 }) { Text("确认") }
@@ -207,7 +216,6 @@ private fun FeedbackDialog(onDismiss: () -> Unit) {
         confirmButton = {
             TextButton(onClick = {
                 if (text.isNotBlank()) {
-                    // TODO: send feedback to server
                     Toast.makeText(context, "感谢反馈！我们会尽快处理", Toast.LENGTH_SHORT).show()
                     onDismiss()
                 }
@@ -236,9 +244,9 @@ private fun AuthPromptRow(
         Text(icon, fontSize = 24.sp, modifier = Modifier.padding(end = 12.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(title, fontSize = 17.sp, color = Color.White)
-            Text(subtitle, fontSize = 13.sp, color = Color(0xFF8888AA))
+            Text(subtitle, fontSize = 13.sp, color = PineTextSecondary)
         }
-        Text("›", fontSize = 22.sp, color = Color(0xFF666688))
+        Text("›", fontSize = 22.sp, color = PineTextMuted)
     }
 }
 
@@ -248,6 +256,33 @@ private fun SettingsRow(
     onClick: () -> Unit
 ) {
     val isActionable = item.actionUrl != "action:none"
+
+    // Read version to trigger recomposition when guard rules change
+    @Suppress("UNUSED_VARIABLE")
+    val guardVersion = GuardClientHolder.rulesVersion
+
+    // Compute dynamic subtitle for guard settings items
+    fun guardSubtitle(actionUrl: String): String {
+        val rules = GuardClientHolder.cachedRules
+        return when (actionUrl) {
+            "action:daily_limit" -> {
+                val m = rules.dailyTotalLimit
+                if (m == null) "不限" else "${m / 60} 小时 ${m % 60} 分"
+            }
+            "action:break_rule" -> {
+                val br = rules.breakRule
+                if (br != null) "每 ${br.usageMinutes} 分 休 ${br.breakMinutes} 分" else "不限制"
+            }
+            "action:time_window" -> {
+                val wd = rules.timeWindows.find { it.daysOfWeek.contains(1) }
+                if (wd != null) "${"%02d:%02d".format(wd.startHour, wd.startMinute)}-${"%02d:%02d".format(wd.endHour, wd.endMinute)}" else "未设置"
+            }
+            "action:credit_config" -> "${GuardClientHolder.cachedCredits.balance}分"
+            else -> item.category
+        }
+    }
+
+    val subtitle = guardSubtitle(item.actionUrl)
 
     Row(
         modifier = Modifier
@@ -268,16 +303,16 @@ private fun SettingsRow(
         )
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            if (item.category.isNotEmpty()) {
+            if (subtitle.isNotEmpty()) {
                 Text(
-                    text = item.category,
+                    text = subtitle,
                     fontSize = 15.sp,
-                    color = Color(0xFF8888AA),
+                    color = PineTextSecondary,
                     modifier = Modifier.padding(end = if (isActionable) 8.dp else 0.dp)
                 )
             }
             if (isActionable) {
-                Text("›", fontSize = 22.sp, color = Color(0xFF666688))
+                Text("›", fontSize = 22.sp, color = PineTextMuted)
             }
         }
     }

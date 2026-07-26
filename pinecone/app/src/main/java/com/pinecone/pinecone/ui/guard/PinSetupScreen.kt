@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pinecone.guard.service.GuardClientHolder
+import com.pinecone.pinecone.ui.theme.*
 
 @Composable
 fun PinSetupScreen(isVerifyMode: Boolean = false, onComplete: (pin: String?) -> Unit) {
@@ -79,7 +80,7 @@ fun PinSetupScreen(isVerifyMode: Boolean = false, onComplete: (pin: String?) -> 
             Text(
                 text = dots(pin1),
                 fontSize = 28.sp,
-                color = if (activeField == 0) Color(0xFFFFFF00) else Color(0xFF888888),
+                color = if (activeField == 0) PineWarning else PineTextMuted,
                 fontFamily = FontFamily.Monospace,
                 modifier = Modifier
                     .clickable { activeField = 0 }
@@ -98,7 +99,7 @@ fun PinSetupScreen(isVerifyMode: Boolean = false, onComplete: (pin: String?) -> 
                 Text(
                     text = dots(pin2),
                     fontSize = 28.sp,
-                    color = if (activeField == 1) Color(0xFFFFFF00) else Color(0xFF888888),
+                    color = if (activeField == 1) PineWarning else PineTextMuted,
                     fontFamily = FontFamily.Monospace,
                     modifier = Modifier
                         .clickable { activeField = 1 }
@@ -121,7 +122,7 @@ fun PinSetupScreen(isVerifyMode: Boolean = false, onComplete: (pin: String?) -> 
                                 .height(56.dp)
                                 .padding(2.dp)
                                 .clip(RoundedCornerShape(6.dp))
-                                .background(Color(0xFF2A2A4A))
+                                .background(PineCardBorder)
                                 .clickable {
                                     val sb = if (activeField == 0) pin1 else pin2
                                     if (sb.length < 20) {
@@ -149,7 +150,7 @@ fun PinSetupScreen(isVerifyMode: Boolean = false, onComplete: (pin: String?) -> 
                         Text(
                             text = label,
                             fontSize = 15.sp,
-                            color = if (keyboardMode == mode) Color(0xFFFFFF00) else Color.White
+                            color = if (keyboardMode == mode) PineWarning else Color.White
                         )
                     }
                 }
@@ -167,7 +168,7 @@ fun PinSetupScreen(isVerifyMode: Boolean = false, onComplete: (pin: String?) -> 
                 }) { Text("⌫", fontSize = 18.sp, color = Color.White) }
                 TextButton(onClick = {
                     if (activeField == 0) pin1 = "" else pin2 = ""
-                }) { Text("清空", fontSize = 15.sp, color = Color(0xFFFF6666)) }
+                }) { Text("清空", fontSize = 15.sp, color = PineError) }
             }
         }
     }

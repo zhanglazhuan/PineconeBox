@@ -59,7 +59,8 @@ object ResourceData {
         )),
         CategoryData("高校慕课", listOf(
             web("国家高等教育智慧教育平台", "教育部官方大学公开课，数学物理历史生物", "https://higher.smartedu.cn"),
-            web("中国大学 MOOC（高教司指导）", "国内顶尖高校免费公开课", "https://www.icourse163.org")
+            web("中国大学 MOOC（高教司指导）", "国内顶尖高校免费公开课", "https://www.icourse163.org"),
+            web("国家开放大学", "国开终身教育平台，学历/非学历课程", "https://le.ouchn.cn/home")
         )),
         CategoryData("德育、安全、素质教育", listOf(
             web("全国青少年普法网", "中小学生法治教育、宪法学习", "https://qspfw.moe.gov.cn"),
@@ -100,7 +101,8 @@ object ResourceData {
         )),
         CategoryData("编程 / 信息科技 / 科创", listOf(
             web("Scratch 官方", "MIT图形化编程，全球最大少儿编程社区", "https://scratch.mit.edu"),
-            web("编程猫社区", "图形化编程、Python入门，中文友好", "https://coding.codemao.cn")
+            web("编程猫社区", "图形化编程、Python入门，中文友好", "https://coding.codemao.cn"),
+            web("Code.org", "全球最受欢迎少儿编程启蒙，游戏化学习", "https://code.org/en-US")
         )),
         CategoryData("通识科普 / 纪录片 / 课外阅读", listOf(
             web("纪录片天地", "海量纪录片索引，历史地理自然科学", "https://www.jlpcn.net"),

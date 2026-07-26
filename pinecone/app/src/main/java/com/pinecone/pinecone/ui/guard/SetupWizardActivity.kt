@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.pinecone.guard.data.SecureStorage
 import com.pinecone.guard.service.GuardClientHolder
 import com.pinecone.guard.service.GuardDeviceAdminReceiver
-import com.pinecone.pinecone.ui.theme.PineconeTheme
+import com.pinecone.pinecone.ui.theme.*
 
 class SetupWizardActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -115,7 +115,7 @@ private fun SetupWizardScreen(
         when {
             !isUsageStatsGranted -> {
                 Text("步骤 1/2:\n需要授权「使用情况访问权限」\n才能统计应用使用时间",
-                    fontSize = 22.sp, color = Color(0xFFFFFF00),
+                    fontSize = 22.sp, color = PineWarning,
                     textAlign = TextAlign.Center, modifier = Modifier.padding(bottom = 32.dp))
                 Button(onClick = onRequestUsageStats) {
                     Text("前往授权", fontSize = 20.sp)
@@ -123,7 +123,7 @@ private fun SetupWizardScreen(
             }
             !isDeviceAdminActive -> {
                 Text("步骤 2/2:\n需要激活「设备管理器」\n才能在超时时锁定屏幕",
-                    fontSize = 22.sp, color = Color(0xFFFFFF00),
+                    fontSize = 22.sp, color = PineWarning,
                     textAlign = TextAlign.Center, modifier = Modifier.padding(bottom = 32.dp))
                 Button(onClick = onRequestDeviceAdmin) {
                     Text("激活设备管理器", fontSize = 20.sp)
