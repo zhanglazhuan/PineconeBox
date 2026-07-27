@@ -1,0 +1,129 @@
+{
+  "name": "国际教育与原版体系",
+  "subcategories": {
+    "us_k12": {
+      "name": "美式 K-12 体系",
+      "items": [
+        {
+          "name": "Khan Academy（可汗学院）",
+          "url": "https://www.khanacademy.org",
+          "description": "非营利，完整覆盖K12全科，短视频+自适应练习题+可视化讲解。",
+          "logo": ""
+        },
+        {
+          "name": "CK-12 Foundation",
+          "url": "https://www.ck12.org",
+          "description": "美国知名OER开放教育平台，免费电子教材、微课、互动仿真、习题。",
+          "logo": ""
+        },
+        {
+          "name": "Easy Peasy All-in-One Homeschool",
+          "url": "https://allinonehomeschool.com",
+          "description": "A complete, free online Christian homeschool curriculum.",
+          "logo": ""
+        },
+        {
+          "name": "TED-Ed",
+          "url": "https://ed.ted.com",
+          "description": "TED-Ed celebrates the ideas of teachers and students around the world.",
+          "logo": ""
+        },
+        {
+          "name": "Newsela",
+          "url": "https://newsela.com",
+          "description": "Newsela launched in 2013 with a bold mission: Meaningful classroom learning for every student.",
+          "logo": ""
+        },
+        {
+          "name": "ReadWorks",
+          "url": "https://www.readworks.org",
+          "description": "ReadWorks is an edtech nonprofit organization.",
+          "logo": ""
+        },
+        {
+          "name": "ReadTheory",
+          "url": "https://readtheory.org",
+          "description": "自适应英文阅读训练平台，AI自动匹配难度+即时反馈。",
+          "logo": ""
+        },
+        {
+          "name": "NoRedInk",
+          "url": "https://www.noredink.com",
+          "description": "NoRedInk offers authentic assessments, adaptive practice, personalized content.",
+          "logo": ""
+        },
+        {
+          "name": "Illustrative Mathematics",
+          "url": "https://illustrativemathematics.org",
+          "description": "Illustrative Mathematics provides resources and support for giving students an enduring understanding of mathematics.",
+          "logo": ""
+        },
+        {
+          "name": "Epic",
+          "url": "https://www.getepic.com",
+          "description": "美国K-12数字图书馆，4万+原版英文童书+有声书+视频。",
+          "logo": ""
+        },
+        {
+          "name": "E-Learning for Kids",
+          "url": "https://www.e-learningforkids.org",
+          "description": "E-learning for kids is a 501(c)(3) nonprofit organization.",
+          "logo": ""
+        },
+        {
+          "name": "Free Kids Books",
+          "url": "https://freekidsbooks.org",
+          "description": "免费英文儿童绘本下载，分级阅读PDF+在线阅读。",
+          "logo": ""
+        },
+        {
+          "name": "Starfall",
+          "url": "https://www.starfall.com/h/",
+          "description": "At Starfall, children have fun while they learn.",
+          "logo": ""
+        },
+        {
+          "name": "Skybrary",
+          "url": "https://www.skybrary.org",
+          "description": "Ad-free reading app for kids ages 3-9. 1,000+ eBooks.",
+          "logo": ""
+        }
+      ]
+    },
+    "uk_eu": {
+      "name": "英式与欧洲体系",
+      "items": [
+        {
+          "name": "BBC Bitesize",
+          "url": "https://www.bbc.co.uk/bitesize",
+          "description": "BBC官方，完全免费无广告，对标英格兰中小学课标。",
+          "logo": ""
+        },
+        {
+          "name": "Oak National Academy",
+          "url": "https://www.thenational.academy",
+          "description": "英国官方免费在线课堂，K-12全科录播课+教案。",
+          "logo": ""
+        },
+        {
+          "name": "National Geographic Kids",
+          "url": "https://kids.nationalgeographic.com",
+          "description": "欧美小学标配科普网站，动物、地理、自然、人文。",
+          "logo": ""
+        },
+        {
+          "name": "European School Education Platform",
+          "url": "https://school-education.ec.europa.eu/en",
+          "description": "欧盟委员会官方中小学教育总站。",
+          "logo": ""
+        },
+        {
+          "name": "European Youth Portal",
+          "url": "https://youth.europa.eu",
+          "description": "欧盟青少年门户，人文、公民教育、跨文化主题阅读。",
+          "logo": ""
+        }
+      ]
+    }
+  }
+}

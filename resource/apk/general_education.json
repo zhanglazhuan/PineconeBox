@@ -1,0 +1,29 @@
+{
+  "name": "泛通识教育与素质拓展",
+  "subcategories": {
+    "audio_general": {
+      "name": "高质量有声通识",
+      "items": [
+        { "name": "少年得到", "path": "shaonian_dedao.apk", "site": "https://www.igetcool.com", "pkgname": "com.dedao.juvenile", "version": "", "description": "得到App少儿版｜名著精讲、历史故事、科学通识、写作课；知识服务标杆" },
+        { "name": "博雅小学堂", "path": "boya_primary.apk", "site": "https://www.boyakids.net", "pkgname": "cn.boyakids.m", "version": "", "description": "北大背景团队｜新闻课+名著共读+世界历史+科学通识；培养批判性思维" },
+        { "name": "凯叔讲故事", "path": "kaishu_story.apk", "site": "https://www.kaishustory.com", "pkgname": "com.ks.kaishustory", "version": "", "description": "儿童有声内容：国学启蒙、名著故事、科普百科；专业配音" },
+        { "name": "喜马拉雅儿童", "path": "ximalaya_kids.apk", "site": "https://www.ximalaya.com/children", "pkgname": "com.ximalaya.ting.kid", "version": "", "description": "喜马拉雅少儿版｜绘本故事、英语磨耳朵、古诗词、科普音频" }
+      ]
+    },
+    "encyclopedia_video": {
+      "name": "百科视频与全球视野",
+      "items": [
+        { "name": "B站(哔哩哔哩)", "path": "bilibili.apk", "site": "https://www.bilibili.com", "pkgname": "tv.danmaku.bili", "version": "", "description": "海量免费名师网课、理科动画、纪录片、编程、外语、文史课程｜务必开启青少年模式" },
+        { "name": "译学馆", "path": "yixueguan.apk", "site": "https://www.yixueguan.com", "pkgname": "com.yuyan.suexiguan", "version": "", "description": "正版翻译海外公开课、TED演讲、国际科普短片；适合英语拓展、通识学习" },
+        { "name": "全知识", "path": "quanzhishi.apk", "site": "https://www.allhistory.com", "pkgname": "com.allhistory.dls.marble", "version": "", "description": "百科知识图谱+时间轴+关系图；历史、科学、艺术通识教育利器" },
+        { "name": "熊猫客", "path": "pandake.apk", "site": "", "pkgname": "com.ecosage.pandatrek", "version": "", "description": "自然探索+户外研学｜动物、植物、生态系统科普，鼓励孩子走向户外" }
+      ]
+    },
+    "parent_child_reading": {
+      "name": "亲子共读社区",
+      "items": [
+        { "name": "小花生", "path": "xiaohuasheng.apk", "site": "https://www.xiaohuasheng.com", "pkgname": "com.huili.readingclub", "version": "", "description": "亲子阅读社区+书单推荐+阅读打卡；分龄选书、原版绘本评测，家长选书必备" }
+      ]
+    }
+  }
+}

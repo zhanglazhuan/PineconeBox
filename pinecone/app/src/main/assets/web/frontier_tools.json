@@ -1,0 +1,141 @@
+{
+  "name": "前沿素养与效率工具",
+  "subcategories": {
+    "ai_literacy": {
+      "name": "AI 通识与应用",
+      "items": [
+        {
+          "name": "Hour of AI",
+          "url": "https://hourofcode.com/ai",
+          "logo": ""
+        },
+        {
+          "name": "AI Quest",
+          "url": "https://research.google/ai-quests/intl/en_us",
+          "logo": ""
+        },
+        {
+          "name": "Machine Learning for Kids",
+          "url": "https://machinelearningforkids.co.uk",
+          "description": "An educational tool for teaching kids about machine learning.",
+          "logo": ""
+        },
+        {
+          "name": "WaytoAGI",
+          "url": "https://www.waytoagi.com",
+          "logo": ""
+        },
+        {
+          "name": "浦育平台",
+          "url": "https://www.openinnolab.org.cn/pjedu/home",
+          "description": "OpenInnoLab是面向青少年的人工智能开放创新平台。",
+          "logo": "logos/浦育平台.png"
+        },
+        {
+          "name": "Experience AI",
+          "url": "https://experience-ai.org/en",
+          "description": "Explore free, award-winning AI literacy resources for teachers and students.",
+          "logo": ""
+        },
+        {
+          "name": "OpenAIMaic",
+          "url": "https://open.maic.chat",
+          "description": "The open-source AI interactive classroom.",
+          "logo": ""
+        },
+        {
+          "name": "LearnAnything",
+          "url": "https://learn-anything.xyz",
+          "description": "Discover and learn about any topic with Learn-Anything.",
+          "logo": ""
+        }
+      ]
+    },
+    "coding_stem": {
+      "name": "少儿编程与科创",
+      "items": [
+        {
+          "name": "Scratch 官方",
+          "url": "https://scratch.mit.edu",
+          "description": "麻省理工图形化编程，全球最大少儿编程社区，全免费",
+          "logo": ""
+        },
+        {
+          "name": "编程猫社区",
+          "url": "https://box.codemao.cn/",
+          "description": "图形化编程、Python入门，大量学生项目案例，中文友好",
+          "logo": ""
+        },
+        {
+          "name": "Code.org",
+          "url": "https://code.org/en-US",
+          "description": "全球最受欢迎少儿编程启蒙，游戏化学习+一小时编程活动",
+          "logo": ""
+        }
+      ]
+    },
+    "tools_nav": {
+      "name": "通用效率与导航搜索",
+      "items": [
+        {
+          "name": "ProcessOn",
+          "url": "https://www.processon.com",
+          "description": "ProcessOn是一款专业在线作图工具和知识分享社区。",
+          "logo": ""
+        },
+        {
+          "name": "Canva 可画",
+          "url": "https://www.canva.cn/education",
+          "description": "模板素材丰富，设计功能强大，助力教师达成美育目标。",
+          "logo": ""
+        },
+        {
+          "name": "Kiddie Worksheets",
+          "url": "https://www.kiddoworksheets.com",
+          "description": "Kiddo Worksheets has a lot of free educational resources.",
+          "logo": ""
+        },
+        {
+          "name": "WithoutAD",
+          "url": "https://withoutad.com",
+          "description": "Easier to start, easier to stick with",
+          "logo": ""
+        },
+        {
+          "name": "SaltyLeo 的书架",
+          "url": "https://book.tstrs.me",
+          "description": "电子书聚合搜索，两百万+免费电子书，无需注册",
+          "logo": ""
+        },
+        {
+          "name": "FMHY",
+          "url": "https://fmhy.net",
+          "description": "The largest collection of free stuff on the internet!",
+          "logo": ""
+        },
+        {
+          "name": "学习导航",
+          "url": "https://www.studynav.com/",
+          "description": "海外学习资源导航，分类整理K12学科网站、在线课程、学习工具",
+          "logo": ""
+        },
+        {
+          "name": "英语学习资源导航",
+          "url": "https://en.knowledgefxg.com",
+          "description": "精选英语学习网站+工具合集，分类清晰，一站式导航",
+          "logo": ""
+        },
+        {
+          "name": "中国语言资源保护工程",
+          "url": "https://www.clcn.net.cn/#ResourcesSection",
+          "logo": ""
+        },
+        {
+          "name": "国家数字图书馆公开课",
+          "url": "https://open.nlc.cn/onlineedu/client/index.htm",
+          "logo": ""
+        }
+      ]
+    }
+  }
+}

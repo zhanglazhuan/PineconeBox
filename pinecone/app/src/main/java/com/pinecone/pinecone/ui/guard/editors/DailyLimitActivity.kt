@@ -58,7 +58,15 @@ private fun DailyLimitEditor() {
                     Text(label, fontSize = 20.sp, color = Color.White,
                         modifier = Modifier.padding(vertical = 8.dp))
                     PineStepperButton("▼") {
-                        selectedMinutes = ((selectedMinutes ?: step) - step).coerceAtLeast(0)
+                        val current = selectedMinutes
+                        if (current == null) {
+                            // Unlimited → wrap to 480min (8 hours max)
+                            selectedMinutes = 480
+                        } else {
+                            val next = (current - step).coerceAtLeast(0)
+                            // 0 means "literally zero minutes" — treat as unlimited
+                            selectedMinutes = next.takeIf { it > 0 }
+                        }
                         GuardClientHolder.updateDailyLimit(selectedMinutes)
                     }
                 }
@@ -71,7 +79,7 @@ private fun DailyLimitEditor() {
         Row(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            listOf(6 to "6 分钟🔧", 20 to "20 分钟", 45 to "45 分钟", 120 to "2 小时", 0 to "不限").forEach { (min, label) ->
+            listOf(20 to "20 分钟", 45 to "45 分钟", 120 to "2 小时", 0 to "不限").forEach { (min, label) ->
                 PineChipButton(
                     label = label,
                     selected = selectedMinutes == (min.takeIf { it > 0 }),

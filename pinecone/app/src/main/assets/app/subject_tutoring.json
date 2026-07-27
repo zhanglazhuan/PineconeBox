@@ -1,0 +1,29 @@
+{
+  "name": "学科教辅与课内提分",
+  "subcategories": {
+    "textbook_sync": {
+      "name": "教材同步辅导",
+      "items": [
+        { "name": "人教点读", "path": "renjiao_diandu.apk", "site": "https://www.pep.com.cn", "pkgname": "com.pep.diandu", "version": "", "description": "人民教育出版社｜语文、英语课本官方音频、课文点读、生字学习；同步人教版教材" },
+        { "name": "外研U学", "path": "waiyan_uxue.apk", "site": "https://www.fltrp.com", "pkgname": "com.fltrp.organ.student", "version": "", "description": "外研社官方｜新标准英语教材配套点读+听说练习+单词闯关；课内英语同步学" },
+        { "name": "纳米盒", "path": "namihe.apk", "site": "https://www.namibox.com", "pkgname": "com.jinxin.namibox", "version": "", "description": "小学语数英同步学+AI辅导；课本点读、口算练习、汉字听写；千万用户" }
+      ]
+    },
+    "microclass_question_bank": {
+      "name": "微课精讲与题库",
+      "items": [
+        { "name": "洋葱学园", "path": "yangcong.apk", "site": "https://yangcong345.com", "pkgname": "com.yangcong345.android.phone", "version": "", "description": "小初高数理化微课，动画讲解重难点；基础薄弱学生提分利器" },
+        { "name": "天天练", "path": "tiantianlian.apk", "site": "https://www.leshen.com", "pkgname": "com.leleketang.SchoolFantasy", "version": "", "description": "每天10分钟高效刷题+动画讲解；数学思维+语文基础+英语语法全覆盖" },
+        { "name": "疯王刷题王", "path": "fengwang_shuati.apk", "site": "", "pkgname": "com.weishitech.stwfengkuang", "version": "", "description": "小初高全科题库+错题本+智能组卷；刷题党必备，支持拍照搜题" },
+        { "name": "初中数学", "path": "chuzhong_math.apk", "site": "", "pkgname": "com.gaoha.mathsplus", "version": "", "description": "初中数学习题精讲+知识点微课；代数、几何、函数分模块训练，中考提分" }
+      ]
+    },
+    "comprehensive_tools": {
+      "name": "综合学习工具与社区",
+      "items": [
+        { "name": "华为教育中心", "path": "huawei_edu.apk", "site": "https://appgallery.huawei.com", "pkgname": "", "version": "", "description": "华为官方｜小初高同步课、素质拓展、家长管控；平板预装级体验" },
+        { "name": "知到", "path": "zhidao.apk", "site": "", "pkgname": "com.able.wisdomtree", "version": "", "description": "智慧树旗下｜数理化难题求助、作文思路讨论；同龄人互助答疑" }
+      ]
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "大语文与传统文化",
+  "subcategories": {
+    "character_dictionary": {
+      "name": "汉字启蒙与字词典",
+      "items": [
+        { "name": "熊猫博士识字", "path": "drpanda_literacy.apk", "site": "https://www.drpanda.com", "pkgname": "com.drpanda.chineseacademy.b2b", "version": "", "description": "好未来出品｜学前+低年级汉字启蒙；动画互动+分级阅读，零基础轻松认字" },
+        { "name": "新汉字宫", "path": "baidu_hanyu.apk", "site": "https://hanyu.baidu.com", "pkgname": "com.yifan.newhanzigong", "version": "", "description": "百度官方汉语词典｜拼音、部首、笔顺、释义、成语、古诗文全覆盖" },
+        { "name": "汉典查字", "path": "handian.apk", "site": "https://www.zdic.net", "pkgname": "com.clx.xtb", "version": "", "description": "汉字字形、古音、字义、说文解字；查文言生字必备" }
+      ]
+    },
+    "ancient_poetry_books": {
+      "name": "古诗文与经典古籍",
+      "items": [
+        { "name": "古文岛", "path": "古文岛.apk", "site": "https://www.gushiwen.cn", "pkgname": "com.guwendao.gwd", "version": "", "description": "诗词、文言文、古文观止、二十四史节选；原文+注释+译文，中小学古诗文神器" },
+        { "name": "典读", "path": "diandu.apk", "site": "", "pkgname": "top.cloudfun.read", "version": "", "description": "海量古籍、唐诗宋词、诸子典籍；排版干净，支持朗读、检索；广告较少" },
+        { "name": "识典古籍", "path": "shidian_guji.apk", "site": "https://www.shidianguji.com", "pkgname": "com.shidianguji.android", "version": "", "description": "权威古籍校本；适合初高中历史、古文深度阅读" },
+        { "name": "西窗烛", "path": "xicuangzhu.apk", "site": "https://www.xichuangzhu.com", "pkgname": "com.hustzp.com.xichuangzhu", "version": "", "description": "诗词日历+飞花令+诗词接龙；精选唐诗宋词，古风界面极美" }
+      ]
+    },
+    "writing_materials": {
+      "name": "写作素材库",
+      "items": [
+        { "name": "纸条作文", "path": "zhitiao.apk", "site": "https://www.zhitiao.com", "pkgname": "zwzt.fangqiu.edu.com.zwzt", "version": "", "description": "作文素材+写作技巧+范文点评；初高中议论文、记叙文提分神器" }
+      ]
+    }
+  }
+}

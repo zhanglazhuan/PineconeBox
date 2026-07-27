@@ -46,9 +46,9 @@ class RuleEngine {
             )
         }
 
-        // 2. Break check
+        // 2. Break check (skip if disabled: usageMinutes=0 or breakMinutes=0)
         val breakRule = rules.breakRule
-        if (breakRule != null) {
+        if (breakRule != null && breakRule.usageMinutes > 0 && breakRule.breakMinutes > 0) {
             val continuousMin = snapshot.continuousSeconds / 60
             if (continuousMin >= breakRule.usageMinutes) {
                 return RuleResult(

@@ -1,0 +1,234 @@
+{
+  "name": "学科深化与课程备考",
+  "subcategories": {
+    "chinese_history": {
+      "name": "大语文与文史",
+      "items": [
+        {
+          "name": "古文岛",
+          "url": "https://www.gushiwen.cn",
+          "description": "古文岛作为传承经典的网站专注于古诗服务，致力于让古诗爱好者更便捷地发表及获取古诗相关资料。",
+          "logo": ""
+        },
+        {
+          "name": "搜韵",
+          "url": "https://sou-yun.cn",
+          "description": "本站为用户提供海量诗词类资料，以及强大的诗词辅助创作工具",
+          "logo": ""
+        },
+        {
+          "name": "汉典",
+          "url": "https://www.zdic.net",
+          "description": "汉典 | 汉语字典, 汉语词典, 康熙字典, 说文解字, 音韵方言, 字源字形, 异体字",
+          "logo": ""
+        },
+        {
+          "name": "识典古籍",
+          "url": "https://www.shidianguji.com",
+          "logo": ""
+        },
+        {
+          "name": "全历史",
+          "url": "https://www.allhistory.com",
+          "description": "全历史以AI知识图谱为核心引擎，通过高度时空化、关联化数据的方式构造及展现数字人文内容。",
+          "logo": ""
+        },
+        {
+          "name": "国家图书馆·开放资源",
+          "url": "https://www.nlc.cn/web/index.shtml",
+          "logo": ""
+        },
+        {
+          "name": "中国语言文字数字博物馆",
+          "url": "https://szyb.smartedu.cn/",
+          "logo": ""
+        }
+      ]
+    },
+    "stem_basic": {
+      "name": "数理化初中阶",
+      "items": [
+        {
+          "name": "洋葱学园",
+          "url": "https://yangcong345.com",
+          "description": "遵循认知科学原理，用沉浸式动画、真实情境重构知识，让晦涩变有趣。",
+          "logo": ""
+        },
+        {
+          "name": "乐乐课堂",
+          "url": "https://www.leleketang.com",
+          "description": "短视频数理化知识点，节奏轻快，小学初中友好",
+          "logo": ""
+        },
+        {
+          "name": "爱学堂",
+          "url": "https://qhfx.aixuetang.com/home/index",
+          "description": "爱学堂是国内领先的K12教育、中小学MOOC平台，教育部在线教育研究中心基础教育频道。",
+          "logo": ""
+        },
+        {
+          "name": "实验在线",
+          "url": "https://www.syzx-edu.com",
+          "description": "搭建交流展示平台，推动学校开齐开足开好国家课程标准规定实验。",
+          "logo": ""
+        },
+        {
+          "name": "Cool Math Games",
+          "url": "https://www.coolmathgames.com",
+          "description": "全球最受欢迎数学游戏站，免费无需注册",
+          "logo": ""
+        }
+      ]
+    },
+    "english_advanced": {
+      "name": "英语全维提升",
+      "items": [
+        {
+          "name": "Vocabulary.com",
+          "url": "https://www.vocabulary.com",
+          "description": "Vocabulary.com helps you learn new words, play games that improve your vocabulary.",
+          "logo": ""
+        },
+        {
+          "name": "Quizlet",
+          "url": "https://quizlet.com",
+          "description": "在线自制单词闪卡，支持多种复习模式，社区资源丰富",
+          "logo": ""
+        },
+        {
+          "name": "英语兔",
+          "url": "https://www.yingyutu.com",
+          "description": "英语兔：语料库、分级外刊、原版书、情境口语、系统课程。",
+          "logo": ""
+        },
+        {
+          "name": "中华文化英语知识库",
+          "url": "https://culturepedia.chinadaily.com.cn/#/homePage",
+          "logo": ""
+        },
+        {
+          "name": "Grammarly",
+          "url": "https://www.grammarly.com",
+          "description": "Grammarly makes AI writing convenient. Work smarter with personalized AI guidance.",
+          "logo": ""
+        },
+        {
+          "name": "Hemingway Editor",
+          "url": "https://hemingwayapp.com",
+          "description": "英文写作可读性分析，标记复杂句+被动语态+副词，让写作更简洁",
+          "logo": ""
+        },
+        {
+          "name": "Games to Learn English",
+          "url": "https://www.gamestolearnenglish.com",
+          "description": "This is a free site for students to learn English online.",
+          "logo": ""
+        },
+        {
+          "name": "VoiceTube",
+          "url": "https://www.voicetube.com",
+          "description": "看影片学英语，双语字幕+跟读+单词测验，YouTube视频变教材",
+          "logo": ""
+        },
+        {
+          "name": "Language Reactor",
+          "url": "https://www.languagereactor.com",
+          "description": "浏览器插件，看YouTube/Netflix学英语，双语字幕+点击查词+自动暂停",
+          "logo": ""
+        },
+        {
+          "name": "LetMeEnglish",
+          "url": "https://letmeenglish.com",
+          "description": "Let Me English 提供最優質的英文學習資源。",
+          "logo": ""
+        },
+        {
+          "name": "BBC Learning English",
+          "url": "https://www.bbc.co.uk/learningenglish",
+          "description": "BBC官方英语教学，新闻听力+发音+语法+词汇，地道英式英语",
+          "logo": ""
+        },
+        {
+          "name": "LingoHut",
+          "url": "https://www.lingohut.com/en",
+          "description": "免费自学50+种语言，游戏化单词短语学习",
+          "logo": ""
+        },
+        {
+          "name": "Qwerty Learner",
+          "url": "https://qwerty.kaiyi.cool",
+          "description": "Qwerty Learner 官方网站 - 专为键盘工作者设计的免费英语学习软件。",
+          "logo": ""
+        },
+        {
+          "name": "ExamCrafts",
+          "url": "https://examcrafts.com",
+          "description": "CET四六级、TEM专四专八、考研数学已加入ExamCrafts豪华套餐！",
+          "logo": ""
+        },
+        {
+          "name": "Englearner",
+          "url": "https://www.englearner.site/cn/index.html",
+          "description": "EngLearner - 一个超全的英语学习工具导航网站。",
+          "logo": ""
+        },
+        {
+          "name": "夸克英语笔记",
+          "url": "https://www.ncego.com",
+          "description": "夸克英语笔记提供从零开始自学英语，由初级到高级的英语学习笔记。",
+          "logo": ""
+        },
+        {
+          "name": "Word Forest",
+          "url": "https://wordforest.cn",
+          "description": "英语单词森林，词根词缀+联想记忆法背单词，可视化词源树",
+          "logo": ""
+        }
+      ]
+    },
+    "exam_prep": {
+      "name": "题库与教研组卷",
+      "items": [
+        {
+          "name": "菁优网",
+          "url": "https://www.jyeoo.com",
+          "description": "菁优网拥有2500万原创全解全析题库，涵盖全学科学段。",
+          "logo": ""
+        },
+        {
+          "name": "第一试卷网",
+          "url": "https://www.shijuan1.com",
+          "logo": ""
+        },
+        {
+          "name": "教研云",
+          "url": "https://www.jiaoyanyun.com",
+          "description": "好未来教研云是专注教研教学的一站式服务平台。",
+          "logo": ""
+        },
+        {
+          "name": "中学历史数学园地",
+          "url": "https://www.zxls.com/",
+          "logo": ""
+        },
+        {
+          "name": "学科网",
+          "url": "https://www.zxxk.com/",
+          "logo": ""
+        },
+        {
+          "name": "考试酷",
+          "url": "https://www.examcoo.com",
+          "description": "考试酷网站是由广州创讯软件有限公司开发和运营的一个永久免费的在线考试系统。",
+          "logo": ""
+        },
+        {
+          "name": "21世纪教育网",
+          "url": "https://mip.21cnjy.com",
+          "description": "国内排名前列的中小学教育资源网。",
+          "logo": ""
+        }
+      ]
+    }
+  }
+}

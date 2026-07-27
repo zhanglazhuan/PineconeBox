@@ -1,11 +1,11 @@
 package com.pinecone.pinecone.ui.screen
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,55 +17,53 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.SubcomposeAsyncImage
+import coil.request.ImageRequest
+import com.pinecone.pinecone.data.FaviconCache
 import com.pinecone.pinecone.data.CourseItem
+import com.pinecone.pinecone.data.ResourceData
 import com.pinecone.pinecone.ui.theme.*
 
-/**
- * Apple-style card with:
- * - Category-color gradient header area
- * - Glass base with subtle border
- * - Focus animation (scale + shadow + glow ring)
- * - Clean typography hierarchy
- */
 @Composable
 fun ResourceCard(
     item: CourseItem,
     isHighlighted: Boolean,
     onClick: () -> Unit,
+    onLongClick: (() -> Unit)? = null,
     cardWidth: Dp = 160.dp,
     modifier: Modifier = Modifier
 ) {
-    // Focus animation values
     val targetScale = if (isHighlighted) SCALE_FOCUS else SCALE_REST
-    val animatedScale by animateFloatAsState(
-        targetValue = targetScale,
-        animationSpec = tweenOut(),
-        label = "cardScale"
-    )
+    val animatedScale by animateFloatAsState(targetScale, animationSpec = tweenOut(), label = "cardScale")
     val shadowDp by androidx.compose.animation.core.animateDpAsState(
         targetValue = if (isHighlighted) SHADOW_FOCUS else SHADOW_REST,
-        animationSpec = tweenOut(),
-        label = "cardShadow"
+        animationSpec = tweenOut(), label = "cardShadow"
     )
 
     val categoryColor = categoryGradientFor(item.category)
+    val headerHeight = (cardWidth.value * 0.6f).dp
+
+    // Resolve logo URL: JSON "logo" > JSON "icon" > Google favicon
+    val logoUrl = if (item.actionUrl.startsWith("action:web:")) {
+        val url = item.actionUrl.removePrefix("action:web:")
+        ResourceData.logoUrl(url)
+    } else ""
 
     Column(
         modifier = modifier
             .width(cardWidth)
             .scale(animatedScale)
-            .shadow(
-                elevation = shadowDp,
-                shape = RoundedCornerShape(16.dp),
+            .shadow(elevation = shadowDp, shape = RoundedCornerShape(16.dp),
                 ambientColor = PineFocusRing.copy(alpha = 0.15f),
-                spotColor = Color.Black.copy(alpha = 0.3f)
-            )
+                spotColor = Color.Black.copy(alpha = 0.3f))
             .clip(RoundedCornerShape(16.dp))
             .background(PineSurface)
             .border(
@@ -73,66 +71,77 @@ fun ResourceCard(
                 color = if (isHighlighted) PineFocusRing.copy(alpha = 0.6f) else PineGlassBorder,
                 shape = RoundedCornerShape(16.dp)
             )
-            .clickable { onClick() },
+            .combinedClickable(onClick = onClick, onLongClick = onLongClick),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // ── Header: gradient cover image area ──
+        // Header: favicon on gradient background
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height((cardWidth.value * 0.6f).dp)
+                .height(headerHeight)
                 .background(
                     Brush.linearGradient(
-                        colors = listOf(
-                            categoryColor,
-                            categoryColor.copy(alpha = 0.6f)
-                        )
+                        colors = listOf(categoryColor, categoryColor.copy(alpha = 0.6f))
                     )
                 ),
             contentAlignment = Alignment.Center
         ) {
-            // Category icon: first character as large glyph
-            Text(
-                text = item.title.first().toString(),
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White.copy(alpha = 0.9f),
-                textAlign = TextAlign.Center
-            )
+            if (logoUrl.isNotEmpty()) {
+                SubcomposeAsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(logoUrl)
+                        .crossfade(true)
+                        .size(128)
+                        .build(),
+                    imageLoader = FaviconCache.get(),
+                    contentDescription = item.title,
+                    modifier = Modifier.size(56.dp),
+                    contentScale = ContentScale.Fit,
+                    loading = {
+                        Text(
+                            text = item.title.first().toString(),
+                            fontSize = 28.sp, fontWeight = FontWeight.Bold,
+                            color = Color.White.copy(alpha = 0.5f),
+                            textAlign = TextAlign.Center
+                        )
+                    },
+                    error = {
+                        Text(
+                            text = item.title.first().toString(),
+                            fontSize = 28.sp, fontWeight = FontWeight.Bold,
+                            color = Color.White.copy(alpha = 0.9f),
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                )
+            } else {
+                // Apps / actions: show category icon letter
+                Text(
+                    text = item.title.first().toString(),
+                    fontSize = 28.sp, fontWeight = FontWeight.Bold,
+                    color = Color.White.copy(alpha = 0.9f),
+                    textAlign = TextAlign.Center
+                )
+            }
         }
 
-        // ── Body: text area ──
+        // Body
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 10.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 10.dp),
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = item.title,
-                fontSize = 16.sp,
-                fontWeight = FontWeight.Medium,
-                color = PineTextPrimary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                text = item.title, fontSize = 16.sp, fontWeight = FontWeight.Medium,
+                color = PineTextPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis
             )
-
             Spacer(modifier = Modifier.height(4.dp))
-
             Text(
-                text = item.category,
-                fontSize = 13.sp,
-                color = PineTextSecondary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
+                text = item.category, fontSize = 13.sp,
+                color = PineTextSecondary, maxLines = 1, overflow = TextOverflow.Ellipsis
             )
         }
     }
 }
-
-// ═══════════════════════════════════════════════════════════
-//  Category → color mapping for gradient header
-// ═══════════════════════════════════════════════════════════
 
 private fun categoryGradientFor(category: String): Color {
     val key = category.lowercase()

@@ -45,6 +45,10 @@ object GuardClientHolder {
     fun enterSettings() { settingsPageCount++ }
     fun leaveSettings() { settingsPageCount-- }
 
+    // Prevent duplicate lock-flow launches (countdown → lock screen)
+    @Volatile
+    var isLockFlowActive: Boolean = false
+
     fun initialize(context: Context) {
         if (isInitialized) return
         client = GuardClient(context)
@@ -55,6 +59,7 @@ object GuardClientHolder {
     fun updateRules(rules: RuleSet) {
         cachedRules = rules
         rulesVersion++
+        isLockFlowActive = false  // rules changed → allow lock flow again
         client?.sendRules(rules)
     }
 

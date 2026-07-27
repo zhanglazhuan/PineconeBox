@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import com.pinecone.guard.api.GuardStateListener
 import com.pinecone.guard.data.model.LockReason
 import com.pinecone.guard.service.GuardClientHolder
+import com.pinecone.pinecone.data.FaviconCache
 import com.pinecone.pinecone.log.*
 import com.pinecone.pinecone.ui.guard.GuardCountdownActivity
 import com.pinecone.pinecone.ui.guard.GuardWarningActivity
@@ -23,12 +24,21 @@ class MainActivity : ComponentActivity() {
 
         GuardClientHolder.initialize(this)
 
+        // Init favicon cache on SD card
+        FaviconCache.init(this)
+
         // Global guard listener — launches overlay activities for warnings/lock
         GuardClientHolder.client?.setListener(object : GuardStateListener {
             private var warned5Min = false
 
             override fun onLockRequired(reason: LockReason, breakUsageMinutes: Int, breakDurationMinutes: Int) {
+                if (GuardClientHolder.isLockFlowActive) return
                 warned5Min = false
+                // Bump limit to trigger snapshot reset in engine, then restore
+                val orig = GuardClientHolder.cachedRules.dailyTotalLimit ?: 6
+                GuardClientHolder.updateDailyLimit(orig + 1)
+                GuardClientHolder.updateDailyLimit(orig)
+                GuardClientHolder.isLockFlowActive = true
                 startActivity(Intent(this@MainActivity, GuardCountdownActivity::class.java).apply {
                     addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     putExtra("lock_reason", reason.name)

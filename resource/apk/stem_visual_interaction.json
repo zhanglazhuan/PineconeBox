@@ -1,0 +1,21 @@
+{
+  "name": "理科思维与可视化互动",
+  "subcategories": {
+    "ar_3d_demo": {
+      "name": "AR/3D 沉浸式演示",
+      "items": [
+        { "name": "妙懂物理", "path": "miaodong_wuli.apk", "site": "", "pkgname": "com.cnhsqk.physics.student", "version": "", "description": "AR+3D物理｜力学电学光学实验模拟，电路搭建、力的合成可视化" },
+        { "name": "妙懂生物", "path": "miaodong_shengwu.apk", "site": "", "pkgname": "com.cnhsqk.md.game", "version": "", "description": "AR+3D生物｜细胞结构、人体系统、生态系统动态演示；生物课可视化学习" },
+        { "name": "妙懂地理", "path": "miaodong_dili.apk", "site": "", "pkgname": "com.cnhsqk.dili", "version": "", "description": "AR+3D地理｜立体地形、洋流季风、板块构造动态演示；地理不再靠想象" },
+        { "name": "妙懂历史", "path": "miaodong_lishi.apk", "site": "", "pkgname": "com.cnhsqk.history.student", "version": "", "description": "AR+3D历史｜文物360°旋转、历史场景复原、时间轴梳理中外大事" }
+      ]
+    },
+    "geometry_logic": {
+      "name": "动态几何与逻辑思维",
+      "items": [
+        { "name": "GeoGebra", "path": "geogebra.apk", "site": "https://www.geogebra.org", "pkgname": "com.tencent.pcgame.intgeogebra5", "version": "", "description": "动态几何、函数绘图；初高中数学必备" },
+        { "name": "数感星球", "path": "shugan_xingqiu.apk", "site": "", "pkgname": "com.flickering.mathufo", "version": "", "description": "数学思维启蒙+口算闯关；游戏化练习，覆盖小初算术、几何、逻辑" }
+      ]
+    }
+  }
+}

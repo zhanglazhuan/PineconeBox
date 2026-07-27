@@ -57,6 +57,7 @@ class LockScreenActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        com.pinecone.guard.service.GuardClientHolder.isLockFlowActive = false
         com.pinecone.guard.service.GuardClientHolder.leaveSettings()
     }
 

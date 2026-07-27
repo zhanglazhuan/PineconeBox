@@ -17,6 +17,7 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.OnBackPressedCallback
 import com.pinecone.pinecone.R
+import com.pinecone.pinecone.data.ResourceData
 import com.pinecone.pinecone.log.*
 
 class WebViewActivity : ComponentActivity() {
@@ -32,42 +33,9 @@ class WebViewActivity : ComponentActivity() {
     private var currentUrl = ""
     private var enterTimeMs: Long = 0L
 
-    private val allowedDomains = setOf(
-        "smartedu.cn", "basic.smartedu.cn", "reading.smartedu.cn", "higher.smartedu.cn",
-        "language.smartedu.cn", "jpk.basic.smartedu.cn",
-        "eduyun.cn", "vlab.eduyun.cn", "ai.eduyun.cn", "1s1k.eduyun.cn",
-        "cdstm.cn", "kepu.gov.cn", "kepuchina.cn",
-        "open.nlc.cn", "nlc.cn",
-        "pep.com.cn",
-        "cctv.com", "cctv.cn", "jishi.cctv.com", "shaoer.cctv.com",
-        "xuexi.cn",
-        "icourse163.org",
-        "qspfw.moe.gov.cn", "centv.cn",
-        "chnmuseum.cn",
-        "gushiwen.cn", "sou-yun.cn", "zdic.net", "shidianguji.com", "allhistory.com",
-        "phet.colorado.edu", "yangcong345.com", "leleketang.com",
-        "vocabulary.com", "quizlet.com", "yingyutu.com",
-        "jyeoo.com", "shijuan1.com", "jiaoyanyun.com",
-        "scratch.mit.edu", "coding.codemao.cn",
-        "jlpcn.net", "kids.nationalgeographic.com",
-        "processon.com", "canva.cn", "canva.com",
-        "kiddoworksheets.com", "withoutad.com",
-        "coolmathgames.com",
-        "chinese-culture.net",
-        "studynav.com", "zxls.com", "zxxk.com",
-        "qhfx.aixuetang.com",
-        "geogebra.org", "desmos.com", "netpad.net.cn", "mathigon.org",
-        "chemix.org", "molview.org", "solarsystemscope.com",
-        "khanacademy.org", "zh.khanacademy.org",
-        "ck12.org", "allinonehomeschool.com", "ed.ted.com",
-        "newsela.com", "illustrativemathematics.org",
-        "bbc.co.uk", "school-education.ec.europa.eu", "youth.europa.eu",
-        "yangshipin.cn", "docuchina.cn",
-        "bilibili.com", "1905.com",
-        "archive.org", "video.pbs.org", "arte.tv", "nfb.ca",
-        "youtube.com",
-        "hourofcode.com", "aiquest.org", "code.org", "ouchn.cn"
-    )
+    /** Auto-generated from ResourceData — no hardcoded domains. */
+    private val allowedDomains: Set<String>
+        get() = ResourceData.getDomainWhitelist()
 
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,13 +60,12 @@ class WebViewActivity : ComponentActivity() {
             setSupportZoom(true)
             builtInZoomControls = true
             displayZoomControls = false
-            // Spoof desktop Chrome to avoid mobile "download app" prompts
             userAgentString = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
                 "AppleWebKit/537.36 (KHTML, like Gecko) " +
                 "Chrome/125.0.0.0 Safari/537.36"
         }
 
-        // Handle mouse wheel / scroll events (emulator may send as KeyEvent or MotionEvent)
+        // Mouse wheel / D-Pad scroll
         webView.setOnGenericMotionListener { _, event ->
             if (event.action == android.view.MotionEvent.ACTION_SCROLL) {
                 val v = event.getAxisValue(android.view.MotionEvent.AXIS_VSCROLL) * 150
@@ -176,7 +143,6 @@ class WebViewActivity : ComponentActivity() {
                 progress.progress = newProgress
                 if (newProgress == 100) progress.visibility = View.GONE
             }
-
             override fun onReceivedTitle(view: WebView?, title: String?) {
                 titleView.text = title ?: currentUrl
             }
@@ -219,10 +185,11 @@ class WebViewActivity : ComponentActivity() {
         }
     }
 
+    /** Check if a URL's host is in the auto-generated allowed domains. */
     private fun isAllowed(url: String?): Boolean {
         if (url.isNullOrBlank()) return false
         if (url == "about:blank") return true
-        val host = Uri.parse(url).host ?: return false
+        val host = Uri.parse(url).host?.removePrefix("www.")?.lowercase() ?: return false
         return allowedDomains.any { allowed ->
             host == allowed || host.endsWith(".$allowed")
         }

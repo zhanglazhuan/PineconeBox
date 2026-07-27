@@ -201,14 +201,6 @@
       "pkgname": "com.cnhsqk.md.game",
       "version": "",
       "description": "AR+3D生物｜细胞结构、人体系统、生态系统动态演示；生物课可视化学习"
-    },
-    {
-      "name": "学习模式",
-      "path": "",
-      "site": "https://sj.qq.com/appdetail/com.lingshi.inst.klxt",
-      "pkgname": "com.lingshi.inst.klxt",
-      "version": "",
-      "description": "专注学习工具｜学习计时+App白名单+专注统计；培养自律习惯"
     }
   ],
   "文史古文": [
@@ -359,22 +351,6 @@
       "pkgname": "com.echoloop.app",
       "version": "1.0.26",
       "description": "音频循环复读工具｜英语听力逐句精听、跟读模仿；支持AB循环+变速播放"
-    },
-    {
-      "name": "聆狐口语",
-      "path": "",
-      "site": "https://aistudyedu.com",
-      "pkgname": "com.windfox.study",
-      "version": "",
-      "description": "AI 口语陪练｜情景对话+发音评测+语法纠错；沉浸式英语口语练习"
-    },
-    {
-      "name": "可可英语",
-      "path": "",
-      "site": "https://sj.qq.com/appdetail/com.kekeclient_",
-      "pkgname": "com.kekeclient_",
-      "version": "",
-      "description": "知名英语学习App｜VOA/BBC听力、口语训练、单词背诵、备考题库"
     }
   ],
   "自然科学": [
@@ -419,14 +395,6 @@
       "pkgname": "cn.boyakids.m",
       "version": "",
       "description": "北大背景团队｜新闻课+名著共读+世界历史+科学通识；培养批判性思维"
-    },
-    {
-      "name": "播客时光",
-      "path": "",
-      "site": "https://sj.qq.com/appdetail/com.qishu.podcast",
-      "pkgname": "com.qishu.podcast",
-      "version": "",
-      "description": "播客聚合平台｜知识类播客、有声书、人文社科音频节目"
     }
   ]
 }

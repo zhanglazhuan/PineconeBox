@@ -1,0 +1,184 @@
+{
+  "name": "多媒体视听与高阶可视化",
+  "subcategories": {
+    "documentary": {
+      "name": "自然文史纪录片",
+      "items": [
+        {
+          "name": "央视网纪实频道",
+          "url": "https://jishi.cctv.com",
+          "description": "全部正版免费，文史、自然、科技纪录片海量，高清、广告极少",
+          "logo": ""
+        },
+        {
+          "name": "中国纪录片网",
+          "url": "https://www.docuchina.cn",
+          "description": "国家广电总局指导，优秀国产纪录片展播",
+          "logo": ""
+        },
+        {
+          "name": "纪录片天地",
+          "url": "https://www.jlptd.com",
+          "description": "海量纪录片索引，历史、地理、自然科学拓展素材丰富",
+          "logo": ""
+        },
+        {
+          "name": "央视频",
+          "url": "https://www.yangshipin.cn",
+          "description": "总台全部纪录片资源同步，支持投屏",
+          "logo": ""
+        },
+        {
+          "name": "B站纪录片专区",
+          "url": "https://www.bilibili.com/documentary",
+          "description": "国产、BBC、国家地理、TED-Ed、科普短片极其丰富",
+          "logo": ""
+        },
+        {
+          "name": "1905电影网纪实板块",
+          "url": "https://www.1905.com/documentary",
+          "description": "电影频道官方，历史文献纪录片、老科教片、人文纪实",
+          "logo": ""
+        },
+        {
+          "name": "Internet Archive",
+          "url": "https://archive.org",
+          "description": "非营利数字图书馆，海量公有领域经典纪录片免费在线播放",
+          "logo": ""
+        },
+        {
+          "name": "PBS Video",
+          "url": "https://video.pbs.org",
+          "description": "美国公立教育配套纪录片，自然、历史、科学、人文",
+          "logo": ""
+        },
+        {
+          "name": "ARTE",
+          "url": "https://www.arte.tv/en",
+          "description": "欧洲高质量人文、艺术、自然纪录片，双语字幕",
+          "logo": ""
+        },
+        {
+          "name": "NFB",
+          "url": "https://www.nfb.ca",
+          "description": "Watch quality Canadian documentary, animation and fiction films online",
+          "logo": ""
+        },
+        {
+          "name": "BBC Earth / Nat Geo / NASA",
+          "url": "https://www.youtube.com/@BBCEarth",
+          "description": "BBC Earth、National Geographic、NASA 官方频道",
+          "logo": ""
+        }
+      ]
+    },
+    "mooc_opencourse": {
+      "name": "名校公开课与慕课",
+      "items": [
+        {
+          "name": "央视网科教频道",
+          "url": "https://tv.cctv.com/cctv10/",
+          "description": "中央电视台科教频道CCTV-10是中国科教文化传播的第一电视平台。",
+          "logo": ""
+        },
+        {
+          "name": "学习强国",
+          "url": "https://www.xuexi.cn",
+          "logo": ""
+        },
+        {
+          "name": "国图公开课",
+          "url": "http://open.nlc.cn/onlineedu/client/index.htm",
+          "logo": ""
+        },
+        {
+          "name": "国家高等教育智慧教育平台",
+          "url": "https://higher.smartedu.cn/",
+          "logo": ""
+        },
+        {
+          "name": "中国大学MOOC",
+          "url": "https://www.icourse163.org/",
+          "description": "中国大学MOOC是国内顶尖高校免费公开课平台。",
+          "logo": ""
+        },
+        {
+          "name": "终身教育平台",
+          "url": "https://le.ouchn.cn/home",
+          "logo": ""
+        },
+        {
+          "name": "大学资源网",
+          "url": "https://www.ke163.com/list/index73.html",
+          "description": "大学资源网为您提供大学课程相关的各类视频教程。",
+          "logo": ""
+        },
+        {
+          "name": "中国高校外语慕课平台",
+          "url": "https://moocs.unipus.cn",
+          "description": "中国高校外语慕课平台是高校专属的外语在线课程平台。",
+          "logo": ""
+        },
+        {
+          "name": "可汗学院（中文站）",
+          "url": "https://zh.khanacademy.org",
+          "description": "全球知名免费教育平台，配套大量动态示意图与互动练习题。",
+          "logo": ""
+        }
+      ]
+    },
+    "stem_visual": {
+      "name": "数理化生可视化交互",
+      "items": [
+        {
+          "name": "PhET 互动仿真实验室",
+          "url": "https://phet.colorado.edu/zh_CN",
+          "description": "诺贝尔奖项目，物理/化学/生物/数学互动仿真实验。",
+          "logo": ""
+        },
+        {
+          "name": "GeoGebra",
+          "url": "https://www.geogebra.org",
+          "description": "动态几何全能工具，支持2D/3D几何、函数图像、向量、微积分。",
+          "logo": ""
+        },
+        {
+          "name": "Desmos 图形计算器",
+          "url": "https://www.desmos.com/calculator?lang=zh-CN",
+          "description": "界面极简，函数/极坐标/参数方程/不等式绘图。",
+          "logo": ""
+        },
+        {
+          "name": "网络画板",
+          "url": "https://www.netpad.net.cn",
+          "description": "张景中院士团队开发，已接入国家中小学智慧教育平台。",
+          "logo": ""
+        },
+        {
+          "name": "Mathigon",
+          "url": "https://mathigon.org",
+          "description": "最美交互式数学教材，自带Polypad虚拟教具。",
+          "logo": ""
+        },
+        {
+          "name": "Chemix",
+          "url": "https://chemix.org",
+          "description": "在线绘制化学实验器材装置图。",
+          "logo": ""
+        },
+        {
+          "name": "MolView",
+          "url": "https://app.molview.com",
+          "description": "输入化学式查看分子三维结构。",
+          "logo": ""
+        },
+        {
+          "name": "Solar System Scope",
+          "url": "https://www.solarsystemscope.com",
+          "description": "3D太阳系实时模拟，行星轨道、月相、日食、天体运动可视化。",
+          "logo": ""
+        }
+      ]
+    }
+  }
+}

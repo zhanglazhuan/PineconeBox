@@ -1,0 +1,30 @@
+{
+  "name": "国家级官方数字基建",
+  "subcategories": {
+    "smart_edu_system": {
+      "name": "体制内智慧教育",
+      "items": [
+        { "name": "智慧中小学", "path": "smart_edu.apk", "site": "https://basic.smartedu.cn", "pkgname": "com.eduyun.app.factory.ykt", "version": "", "description": "教育部｜小初高同步名师课、电子课本、课后习题、心理健康、劳动教育；全部免费" },
+        { "name": "少年志", "path": "shaonianzhi.apk", "site": "https://qspfw.moe.gov.cn", "pkgname": "com.keyschool.app", "version": "", "description": "司法部+教育部｜宪法学习、法治教育、安全专题课程；中小学德育刚需" },
+        { "name": "一师一优课", "path": "yishiyiyouke.apk", "site": "https://1s1k.eduyun.cn", "pkgname": "", "version": "", "description": "教育部｜全国教师晒课平台，海量部级优课实录；小初高全科名师课堂" }
+      ]
+    },
+    "science_museum": {
+      "name": "权威科普与文博",
+      "items": [
+        { "name": "科普中国", "path": "kepu_china.apk", "site": "https://www.kepuchina.cn", "pkgname": "com.sevenplus.chinascience", "version": "", "description": "中国科协官方科普平台｜前沿科技、应急避险、健康医疗、生态环境；权威科普第一站" },
+        { "name": "掌上科技馆", "path": "palm_stm.apk", "site": "https://www.cdstm.cn", "pkgname": "com.qtugnxqh.movhuqr", "version": "", "description": "中国科技馆官方｜虚拟展厅、科学实验视频、互动科普游戏；足不出户逛科技馆" },
+        { "name": "国家博物馆", "path": "national_museum.apk", "site": "https://www.chnmuseum.cn", "pkgname": "com.hengda.smart.gjbwg", "version": "", "description": "中国国家博物馆官方APP｜国宝文物高清鉴赏、展览导览、历史知识；文博必修" },
+        { "name": "国家数字图书馆", "path": "nlc.apk", "site": "https://www.nlc.cn", "pkgname": "com.cnki.android.nlc", "version": "", "description": "国家图书馆官方｜电子书、古籍善本、报刊、音视频；海量正版免费数字资源" }
+      ]
+    },
+    "official_media": {
+      "name": "官媒正版视听",
+      "items": [
+        { "name": "学习强国", "path": "xuexi_android_10002068.apk", "site": "https://www.xuexi.cn", "pkgname": "cn.xuexi.android", "version": "", "description": "中宣部｜名校公开课、纪录片、人文历史、美育、科普讲座；零广告" },
+        { "name": "央视频", "path": "yangshipin.apk", "site": "https://www.yangshipin.cn", "pkgname": "com.cctv.yangshipin.app.androidp", "version": "", "description": "中央广播电视总台｜《航拍中国》《跟着书本去旅行》《百家讲坛》等正版纪录片；支持投屏" },
+        { "name": "央视少儿", "path": "cctv_kids.apk", "site": "https://shaoer.cctv.com", "pkgname": "com.ctvit.cctvchildren", "version": "", "description": "中央广播电视总台｜低小学生科普动画、国学、科学实验、人文启蒙；内容分级友好" }
+      ]
+    }
+  }
+}

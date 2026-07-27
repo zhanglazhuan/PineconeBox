@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.pinecone.pinecone.data.CourseItem
+import com.pinecone.pinecone.data.FaviconCache
 import com.pinecone.pinecone.data.ResourceData
 import com.pinecone.pinecone.log.*
 import com.pinecone.pinecone.ui.WebViewActivity
@@ -28,11 +29,13 @@ fun MainScreen() {
     var highlightedCategory by remember { mutableIntStateOf(-1) }
     var scrollToCategory by remember { mutableIntStateOf(-1) }
 
-    // Recently browsed items (Web tab only, max 10, most recent first)
+    // Recently browsed (Web) / launched (App) items, max 10
     val recentlyBrowsed = remember { mutableStateListOf<CourseItem>() }
+    val recentlyLaunched = remember { mutableStateListOf<CourseItem>() }
 
     val currentTab = tabs[selectedTab]
     val isWebTab = selectedTab == 0
+    val isAppTab = selectedTab == 1
     val isSettingsTab = selectedTab == 2
 
     // Auto-select first category when entering Settings tab with none highlighted
@@ -52,11 +55,17 @@ fun MainScreen() {
         } catch (_: Exception) {}
 
         if (item.actionUrl.startsWith("action:web:")) {
+            // Refresh favicon on click (background, won't block UI)
+            val url = item.actionUrl.removePrefix("action:web:")
+            FaviconCache.refresh(url)
             recentlyBrowsed.removeAll { it.id == item.id }
             recentlyBrowsed.add(0, item)
-            if (recentlyBrowsed.size > 10) {
-                recentlyBrowsed.removeAt(recentlyBrowsed.lastIndex)
-            }
+            if (recentlyBrowsed.size > 10) recentlyBrowsed.removeAt(recentlyBrowsed.lastIndex)
+        }
+        if (item.actionUrl.startsWith("pkg:")) {
+            recentlyLaunched.removeAll { it.id == item.id }
+            recentlyLaunched.add(0, item)
+            if (recentlyLaunched.size > 10) recentlyLaunched.removeAt(recentlyLaunched.lastIndex)
         }
         handleItemClick(context, item)
     }
@@ -95,9 +104,15 @@ fun MainScreen() {
 
         // ── Sidebar + Content ──
         Row(modifier = Modifier.fillMaxSize()) {
+            val sidebarGroups = when {
+                isWebTab -> ResourceData.webGroups
+                isSettingsTab -> emptyList()
+                else -> ResourceData.appGroups
+            }
             SidebarPanel(
                 tab = currentTab,
-                isWebTab = isWebTab,
+                groups = sidebarGroups,
+                useGroups = !isSettingsTab,
                 expandedGroup = expandedGroup,
                 highlightedCategory = highlightedCategory,
                 onGroupToggle = { group ->
@@ -107,23 +122,17 @@ fun MainScreen() {
                     highlightedCategory = catIndex
                     scrollToCategory = catIndex
                     try {
-                        val groups = ResourceData.webGroups
+                        val gs = if (isWebTab) ResourceData.webGroups else ResourceData.appGroups
                         var accumulated = 0
                         var groupName = ""
-                        for (g in groups) {
-                            if (catIndex < accumulated + g.categories.size) {
-                                groupName = g.name; break
-                            }
-                            accumulated += g.categories.size
+                        for (g in gs) {
+                            if (catIndex < accumulated + g.subcategories.size) { groupName = g.name; break }
+                            accumulated += g.subcategories.size
                         }
-                        val catName = if (catIndex >= 0)
-                            currentTab.categories.getOrNull(catIndex)?.name ?: ""
-                        else "首页"
+                        val catName = if (catIndex >= 0) currentTab.categories.getOrNull(catIndex)?.name ?: "" else "首页"
                         PineconeLogger.log(SidebarSelectEvent(
-                            System.currentTimeMillis(),
-                            PineconeLogger.getSession()?.sessionId ?: "",
-                            catName, groupName,
-                            if (catIndex == -1) 0 else 2
+                            System.currentTimeMillis(), PineconeLogger.getSession()?.sessionId ?: "",
+                            catName, groupName, if (catIndex == -1) 0 else 2
                         ))
                     } catch (_: Exception) {}
                 },
@@ -157,6 +166,13 @@ fun MainScreen() {
                     isWebTab && highlightedCategory == -1 -> {
                         WebLandingPage(
                             recentlyBrowsed = recentlyBrowsed.toList(),
+                            onItemClick = { onItemClick(it) },
+                            modifier = Modifier.fillMaxSize()
+                        )
+                    }
+                    isAppTab && highlightedCategory == -1 -> {
+                        AppLandingPage(
+                            recentlyLaunched = recentlyLaunched.toList(),
                             onItemClick = { onItemClick(it) },
                             modifier = Modifier.fillMaxSize()
                         )
