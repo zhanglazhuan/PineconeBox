@@ -18,9 +18,7 @@ def test_all_screens_init():
     load_fonts()
 
     from screens.welcome import WelcomeScreen
-    from screens.done import DoneScreen
-
-    for cls in [WelcomeScreen, DoneScreen]:
+    for cls in [WelcomeScreen]:
         screen = cls(surface, (1280, 720))
         screen.draw()
         assert screen is not None, f"{cls.__name__} failed to init"
@@ -33,6 +31,5 @@ def test_all_modules_import():
     import config
     import ui
     import inject
-    from screens import welcome, wifi, stream_flash
-    from screens import inject_progress, done
+    from screens import welcome, wifi, download, write
     assert config.Color.PRIMARY == (63, 185, 80)

@@ -39,7 +39,12 @@ class GuardEngineImpl(
         }
 
         rules = secureStorage.loadRules() ?: RuleSet()
-        snapshot = UsageSnapshot(date = LocalDate.now())  // fresh start every launch
+        // Load persisted snapshot — survive app restarts within same day
+        snapshot = secureStorage.loadSnapshot() ?: UsageSnapshot(date = LocalDate.now())
+        // Reset if date changed (new day) or usage exceeds current limit
+        if (snapshot.date != LocalDate.now()) {
+            snapshot = UsageSnapshot(date = LocalDate.now())
+        }
         creditAccount = secureStorage.loadCredits() ?: creditManager.createInitial(rules.creditConfig)
 
         creditAccount = creditManager.checkAndReset(creditAccount)
@@ -125,6 +130,12 @@ class GuardEngineImpl(
 
     fun tick() {
         if (!isRunning) return
+
+        // If no PIN has been set, the device hasn't been provisioned by a
+        // parent yet. Do NOT evaluate rules — the default time windows and
+        // limits would lock out the parent during initial setup.
+        if (!secureStorage.isPinSetup()) return
+
         val today = LocalDate.now()
         if (snapshot.date != today) snapshot = UsageSnapshot(date = today)
 

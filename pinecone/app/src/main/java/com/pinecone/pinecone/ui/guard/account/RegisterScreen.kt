@@ -65,7 +65,23 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
 
     GuardSettingsScaffold(
         title = "注册家长账号",
-        onBack = { onComplete(false) }
+        onBack = { onComplete(false) },
+        onEnter = {
+            when (step) {
+                0 -> {  // Phone → validate & go to SMS
+                    if (phoneNumber.length != 11 || !phoneNumber.startsWith("1")) {
+                        errorMsg = "请输入正确的 11 位手机号"
+                    } else {
+                        errorMsg = ""
+                        step = 1
+                    }
+                }
+                1 -> {  // SMS → go to password
+                    errorMsg = ""
+                    step = 2
+                }
+            }
+        }
     ) {
         Row(modifier = Modifier.fillMaxSize()) {
             // ── Left sidebar: step list ──
@@ -142,7 +158,20 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
                         Text("用于找回密码，保证账号唯一性", fontSize = 13.sp, color = PineTextSecondary,
                             modifier = Modifier.padding(bottom = 16.dp))
 
-                        NumericKeyboard(value = phoneNumber, onValueChange = { phoneNumber = it }, maxLength = 11, showDots = false)
+                        NumericKeyboard(
+                            value = phoneNumber,
+                            onValueChange = { phoneNumber = it },
+                            maxLength = 11,
+                            showDots = false,
+                            onEnter = {
+                                if (phoneNumber.length != 11 || !phoneNumber.startsWith("1")) {
+                                    errorMsg = "请输入正确的 11 位手机号"
+                                } else {
+                                    errorMsg = ""
+                                    step = 1
+                                }
+                            }
+                        )
 
                         Spacer(modifier = Modifier.height(12.dp))
 
@@ -192,7 +221,15 @@ fun RegisterScreen(onComplete: (success: Boolean) -> Unit) {
                         Text("输入 6 位验证码", fontSize = 13.sp, color = PineTextSecondary,
                             modifier = Modifier.padding(bottom = 4.dp))
 
-                        NumericKeyboard(value = smsCode, onValueChange = { smsCode = it }, maxLength = 6)
+                        NumericKeyboard(
+                            value = smsCode,
+                            onValueChange = { smsCode = it },
+                            maxLength = 6,
+                            onEnter = {
+                                errorMsg = ""
+                                step = 2
+                            }
+                        )
 
                         Spacer(modifier = Modifier.height(8.dp))
 

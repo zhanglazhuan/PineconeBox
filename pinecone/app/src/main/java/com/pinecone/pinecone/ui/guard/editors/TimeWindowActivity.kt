@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -13,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pinecone.guard.data.model.TimeWindow
@@ -79,16 +79,135 @@ private fun TimeWindowEditor() {
         weStartH == p.weStartH && weStartM == p.weStartM &&
         weEndH == p.weEndH && weEndM == p.weEndM
 
-    Column(modifier = Modifier.fillMaxWidth()) {
-        // Quick modes
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        // ── Two cards side by side ──
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.Top
+        ) {
+            // ── Card: Mon–Fri ──
+            Column(
+                modifier = Modifier
+                    .padding(12.dp)
+                    .clip(RoundedCornerShape(14.dp))
+                    .background(PineSurface)
+                    .padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text("周一至周五", fontSize = 18.sp, fontWeight = FontWeight.Bold,
+                    color = Color.White, modifier = Modifier.padding(bottom = 16.dp))
+
+                Row(horizontalArrangement = Arrangement.spacedBy(32.dp)) {
+                    // Start
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text("开始", fontSize = 14.sp, color = PineTextSecondary,
+                            modifier = Modifier.padding(bottom = 4.dp))
+                        StepperButton("-") {
+                            val total = (wdStartH * 60 + wdStartM - 30 + 1440) % 1440
+                            wdStartH = total / 60; wdStartM = total % 60
+                            save()
+                        }
+                        Text(fmt(wdStartH, wdStartM), fontSize = 40.sp,
+                            fontWeight = FontWeight.Bold, color = Color.White,
+                            modifier = Modifier.padding(vertical = 2.dp))
+                        StepperButton("+") {
+                            val total = (wdStartH * 60 + wdStartM + 30) % 1440
+                            wdStartH = total / 60; wdStartM = total % 60
+                            save()
+                        }
+                    }
+                    // End
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text("结束", fontSize = 14.sp, color = PineTextSecondary,
+                            modifier = Modifier.padding(bottom = 4.dp))
+                        StepperButton("-") {
+                            val total = (wdEndH * 60 + wdEndM - 30 + 1440) % 1440
+                            wdEndH = total / 60; wdEndM = total % 60
+                            save()
+                        }
+                        Text(fmt(wdEndH, wdEndM), fontSize = 40.sp,
+                            fontWeight = FontWeight.Bold, color = Color.White,
+                            modifier = Modifier.padding(vertical = 2.dp))
+                        StepperButton("+") {
+                            val total = (wdEndH * 60 + wdEndM + 30) % 1440
+                            wdEndH = total / 60; wdEndM = total % 60
+                            save()
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.width(20.dp))
+
+            // ── Card: Sat–Sun ──
+            Column(
+                modifier = Modifier
+                    .padding(12.dp)
+                    .clip(RoundedCornerShape(14.dp))
+                    .background(PineSurface)
+                    .padding(20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text("周六日", fontSize = 18.sp, fontWeight = FontWeight.Bold,
+                    color = Color.White, modifier = Modifier.padding(bottom = 16.dp))
+
+                Row(horizontalArrangement = Arrangement.spacedBy(32.dp)) {
+                    // Start
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text("开始", fontSize = 14.sp, color = PineTextSecondary,
+                            modifier = Modifier.padding(bottom = 4.dp))
+                        StepperButton("-") {
+                            val total = (weStartH * 60 + weStartM - 30 + 1440) % 1440
+                            weStartH = total / 60; weStartM = total % 60
+                            save()
+                        }
+                        Text(fmt(weStartH, weStartM), fontSize = 40.sp,
+                            fontWeight = FontWeight.Bold, color = Color.White,
+                            modifier = Modifier.padding(vertical = 2.dp))
+                        StepperButton("+") {
+                            val total = (weStartH * 60 + weStartM + 30) % 1440
+                            weStartH = total / 60; weStartM = total % 60
+                            save()
+                        }
+                    }
+                    // End
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Text("结束", fontSize = 14.sp, color = PineTextSecondary,
+                            modifier = Modifier.padding(bottom = 4.dp))
+                        StepperButton("-") {
+                            val total = (weEndH * 60 + weEndM - 30 + 1440) % 1440
+                            weEndH = total / 60; weEndM = total % 60
+                            save()
+                        }
+                        Text(fmt(weEndH, weEndM), fontSize = 40.sp,
+                            fontWeight = FontWeight.Bold, color = Color.White,
+                            modifier = Modifier.padding(vertical = 2.dp))
+                        StepperButton("+") {
+                            val total = (weEndH * 60 + weEndM + 30) % 1440
+                            weEndH = total / 60; weEndM = total % 60
+                            save()
+                        }
+                    }
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        // ── Quick presets ──
         Text("快速模式:", fontSize = 18.sp, color = Color.Gray,
             modifier = Modifier.padding(bottom = 8.dp))
 
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             timePresets.forEach { preset ->
                 PineChipButton(
                     label = preset.label,
                     selected = matches(preset),
+                    modifier = Modifier.width(100.dp),
                     onClick = {
                         wdStartH = preset.wdStartH; wdStartM = preset.wdStartM
                         wdEndH = preset.wdEndH; wdEndM = preset.wdEndM
@@ -99,92 +218,25 @@ private fun TimeWindowEditor() {
                 )
             }
         }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        // Two cards side by side
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            TimeCard(
-                title = "周一至周五",
-                startH = wdStartH, startM = wdStartM,
-                endH = wdEndH, endM = wdEndM,
-                onStartChange = { h, m -> wdStartH = h; wdStartM = m; save() },
-                onEndChange = { h, m -> wdEndH = h; wdEndM = m; save() },
-                modifier = Modifier.weight(1f)
-            )
-            TimeCard(
-                title = "周六日",
-                startH = weStartH, startM = weStartM,
-                endH = weEndH, endM = weEndM,
-                onStartChange = { h, m -> weStartH = h; weStartM = m; save() },
-                onEndChange = { h, m -> weEndH = h; weEndM = m; save() },
-                modifier = Modifier.weight(1f)
-            )
-        }
     }
 }
 
 @Composable
-private fun TimeCard(
-    title: String,
-    startH: Int, startM: Int,
-    endH: Int, endM: Int,
-    onStartChange: (Int, Int) -> Unit,
-    onEndChange: (Int, Int) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .clip(RoundedCornerShape(12.dp))
-            .background(PineSurface)
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+private fun StepperButton(label: String, onClick: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .width(80.dp)
+            .height(44.dp)
+            .clip(RoundedCornerShape(10.dp))
+            .background(PineGlass)
+            .clickable { onClick() },
+        contentAlignment = Alignment.Center
     ) {
-        Text(title, fontSize = 18.sp, fontWeight = FontWeight.Bold,
-            color = Color.White, textAlign = TextAlign.Center)
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("开始", fontSize = 13.sp, color = Color.Gray)
-                TimeStepper(startH, startM, onStartChange)
-            }
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text("结束", fontSize = 13.sp, color = Color.Gray)
-                TimeStepper(endH, endM, onEndChange)
-            }
-        }
-    }
-}
-
-@Composable
-private fun TimeStepper(
-    valueH: Int, valueM: Int,
-    onChange: (Int, Int) -> Unit
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        PineStepperButton("▲") {
-            val total = (valueH * 60 + valueM + 30) % 1440
-            onChange(total / 60, total % 60)
-        }
-
-        Text(fmt(valueH, valueM), fontSize = 22.sp,
-            color = PineWarning, fontWeight = FontWeight.Medium,
-            modifier = Modifier.padding(vertical = 4.dp))
-
-        PineStepperButton("▼") {
-            val total = (valueH * 60 + valueM - 30 + 1440) % 1440
-            onChange(total / 60, total % 60)
-        }
+        Text(
+            text = label,
+            fontSize = 20.sp,
+            fontWeight = FontWeight.Bold,
+            color = PineTextSecondary
+        )
     }
 }

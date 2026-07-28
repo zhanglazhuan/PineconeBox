@@ -7,7 +7,6 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -26,6 +25,9 @@ class GuardCountdownActivity : ComponentActivity() {
         val lockReason = intent?.getStringExtra("lock_reason") ?: "DAILY_LIMIT_REACHED"
         val breakUsage = intent?.getIntExtra("break_usage_minutes", 0) ?: 0
         val breakDuration = intent?.getIntExtra("break_duration_minutes", 0) ?: 0
+
+        // Pre-fetch quote during countdown so LockScreen sees it immediately
+        QuoteCache.preFetch(this)
 
         setContent {
             PineconeTheme(darkTheme = true, dynamicColor = false) {
@@ -60,12 +62,21 @@ class GuardCountdownActivity : ComponentActivity() {
                 ) {
                     Text("即将锁屏", fontSize = 15.sp, fontWeight = FontWeight.Medium, color = Color.White)
                     Spacer(modifier = Modifier.height(8.dp))
-                    LinearProgressIndicator(
-                        progress = { progress },
-                        modifier = Modifier.width(260.dp).height(6.dp).clip(RoundedCornerShape(3.dp)),
-                        color = PineWarning,
-                        trackColor = PineSurface,
-                    )
+                    // Custom progress bar — avoids Material3 LinearProgressIndicator artifacts
+                    Box(
+                        modifier = Modifier
+                            .width(260.dp).height(6.dp)
+                            .clip(RoundedCornerShape(3.dp))
+                            .background(PineSurface)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .fillMaxWidth(progress)
+                                .clip(RoundedCornerShape(3.dp))
+                                .background(PineWarning)
+                        )
+                    }
                     Spacer(modifier = Modifier.height(6.dp))
                     Text("${countdown}s", fontSize = 22.sp, fontWeight = FontWeight.Bold, color = PineWarning,
                         fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace)

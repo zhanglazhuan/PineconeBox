@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -18,6 +19,7 @@ import com.pinecone.pinecone.ui.theme.*
 fun GuardSettingsScaffold(
     title: String,
     onBack: () -> Unit,
+    onEnter: (() -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
     // Pause guard tick accumulation while on settings/editor pages
@@ -26,11 +28,25 @@ fun GuardSettingsScaffold(
         onDispose { GuardClientHolder.leaveSettings() }
     }
 
+    // Intercept Enter key at the scaffold level — the common ancestor of ALL
+    // focusable elements on the screen. This guarantees Enter is handled
+    // regardless of which child (back button, key button, etc.) has focus.
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(PineBackground)
             .statusBarsPadding()
+            .onPreviewKeyEvent { event ->
+                if (event.type == KeyEventType.KeyDown && onEnter != null) {
+                    when (event.key) {
+                        Key.Enter, Key.NumPadEnter -> {
+                            onEnter.invoke()
+                            true
+                        }
+                        else -> false
+                    }
+                } else false
+            }
     ) {
         // Header bar
         Row(

@@ -5,6 +5,7 @@ import pygame
 from config import Color
 
 FONTS = {}
+SIDEBAR_W = 220
 
 # Bundled font directory — relative to this file (works regardless of CWD/config)
 _FONT_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets")
@@ -112,8 +113,12 @@ def draw_card(surface, rect, padding=24):
     return (x + padding, y + padding, w - 2 * padding, h - 2 * padding)
 
 
-def draw_input_field(surface, rect, text, active=False):
-    """Draw a text input field with bottom glow when active."""
+def draw_input_field(surface, rect, text, active=False, masked=False, cursor_frame=0):
+    """Draw a text input field with bottom glow when active.
+
+    masked: show dots instead of actual text (for passwords).
+    cursor_frame: alternates 0/1 to blink the cursor.
+    """
     x, y, w, h = rect
     draw_rounded_rect(surface, rect, Color.SURFACE, 12)
     border_color = Color.PRIMARY if active else Color.BORDER
@@ -122,11 +127,24 @@ def draw_input_field(surface, rect, text, active=False):
         glow_rect = (x + 4, y + h - 4, w - 8, 4)
         draw_rounded_rect(surface, glow_rect, Color.PRIMARY, 2)
 
-    display_text = text if text else "(输入密码)"
-    c = Color.TEXT if text else Color.TEXT_DIM
-    label = FONTS["body"].render(display_text, True, c)
+    if text:
+        display = "●" * len(text) if masked else text
+        c = Color.TEXT
+    else:
+        display = "(输入密码)"
+        c = Color.TEXT_DIM
+
+    label = FONTS["body"].render(display, True, c)
     label_rect = label.get_rect(midleft=(x + 16, y + h // 2))
     surface.blit(label, label_rect)
+
+    # Blinking cursor
+    if active and cursor_frame == 0:
+        cursor_x = label_rect.right + 4
+        cursor_y1 = y + h // 2 - 12
+        cursor_y2 = y + h // 2 + 12
+        pygame.draw.line(surface, Color.TEXT, (cursor_x, cursor_y1),
+                         (cursor_x, cursor_y2), 2)
 
 
 def draw_text(surface, text, pos, font_key="body", color=None, center=True):
@@ -140,15 +158,38 @@ def draw_text(surface, text, pos, font_key="body", color=None, center=True):
     return rect
 
 
-def draw_list_item(surface, rect, text, sub_text=None, selected=False):
-    """Draw a selectable list item (for Wi-Fi list)."""
+def draw_list_item(surface, rect, text, sub_text=None, selected=False,
+                   signal=None):
+    """Draw a selectable list item (for Wi-Fi list).
+
+    signal: 0-5 signal strength, draws 5 vertical bars on the right.
+    """
     bg_color = (63, 185, 80, 40) if selected else Color.SURFACE
     draw_rounded_rect(surface, rect, bg_color, 12)
     border_color = Color.PRIMARY if selected else Color.BORDER
     pygame.draw.rect(surface, border_color, rect, 2, border_radius=12)
 
     x, y, w, h = rect
-    draw_text(surface, text, (x + 60, y + h // 2), "body", Color.TEXT, center=False)
+    label = FONTS["body"].render(text, True, Color.TEXT)
+    label_rect = label.get_rect(midleft=(x + 60, y + h // 2))
+    surface.blit(label, label_rect)
+
+    # Signal strength bars (right side)
+    if signal is not None:
+        bar_w, max_h = 5, 24
+        gap = 3
+        total_w = 5 * bar_w + 4 * gap
+        start_x = x + w - 28 - total_w
+        base_y = y + h // 2 + max_h // 2
+
+        for i in range(5):
+            bx = start_x + i * (bar_w + gap)
+            bh = int(max_h * (i + 1) / 5)  # graduated: short → tall
+            filled = i < signal
+            bar_color = Color.PRIMARY if filled else Color.BORDER
+            pygame.draw.rect(surface, bar_color,
+                             (bx, base_y - bh, bar_w, bh), border_radius=2)
+
     if sub_text:
         r = FONTS["small"].render(sub_text, True, Color.TEXT_DIM)
         r_rect = r.get_rect(midright=(x + w - 24, y + h // 2))
@@ -160,17 +201,87 @@ def lerp_color(c1, c2, t):
     return tuple(int(c1[i] + (c2[i] - c1[i]) * t) for i in range(3))
 
 
+def draw_step_sidebar(surface, current, total, titles, h):
+    """Draw a vertical step indicator on the left side.
+
+    current: 0-based index of the active step
+    total:   total number of steps
+    titles:  list of step label strings
+    h:       surface height (for vertical centering)
+    """
+    # Sidebar background
+    sidebar = pygame.Surface((SIDEBAR_W, h), pygame.SRCALPHA)
+    sidebar.fill((22, 27, 34, 220))  # semi-transparent surface
+    pygame.draw.line(sidebar, Color.BORDER, (SIDEBAR_W - 1, 0), (SIDEBAR_W - 1, h), 1)
+    surface.blit(sidebar, (0, 0))
+
+    if total == 0:
+        return
+
+    circle_r = 16
+    line_h = 48
+    step_h = circle_r * 2 + line_h
+    total_h = step_h * total - line_h  # no line after last step
+    start_y = (h - total_h) // 2
+    cx_sidebar = int(SIDEBAR_W * 0.15) + circle_r
+
+    for i in range(total):
+        cy = start_y + i * step_h
+
+        # Connecting line (above this circle)
+        if i > 0:
+            line_top = cy - line_h
+            pygame.draw.line(surface, Color.BORDER if i > current else Color.PRIMARY,
+                             (cx_sidebar, line_top), (cx_sidebar, cy - circle_r), 2)
+
+        # Circle
+        if i < current:
+            # Completed — green filled with checkmark
+            pygame.draw.circle(surface, Color.PRIMARY, (cx_sidebar, cy), circle_r)
+            check = FONTS["small"].render("✓", True, Color.BLACK)
+            surface.blit(check, check.get_rect(center=(cx_sidebar, cy)))
+        elif i == current:
+            # Active — green filled with white number, subtle glow
+            glow = pygame.Surface((circle_r * 2 + 12, circle_r * 2 + 12), pygame.SRCALPHA)
+            pygame.draw.circle(glow, (63, 185, 80, 60), (circle_r + 6, circle_r + 6), circle_r + 6)
+            surface.blit(glow, (cx_sidebar - circle_r - 6, cy - circle_r - 6))
+            pygame.draw.circle(surface, Color.PRIMARY, (cx_sidebar, cy), circle_r)
+            num = FONTS["body"].render(str(i + 1), True, Color.BLACK)
+            surface.blit(num, num.get_rect(center=(cx_sidebar, cy)))
+        else:
+            # Pending — dimmed border only
+            pygame.draw.circle(surface, Color.BORDER, (cx_sidebar, cy), circle_r, 2)
+            num = FONTS["small"].render(str(i + 1), True, Color.TEXT_DIM)
+            surface.blit(num, num.get_rect(center=(cx_sidebar, cy)))
+
+        # Step title
+        label_color = Color.TEXT if i == current else (Color.TEXT_DIM if i < current else Color.BORDER)
+        label = FONTS["small"].render(titles[i], True, label_color)
+        label_pos = (cx_sidebar + circle_r + 16, cy - label.get_height() // 2)
+        surface.blit(label, label_pos)
+
+
 class Screen:
     """Base class for installer screens."""
-    def __init__(self, surface, size):
+    def __init__(self, surface, size, step_index=0, total_steps=0, step_titles=None):
         self.surface = surface
         self.w, self.h = size
         self._entered = False
+        self.step_index = step_index
+        self.total_steps = total_steps
+        self.step_titles = step_titles or []
+
+    @property
+    def content_x(self):
+        """Left edge of the content area (past the sidebar)."""
+        return SIDEBAR_W if self.total_steps > 0 else 0
 
     def on_enter(self):
         """Called when this screen becomes active. Override for init logic."""
 
     def handle_event(self, event):
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            return "quit"
         return None
 
     def update(self, dt):
@@ -178,3 +289,6 @@ class Screen:
 
     def draw(self):
         self.surface.fill(Color.BG)
+        if self.total_steps > 0 and self.step_titles:
+            draw_step_sidebar(self.surface, self.step_index,
+                              self.total_steps, self.step_titles, self.h)

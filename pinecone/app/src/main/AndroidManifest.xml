@@ -68,18 +68,18 @@
         <!-- ===== Guard: Child-Facing Screens ===== -->
         <activity
             android:name=".ui.guard.LockScreenActivity"
-            android:exported="false"
+            android:exported="true"
             android:excludeFromRecents="true"
             android:launchMode="singleInstance" />
         <activity
             android:name=".ui.guard.GuardCountdownActivity"
-            android:exported="false"
+            android:exported="true"
             android:excludeFromRecents="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:launchMode="singleInstance" />
         <activity
             android:name=".ui.guard.GuardWarningActivity"
-            android:exported="false"
+            android:exported="true"
             android:excludeFromRecents="true"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:launchMode="singleInstance" />

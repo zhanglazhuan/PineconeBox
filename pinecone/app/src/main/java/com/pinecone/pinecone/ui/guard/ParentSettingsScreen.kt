@@ -37,7 +37,7 @@ fun ParentSettingsScreen(onBack: () -> Unit) {
             SettingsItem("每日总时长", "2 小时 30 分") {
                 context.startActivity(Intent(context, DailyLimitActivity::class.java))
             },
-            SettingsItem("强制休息间隔", "每 40 分 休 10 分") {
+            SettingsItem("息屏间隔", "每 40 分 休 10 分") {
                 context.startActivity(Intent(context, BreakRuleActivity::class.java))
             },
             SettingsItem("可用时段", "周一至周五 16:00-21:00") {
@@ -60,42 +60,63 @@ fun ParentSettingsScreen(onBack: () -> Unit) {
             },
             SettingsItem("检查更新", "检查并安装新版本桌面") {
                 context.startActivity(Intent(context, UpdateActivity::class.java))
-            },
-            SettingsItem("暂停防沉迷（今天不限制）", "") {
-                showPauseDialog = true
             }
         )
     }
 
     GuardSettingsScaffold(title = "家长设置", onBack = onBack) {
-        LazyColumn {
-            itemsIndexed(items) { _, item ->
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(8.dp))
-                        .clickable { item.action() }
-                        .padding(horizontal = 16.dp, vertical = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = item.title,
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Medium,
-                            color = Color.White
-                        )
-                        if (item.subtitle.isNotEmpty()) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            LazyColumn(modifier = Modifier.weight(1f)) {
+                itemsIndexed(items) { _, item ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(RoundedCornerShape(8.dp))
+                            .clickable { item.action() }
+                            .padding(horizontal = 16.dp, vertical = 14.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
                             Text(
-                                text = item.subtitle,
-                                fontSize = 14.sp,
-                                color = PineTextSecondary
+                                text = item.title,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = Color.White
                             )
+                            if (item.subtitle.isNotEmpty()) {
+                                Text(
+                                    text = item.subtitle,
+                                    fontSize = 14.sp,
+                                    color = PineTextSecondary
+                                )
+                            }
                         }
+                        Text("›", fontSize = 24.sp, color = PineTextMuted)
                     }
-                    Text("›", fontSize = 24.sp, color = PineTextMuted)
                 }
             }
+
+            // ── Pause guard button — red, prominent, at page bottom ──
+            Button(
+                onClick = { showPauseDialog = true },
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = PineError,
+                    contentColor = Color.White
+                ),
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp)
+                    .padding(horizontal = 16.dp)
+            ) {
+                Text(
+                    text = "暂停防沉迷（今天不限制）",
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 

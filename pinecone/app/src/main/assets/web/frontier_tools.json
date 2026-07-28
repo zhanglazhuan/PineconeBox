@@ -48,6 +48,12 @@
           "url": "https://learn-anything.xyz",
           "description": "Discover and learn about any topic with Learn-Anything.",
           "logo": ""
+        },
+        {
+          "name": "Thetawise",
+          "url": "https://thetawise.ai",
+          "description": "AI 数学物理解题助手，分步解析+公式识别+图表生成",
+          "logo": ""
         }
       ]
     },
@@ -70,6 +76,18 @@
           "name": "Code.org",
           "url": "https://code.org/en-US",
           "description": "全球最受欢迎少儿编程启蒙，游戏化学习+一小时编程活动",
+          "logo": ""
+        },
+        {
+          "name": "WOKWI",
+          "url": "https://wokwi.com",
+          "description": "在线电子电路仿真平台，Arduino/ESP32/树莓派Pico模拟器",
+          "logo": ""
+        },
+        {
+          "name": "Tinkercad",
+          "url": "https://www.tinkercad.com",
+          "description": "Autodesk出品｜在线3D建模+电路设计+编程，STEAM入门神器",
           "logo": ""
         }
       ]
@@ -105,6 +123,24 @@
           "name": "SaltyLeo 的书架",
           "url": "https://book.tstrs.me",
           "description": "电子书聚合搜索，两百万+免费电子书，无需注册",
+          "logo": ""
+        },
+        {
+          "name": "OceanofPDF",
+          "url": "https://oceanofpdf.com",
+          "description": "海量免费英文电子书下载，小说+非虚构+学术著作",
+          "logo": ""
+        },
+        {
+          "name": "PDF Drive",
+          "url": "https://pdfdrive.webs.nf",
+          "description": "全球最大PDF电子书搜索引擎，千万级免费书籍文档",
+          "logo": ""
+        },
+        {
+          "name": "StoryTribe",
+          "url": "https://storytribeapp.com",
+          "description": "在线可视化故事创作工具，拖拽式分镜+角色设计",
           "logo": ""
         },
         {
